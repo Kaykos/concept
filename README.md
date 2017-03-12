@@ -11,8 +11,10 @@ Verificar que la versión instalada de Python sea superior a 2.7.9:
 python2 -V
 ```
 
-Descargar [Google Cloud SDK]
+Descargar [Google Cloud SDK
+
 Descomprimir la carpeta
+
 Abrir el archivo .bashrc y añadir:
 ```
 export PATH=$PATH: .../google-cloud-sdk
@@ -36,9 +38,13 @@ Crear entonrno virtual para el proyecto:
 ```sh
 mkvirtualenv concept
 ```
->En caso de que no se encuentre el comando `mkvirtualenv` cerrar sesión y ejecutar una nueva terminal
+> En caso de que no se encuentre el comando `mkvirtualenv` cerrar sesión y ejecutar una nueva terminal
 
-    
+### Clonación del repositorio
+```sh
+git clone https://github.com/Kaykos/concept.git
+```
+> Ingresar los datos de la cuenta de GitHub
     
     
     
