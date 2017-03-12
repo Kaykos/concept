@@ -11,7 +11,7 @@ Verificar que la versión instalada de Python sea superior a 2.7.9:
 python2 -V
 ```
 
-Descargar [Google Cloud SDK
+Descargar [Google Cloud SDK]
 
 Descomprimir la carpeta
 
