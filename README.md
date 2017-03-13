@@ -6,6 +6,13 @@ En la consola:
 sudo apt-get install git
 ```
 
+Datos de identidad:
+```sh
+git config user.email "mail@example.com"
+git config user.name "Name"
+```
+> Modificar los datos
+
 ### Creación de llave SSH (opcional)
 En la consola:
 ```sh
@@ -70,6 +77,26 @@ Abrir el archivo .bashrc y añadir:
 ```
 export WORKON_HOME=~/virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
+
+function check_for_virtual_env {
+  [ -d .git ] || git rev-parse --git-dir &> /dev/null
+
+  if [ $? = 0 ]; then
+    local ENV_NAME=`basename \`pwd\``
+
+    if [ "${VIRTUAL_ENV##*/}" != $ENV_NAME ] && [ -e $WORKON_HOME/$ENV_NAME/bin/activate ]; then
+      workon $ENV_NAME && export CD_VIRTUAL_ENV=$ENV_NAME
+    fi
+  elif [ $CD_VIRTUAL_ENV ]; then
+    deactivate && unset CD_VIRTUAL_ENV
+  fi
+}
+
+function cd {
+  builtin cd "$@" && check_for_virtual_env
+}
+
+check_for_virtual_env
 ```
 
 Crear entonrno virtual para el proyecto:
@@ -84,6 +111,39 @@ git clone https://github.com/Kaykos/concept.git
 ```
 > Ingresar los datos de la cuenta de GitHub
     
-    
+
+#### Cambios de .bashrc
+Ejemplo de cómo debe quedar el final del archivo .bashrc
+```
+...
+# Google Cloud SDK
+export PATH=$PATH:~/apps/google-cloud-sdk/bin
+
+# Virtualenvwrapper
+export WORKON_HOME=~/virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+# Automatic workon when entering folder
+function check_for_virtual_env {
+  [ -d .git ] || git rev-parse --git-dir &> /dev/null
+
+  # for zsh: $? = 0 
+  if [ $? == 0 ]; then
+    local ENV_NAME=`basename \`pwd\``
+
+    if [ "${VIRTUAL_ENV##*/}" != $ENV_NAME ] && [ -e $WORKON_HOME/$ENV_NAME/bin/activate ]; then
+      workon $ENV_NAME && export CD_VIRTUAL_ENV=$ENV_NAME
+    fi
+  elif [ $CD_VIRTUAL_ENV ]; then
+    deactivate && unset CD_VIRTUAL_ENV
+  fi
+}
+
+function cd {
+  builtin cd "$@" && check_for_virtual_env
+}
+
+check_for_virtual_env
+```
     
 [Google Cloud SDK]: <https://cloud.google.com/sdk/docs/>
