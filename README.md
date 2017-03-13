@@ -106,10 +106,16 @@ mkvirtualenv concept
 > En caso de que no se encuentre el comando `mkvirtualenv` cerrar sesión y ejecutar una nueva terminal
 
 ### Clonación del repositorio
+Si se creó una llave SSH:
+```sh
+git clone git@github.com:Kaykos/concept.git
+```
+
+Si no se creó:
 ```sh
 git clone https://github.com/Kaykos/concept.git
 ```
-> Ingresar los datos de la cuenta de GitHub
+> Si no se hace por SSH se deben ingresar los datos de la cuenta de GitHub cada vez que se hace push al repositorio
     
 
 #### Cambios de .bashrc
