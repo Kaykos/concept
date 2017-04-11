@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from common.models import Usuario
+from models import User
 from flask import Blueprint
 from flask_restful import Api, Resource, fields, marshal_with
 from resources import APIError
@@ -44,13 +44,13 @@ class Usuarios(Resource):
   @marshal_with(usuario_fields)
   def get(self, usuario_id=None):
     if usuario_id:
-      usuario = Usuario.get_by_id(usuario_id)
+      usuario = User.get_by_id(usuario_id)
       if not usuario:
         raise UsuarioNoExiste(warn=u'No se encontro el usuario "{}"'.format(usuario_id))
 
       return usuario
 
-    usuarios = Usuario.query().fetch()
+    usuarios = User.query().fetch()
     return usuarios
 
   def post(self):
