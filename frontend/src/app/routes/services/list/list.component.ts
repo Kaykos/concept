@@ -60,4 +60,12 @@ export class ListComponent{
   isDisabled(term: string){
     return term == this.listaServicios.params.get('term');
   }
+
+  showForm(service: Service){
+    this.logger.info('showForm', service);
+  }
+
+  deleteConfirmation(service: Service){
+    this.logger.info('deleteConfirmation', service);
+  }
 }

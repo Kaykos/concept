@@ -1,4 +1,5 @@
 export class Service{
-
-  constructor(public id?: number){}
+  id?: number;
+  cost: number;
+  description: string;
 }

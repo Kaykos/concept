@@ -14,6 +14,8 @@ import {Service} from '../../../../shared/models/service.model';
 export class GridServicesComponent implements OnInit, OnDestroy{
   @Input() subject: Subject<URLSearchParams>;
   @Output() beforeQuery: EventEmitter<URLSearchParams>;
+  @Output() editClick: EventEmitter<Service>;
+  @Output() deleteClick: EventEmitter<Service>;
 
   services: Observable<Service[]>;
   error: boolean;
@@ -22,14 +24,14 @@ export class GridServicesComponent implements OnInit, OnDestroy{
   constructor(private servicesService: ServicesService,
               private logger: Logger){
     this.beforeQuery = new EventEmitter<URLSearchParams>();
+    this.editClick = new EventEmitter<Service>();
+    this.deleteClick = new EventEmitter<Service>();
 
     this.error = false;
     this.loading = true;
   }
 
   ngOnInit(){
-    let usuarioId: number = 5629499534213120;
-
     this.services = this.subject
       /**
        * Si se dejara el "debounceTime" seria mejor hacer primero el "do" y dejar en el "distinctUntilChanged":
@@ -51,10 +53,8 @@ export class GridServicesComponent implements OnInit, OnDestroy{
         return equal;
       })
       .switchMap((params: URLSearchParams) => {  // switch to new observable each time the term changes
-        // return the http search observable or the observable of empty records if there was no search term
-        //return term ? this.suscripcionesService.search(usuarioId) : Observable.of<Suscripcion[]>([]);
         this.beforeQuery.emit(params);
-        return this.servicesService.search(usuarioId, params)
+        return this.servicesService.search(params)
           .catch(error => {
             this.logger.error('Error:', error);
             this.error = true;
@@ -64,19 +64,14 @@ export class GridServicesComponent implements OnInit, OnDestroy{
       })
       .do((services: Service[]) => {
         this.loading = false;
-
-        // @TODO: borrar
-        if(usuarioId == 5629499534213120){
-          usuarioId = 999;
-        }else{
-          usuarioId = 5629499534213120;
-        }
       })
       .share();
   }
 
   ngOnDestroy(){
     this.beforeQuery = null;
+    this.editClick = null;
+    this.deleteClick = null;
     this.services = null;
   }
 }

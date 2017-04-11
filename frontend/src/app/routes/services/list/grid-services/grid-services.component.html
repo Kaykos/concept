@@ -13,16 +13,16 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th>campo 1</th>
-          <th>campo 2</th>
+          <th>Costo</th>
+          <th>Descripción</th>
           <th>Estado</th>
           <th style="width: 42px;"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let service of services | async">
-          <td>{{service.id}}</td>
-          <td>{{service.id}}</td>
+          <td>${{service.cost | number}}</td>
+          <td>{{service.description}}</td>
           <td>
             <span class="label label-success">
               {{service.id}}
@@ -33,10 +33,10 @@
               <tbody>
               <tr>
                 <td>
-                  <a title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  <a (click)="editClick.emit(service)" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 </td>
                 <td>
-                  <a title="Borrar"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                  <a (click)="deleteClick.emit(service)" title="Borrar"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 </td>
               </tr>
               </tbody>
