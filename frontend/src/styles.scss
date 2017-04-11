@@ -4,7 +4,33 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 @import '../node_modules/simple-line-icons/css/simple-line-icons.css';
 
+@import '../node_modules/loaders.css/loaders.css';
+
+@import '../node_modules/angular2-toaster/toaster.css';
+
 //== Bootstrap
 @import "./app/shared/styles/bootstrap.scss";
 //== Application
 @import "./app/shared/styles/app.scss";
+
+table.table {
+  td.actions {
+    table {
+      td {
+        &:not(:first-child){
+          padding-left: 5px;
+        }
+
+        &:last-child {
+          padding-right: 5px;
+        }
+
+        a {
+          color: #000;
+          font-weight: bold;
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+}

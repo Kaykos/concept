@@ -24,7 +24,7 @@ export class GridServicesComponent implements OnInit, OnDestroy{
     this.beforeQuery = new EventEmitter<URLSearchParams>();
 
     this.error = false;
-    this.loading = false;
+    this.loading = true;
   }
 
   ngOnInit(){

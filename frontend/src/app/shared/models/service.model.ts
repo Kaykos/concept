@@ -1,3 +1,4 @@
 export class Service{
-  id: number;
+
+  constructor(public id?: number){}
 }
