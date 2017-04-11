@@ -20,6 +20,7 @@ import { TimepickerModule } from 'ng2-bootstrap/timepicker';
 import { TooltipModule } from 'ng2-bootstrap/tooltip';
 import { TypeaheadModule } from 'ng2-bootstrap/typeahead';
 import { DatepickerModule } from 'ng2-bootstrap/datepicker';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { FlotDirective } from './directives/flot/flot.directive';
 import { SparklineDirective } from './directives/sparkline/sparkline.directive';
@@ -33,79 +34,82 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        AccordionModule.forRoot(),
-        AlertModule.forRoot(),
-        ButtonsModule.forRoot(),
-        CarouselModule.forRoot(),
-        CollapseModule.forRoot(),
-        DatepickerModule.forRoot(),
-        DropdownModule.forRoot(),
-        ModalModule.forRoot(),
-        PaginationModule.forRoot(),
-        ProgressbarModule.forRoot(),
-        RatingModule.forRoot(),
-        TabsModule.forRoot(),
-        TimepickerModule.forRoot(),
-        TooltipModule.forRoot(),
-        TypeaheadModule.forRoot(),
-        ToasterModule
-    ],
-    providers: [
-        ColorsService
-    ],
-    declarations: [
-        FlotDirective,
-        SparklineDirective,
-        EasypiechartDirective,
-        CheckallDirective,
-        VectormapDirective,
-        NowDirective,
-        ScrollableDirective,
-        JqcloudDirective
-    ],
-    exports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        RouterModule,
-        AccordionModule,
-        AlertModule,
-        ButtonsModule,
-        CarouselModule,
-        CollapseModule,
-        DatepickerModule,
-        DropdownModule,
-        ModalModule,
-        PaginationModule,
-        ProgressbarModule,
-        RatingModule,
-        TabsModule,
-        TimepickerModule,
-        TooltipModule,
-        TypeaheadModule,
-        ToasterModule,
-        FlotDirective,
-        SparklineDirective,
-        EasypiechartDirective,
-        CheckallDirective,
-        VectormapDirective,
-        NowDirective,
-        ScrollableDirective,
-        JqcloudDirective
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    AccordionModule.forRoot(),
+    AlertModule.forRoot(),
+    ButtonsModule.forRoot(),
+    CarouselModule.forRoot(),
+    CollapseModule.forRoot(),
+    DatepickerModule.forRoot(),
+    DropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    RatingModule.forRoot(),
+    TabsModule.forRoot(),
+    TimepickerModule.forRoot(),
+    TooltipModule.forRoot(),
+    TypeaheadModule.forRoot(),
+    ToasterModule,
+    Ng2Bs3ModalModule
+  ],
+  providers: [
+    ColorsService
+  ],
+  declarations: [
+    FlotDirective,
+    SparklineDirective,
+    EasypiechartDirective,
+    CheckallDirective,
+    VectormapDirective,
+    NowDirective,
+    ScrollableDirective,
+    JqcloudDirective
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterModule,
+    AccordionModule,
+    AlertModule,
+    ButtonsModule,
+    CarouselModule,
+    CollapseModule,
+    DatepickerModule,
+    DropdownModule,
+    ModalModule,
+    PaginationModule,
+    ProgressbarModule,
+    RatingModule,
+    TabsModule,
+    TimepickerModule,
+    TooltipModule,
+    TypeaheadModule,
+    ToasterModule,
+    FlotDirective,
+    SparklineDirective,
+    EasypiechartDirective,
+    CheckallDirective,
+    VectormapDirective,
+    NowDirective,
+    ScrollableDirective,
+    JqcloudDirective,
+    Ng2Bs3ModalModule
+  ]
 })
 
 // https://github.com/ocombe/ng2-translate/issues/209
-export class SharedModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: SharedModule
-        };
-    }
+export class SharedModule{
+
+  static forRoot(): ModuleWithProviders{
+    return {
+      ngModule: SharedModule
+    };
+  }
 }

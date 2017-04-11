@@ -1,16 +1,16 @@
 
 const Home = {
-    text: 'Home',
-    link: '/home',
-    icon: 'icon-home'
+  text: 'Inicio',
+  link: '/inicio',
+  icon: 'icon-home'
 };
 
 const headingMain = {
-    text: 'Main Navigation',
-    heading: true
+  text: 'Main Navigation',
+  heading: true
 };
 
 export const menu = [
-    headingMain,
-    Home
+  headingMain,
+  Home
 ];

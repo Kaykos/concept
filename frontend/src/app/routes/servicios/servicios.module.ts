@@ -10,7 +10,7 @@ import {ListaComponent} from './lista/lista.component';
 import {ServiciosService} from '../../shared/services/servicios.service';
 
 const routes: Routes = [
-  {path: '', component: ListaComponent}
+  {path: 'hola', component: ListaComponent}
 ];
 
 @NgModule({
