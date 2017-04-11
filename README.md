@@ -165,6 +165,11 @@ sudo apt-get install -y nodejs
 sudo npm -g install npm@latest
 ```
 
+En la carpeta `frontend` ejecutar
+```sh
+npm install
+sudo npm install -g @angular/cli
+```
 
     
 [Google Cloud SDK]: <https://cloud.google.com/sdk/docs/>
