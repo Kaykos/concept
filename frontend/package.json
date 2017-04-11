@@ -37,6 +37,7 @@
     "angular2-toaster": "2.0.0",
     "angular2-tree-component": "2.8.2",
     "bootstrap": "3.3.7",
+    "browser-debug": "^1.0.0",
     "chart.js": "2.5.0",
     "classlist.js": "^1.1.20150312",
     "codemirror": "5.24.2",

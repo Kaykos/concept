@@ -6,6 +6,7 @@ import {Ng2TableModule} from 'ng2-table/ng2-table';
 import {SharedModule} from '../../shared/shared.module';
 
 import {ListComponent} from './list/list.component';
+import {GridServicesComponent} from './list/grid-services/grid-services.component';
 
 import {ServicesService} from '../../shared/services/services.service';
 
@@ -21,7 +22,8 @@ const routes: Routes = [
     Ng2TableModule
   ],
   declarations: [
-    ListComponent
+    ListComponent,
+    GridServicesComponent
   ],
   providers: [
     ServicesService

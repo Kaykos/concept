@@ -32,6 +32,8 @@ import { NowDirective } from './directives/now/now.directive';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
+import {LoadingComponent} from './components/loading/loading.component';
+
 // https://angular.io/styleguide#!#04-10
 @NgModule({
   imports: [
@@ -68,7 +70,8 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
     VectormapDirective,
     NowDirective,
     ScrollableDirective,
-    JqcloudDirective
+    JqcloudDirective,
+    LoadingComponent
   ],
   exports: [
     CommonModule,
@@ -100,7 +103,8 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
     NowDirective,
     ScrollableDirective,
     JqcloudDirective,
-    Ng2Bs3ModalModule
+    Ng2Bs3ModalModule,
+    LoadingComponent
   ]
 })
 
