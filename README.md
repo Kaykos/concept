@@ -162,6 +162,7 @@ sudo bash nodesource_setup.sh
 Instalar Node.js
 ```sh
 sudo apt-get install -y nodejs
+sudo npm -g install npm@latest
 ```
 
 
