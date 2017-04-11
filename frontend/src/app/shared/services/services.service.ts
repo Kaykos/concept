@@ -4,10 +4,10 @@ import {Observable} from 'rxjs';
 
 import {PropsMapping} from './model.service';
 
-import {Servicio} from '../models/servicio.model';
+import {Services} from '../models/services.model';
 
 @Injectable()
-export class ServiciosService{
+export class ServicesService{
   static propsMapping: PropsMapping = {
     id: 'id',
     numeroParticipaciones: 'numero_participaciones',
@@ -19,21 +19,21 @@ export class ServiciosService{
 
   constructor(private http: Http){}
 
-  search(usuarioId: number, params?: URLSearchParams): Observable<Servicio[]>{
+  search(usuarioId: number, params?: URLSearchParams): Observable<Services[]>{
     let options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'}),
       search: params
     });
     return this.http.get(`http://localhost:8080/usuarios/${usuarioId}/suscripciones`, options)
-      .map((response: Response) => ServiciosService.fromResponse(response));
+      .map((response: Response) => ServicesService.fromResponse(response));
   }
 
-  private static fromResponse(response: Response): Servicio[]{
-    let propsMapping: PropsMapping = ServiciosService.propsMapping;
+  private static fromResponse(response: Response): Services[]{
+    let propsMapping: PropsMapping = ServicesService.propsMapping;
 
-    let list: Servicio[] = [];
+    let list: Services[] = [];
     for(let data of response.json()){
-      let model = new Servicio();
+      let model = new Services();
       for(let prop in propsMapping){
         model[prop] = data[propsMapping[prop]];
       }

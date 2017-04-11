@@ -5,12 +5,12 @@ import {Ng2TableModule} from 'ng2-table/ng2-table';
 
 import {SharedModule} from '../../shared/shared.module';
 
-import {ListaComponent} from './lista/lista.component';
+import {ListComponent} from './list/list.component';
 
-import {ServiciosService} from '../../shared/services/servicios.service';
+import {ServicesService} from '../../shared/services/services.service';
 
 const routes: Routes = [
-  {path: '', component: ListaComponent}
+  {path: '', component: ListComponent}
 ];
 
 @NgModule({
@@ -21,13 +21,13 @@ const routes: Routes = [
     Ng2TableModule
   ],
   declarations: [
-    ListaComponent
+    ListComponent
   ],
   providers: [
-    ServiciosService
+    ServicesService
   ],
   exports: [
     RouterModule
   ]
 })
-export class ServiciosModule{}
+export class ServicesModule{}

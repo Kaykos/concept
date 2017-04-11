@@ -5,12 +5,11 @@ export const routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      {path: '', redirectTo: 'inicio', pathMatch: 'full'},
-      {path: 'inicio', loadChildren: './inicio/inicio.module#InicioModule'},
-      {path: 'servicios', loadChildren: './servicios/servicios.module#ServiciosModule'}
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: 'home', loadChildren: './home/home.module#HomeModule'},
+      {path: 'services', loadChildren: './services/services.module#ServicesModule'}
     ]
   },
 
-  // Not found
-  {path: '**', redirectTo: 'inicio'}
+  {path: '*', redirectTo: 'home'}
 ];

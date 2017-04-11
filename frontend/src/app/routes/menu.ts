@@ -1,23 +1,22 @@
-
 const headingMain = {
   text: 'Main Navigation',
   heading: true
 };
 
 const Home = {
-  text: 'Inicio',
-  link: '/inicio',
+  text: 'Home',
+  link: '/home',
   icon: 'icon-home'
 };
 
-const Servicios = {
-  text: 'Servicios',
-  link: '/servicios',
+const Services = {
+  text: 'Services',
+  link: '/services',
   icon: 'icon-layers'
 };
 
 export const menu = [
   headingMain,
   Home,
-  Servicios
+  Services
 ];

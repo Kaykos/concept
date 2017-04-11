@@ -1,4 +1,4 @@
-export class Servicio{
+export class Services{
   id: number;
   numeroParticipaciones: number;
   numeroSorteos: number;
