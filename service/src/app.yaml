@@ -8,23 +8,9 @@ handlers:
 - url: /api/.*
   script: main.app
 
-- url: /img
-  static_dir: dist/img
-
-- url: /images
-  static_dir: dist/images
-
-- url: /css
-  static_dir: dist/css
-
-- url: /js
-  static_dir: dist/js
-
-- url: /fonts
-  static_dir: dist/fonts
-
-- url: /json
-  static_dir: dist/json
+- url: /(.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2))$
+  static_files: dist/\1
+  upload: dist/.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2)$
 
 - url: /[A-Za-z0-9/-]*
   upload: dist/index.html
