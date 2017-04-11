@@ -1,0 +1,40 @@
+<div *ngIf="error">
+  Error
+</div>
+
+<loading *ngIf="!error && loading"></loading>
+
+<div [hidden]="error || loading">
+  <div [hidden]="(services | async)?.length" class="table-responsive">
+    No hay ningún servicio
+  </div>
+
+  <div [hidden]="!(services | async)?.length" class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>campo 1</th>
+          <th>campo 2</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of services | async">
+          <td>{{service.id}}</td>
+          <td>{{service.id}}</td>
+          <td>
+            <span class="label label-success">
+              {{service.id}}
+            </span>
+          </td>
+          <td>
+            <a title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+          </td>
+          <td>
+            <a title="Borrar"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

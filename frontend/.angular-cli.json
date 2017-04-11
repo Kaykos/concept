@@ -23,6 +23,7 @@
         "styles.scss"
       ],
       "scripts": [
+        "../node_modules/browser-debug/dist/debug.min.js",
         "../node_modules/jquery/dist/jquery.js",
         "app/core/preloader/preloader.js"
       ],

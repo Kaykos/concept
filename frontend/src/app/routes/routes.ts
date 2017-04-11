@@ -11,5 +11,5 @@ export const routes = [
     ]
   },
 
-  {path: '*', redirectTo: 'home'}
+  {path: '**', redirectTo: 'home'}
 ];
