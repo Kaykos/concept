@@ -151,5 +151,19 @@ function cd {
 
 check_for_virtual_env
 ```
+
+### Instalación de npm
+Agregar repositorio de Node.js
+```sh
+curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+```
+
+Instalar Node.js
+```sh
+sudo apt-get install -y nodejs
+```
+
+
     
 [Google Cloud SDK]: <https://cloud.google.com/sdk/docs/>
