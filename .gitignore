@@ -4,6 +4,8 @@
 .buildpath
 .idea/
 
-/node_modules
-/dist
-/tmp
+/service/gae-env
+
+/frontend/node_modules
+/frontend/dist
+/frontend/tmp
