@@ -5,25 +5,25 @@ import {Subscription, Subject} from 'rxjs';
 
 import {ModalComponent} from 'ng2-bs3-modal/components/modal';
 
-import {Logger} from '../../../shared/services';
+import {Logger} from '../../../shared/services/logger.service';
 
-import {Suscripcion} from '../../../shared/models/suscripcion.model';
+import {Servicio} from '../../../shared/models/servicio.model';
 
 @Component({
-  templateUrl: './extended.component.html',
-  styleUrls: ['./extended.component.scss']
+  templateUrl: './lista.component.html',
+  styleUrls: ['./lista.component.scss']
 })
-export class ExtendedComponent implements OnInit, OnDestroy{
+export class ListaComponent implements OnInit, OnDestroy{
   @ViewChild('modal') modal: ModalComponent;
   isModalShown: boolean = false;
 
   private querySub: Subscription;
 
-  listaSuscripciones: {
+  listaServicios: {
     subject: Subject<URLSearchParams>,
     term: string,
     params: URLSearchParams,
-    selected?: Suscripcion
+    selected?: Servicio
   };
 
   listaSorteos: {
@@ -33,7 +33,7 @@ export class ExtendedComponent implements OnInit, OnDestroy{
 
   constructor(private route: ActivatedRoute,
               private logger: Logger){
-    this.listaSuscripciones = {
+    this.listaServicios = {
       subject: new Subject<URLSearchParams>(),
       params: new URLSearchParams(),
       term: ''
@@ -51,33 +51,33 @@ export class ExtendedComponent implements OnInit, OnDestroy{
       .subscribe((urlParams: Params) => {
         this.logger.info('url params', urlParams);
 
-        let params: URLSearchParams = this.listaSuscripciones.params.clone();
+        let params: URLSearchParams = this.listaServicios.params.clone();
         params.set('term', '');
-        this.listaSuscripciones.subject.next(params);
+        this.listaServicios.subject.next(params);
       });
   }
 
   ngOnDestroy(){
     this.querySub = null;
-    this.listaSuscripciones = null;
+    this.listaServicios = null;
   }
 
   search(term: string){
-    let params: URLSearchParams = this.listaSuscripciones.params.clone();
+    let params: URLSearchParams = this.listaServicios.params.clone();
     params.set('term', term);
-    this.listaSuscripciones.subject.next(params);
+    this.listaServicios.subject.next(params);
   }
 
   updateSuscripcionesParams(params: URLSearchParams){
-    this.listaSuscripciones.params = params;
+    this.listaServicios.params = params;
   }
 
   isDisabled(term: string){
-    return term == this.listaSuscripciones.params.get('term');
+    return term == this.listaServicios.params.get('term');
   }
 
-  showSorteos(suscripcion: Suscripcion){
-    this.listaSuscripciones.selected = suscripcion;
+  showSorteos(suscripcion: Servicio){
+    this.listaServicios.selected = suscripcion;
     this.isModalShown = true;
     this.modal.open();
   }

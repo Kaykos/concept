@@ -5,17 +5,12 @@ import {Ng2TableModule} from 'ng2-table/ng2-table';
 
 import {SharedModule} from '../../shared/shared.module';
 
-import {StandardComponent} from './standard/standard.component';
-import {ExtendedComponent} from './extended/extended.component';
-import {ListaSuscripcionesComponent} from './extended/lista-suscripciones/lista-suscripciones.component';
-import {ListaSorteosComponent} from './extended/lista-sorteos/lista-sorteos.component';
+import {ListaComponent} from './lista/lista.component';
 
-import {SuscripcionesService} from '../../shared/services/suscripciones.service';
-import {SorteosService} from '../../shared/services/sorteos.service';
+import {ServiciosService} from '../../shared/services/servicios.service';
 
 const routes: Routes = [
-  {path: 'standard', component: StandardComponent},
-  {path: 'extended', component: ExtendedComponent}
+  {path: '', component: ListaComponent}
 ];
 
 @NgModule({
@@ -26,17 +21,13 @@ const routes: Routes = [
     Ng2TableModule
   ],
   declarations: [
-    StandardComponent,
-    ExtendedComponent,
-    ListaSuscripcionesComponent,
-    ListaSorteosComponent
+    ListaComponent
   ],
   providers: [
-    SuscripcionesService,
-    SorteosService
+    ServiciosService
   ],
   exports: [
     RouterModule
   ]
 })
-export class SuscripcionesModule{}
+export class ServiciosModule{}

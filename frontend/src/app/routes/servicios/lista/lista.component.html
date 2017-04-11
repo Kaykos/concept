@@ -8,11 +8,11 @@
       <h4 class="modal-title">Sorteos</h4>
     </modal-header>
     <modal-body>
-      <lista-sorteos *ngIf="isModalShown"
-                     [suscripcion]="listaSuscripciones.selected"
+      <!-- <lista-sorteos *ngIf="isModalShown"
+                     [suscripcion]="listaServicios.selected"
                      [subject]="listaSorteos.subject"
                      (beforeQuery)="updateSorteosParams($event)">
-      </lista-sorteos>
+      </lista-sorteos> -->
     </modal-body>
     <modal-footer [show-default-buttons]="true"></modal-footer>
   </div>
@@ -26,15 +26,15 @@
 <div class="panel panel-default">
   <div class="panel-heading">Demo Table #1</div>
 
-  <input type="text" [(ngModel)]="listaSuscripciones.term" />
-  <button type="button" [disabled]="isDisabled(listaSuscripciones.term)" (click)="search(listaSuscripciones.term)" class="btn">
+  <input type="text" [(ngModel)]="listaServicios.term" />
+  <button type="button" [disabled]="isDisabled(listaServicios.term)" (click)="search(listaServicios.term)" class="btn">
     Buscar ({{term}})
   </button>
 
-  <lista-suscripciones [subject]="listaSuscripciones.subject"
+  <!-- <lista-suscripciones [subject]="listaServicios.subject"
                        (beforeQuery)="updateSuscripcionesParams($event)"
                        (showSorteosClick)="showSorteos($event)">
-  </lista-suscripciones>
+  </lista-suscripciones> -->
 
   <!-- <div class="panel-footer">
     <div class="row">
