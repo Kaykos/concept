@@ -4,6 +4,8 @@
 .buildpath
 .idea/
 
+*.pyc
+
 /service/gae-env
 
 /frontend/node_modules
