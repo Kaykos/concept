@@ -8,9 +8,9 @@ handlers:
 - url: /api/.*
   script: main.app
 
-- url: /(.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2))$
+- url: /(.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2|map))$
   static_files: dist/\1
-  upload: dist/.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2)$
+  upload: dist/.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2|map)$
 
 - url: /[A-Za-z0-9/-]*
   upload: dist/index.html

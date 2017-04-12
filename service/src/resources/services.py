@@ -53,4 +53,4 @@ class Services(Resource):
   def delete(self, usuario_id):
     logging.info('Usuarios delete: {}'.format(usuario_id))
 
-api.add_resource(Services, '/services', '/services/<int:service_id>')
+api.add_resource(Services, '/api/services', '/api/services/<int:service_id>')
