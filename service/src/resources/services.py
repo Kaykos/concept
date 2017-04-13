@@ -14,9 +14,11 @@ errors = {
   }
 }
 
+#Creación del blueprint
 services_bp = Blueprint('services_api', __name__)
 api = Api(services_bp, errors=errors, catch_all_404s=True)
 
+#Campos para retornar
 service_fields = {
   'id': fields.Integer,
   'description': fields.String,
@@ -27,6 +29,7 @@ service_fields = {
 test_services = [{'id':1, 'description':'El primer servicio de prueba', 'cost': 5000},
                  {'id':2, 'description':'El segundo servicio de prueba', 'cost': 1000}]
 
+#Servicios de servicios
 class Services(Resource):
 
   @marshal_with(service_fields)

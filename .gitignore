@@ -7,6 +7,7 @@
 *.pyc
 
 /service/gae-env
+/service/src/dist
 
 /frontend/node_modules
 /frontend/dist
