@@ -15,14 +15,14 @@
                 <!-- menu heading -->
                 <span *ngIf="item.heading">{{(item.translate | translate) || item.text}}</span>
                 <!-- single menu item -->
-                <a *ngIf="!item.heading && !item.submenu" [routerLink]="item.link" [attr.route]="item.link" title="{{item.text}}"
+                <a *ngIf="!item.heading && !item.submenu && validateUser(item.text)" [routerLink]="item.link" [attr.route]="item.link" title="{{item.text}}"
                     (click)="toggleSubmenuClick($event)" (mouseenter)="toggleSubmenuHover($event)">
                     <span class="pull-right" *ngIf="item.alert" [ngClass]="item.label || 'label label-success'">{{item.alert}}</span>
                     <em class="{{item.icon}}" *ngIf="item.icon"></em>
                     <span>{{(item.translate | translate) || item.text}}</span>
                 </a>
                 <!-- has submenu -->
-                <a *ngIf="!item.heading && item.submenu" title="{{item.text}}"
+                <a *ngIf="!item.heading && item.submenu && validateUser(item.text)" title="{{item.text}}"
                     (click)="toggleSubmenuClick($event)" (mouseenter)="toggleSubmenuHover($event)">
                         <span class="pull-right" *ngIf="item.alert" [ngClass]="item.label || 'label label-success'">{{item.alert}}</span>
                         <em class="{{item.icon}}" *ngIf="item.icon"></em>

@@ -3,6 +3,7 @@ import {LogInService} from '../../../shared/services/logIn.service';
 
 import {User} from '../../../shared/models/user.model';
 import {SettingsService} from '../../../core/settings/settings.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-logIn',
@@ -16,7 +17,7 @@ export class LogInComponent implements OnInit{
   passwordError: boolean;
   error: boolean;
 
-  constructor(private logInService: LogInService, private settingsService: SettingsService) {
+  constructor(private router: Router, private logInService: LogInService, private settingsService: SettingsService) {
     this.user = new User();
     this.usernameError = false;
     this.passwordError = false;
@@ -47,6 +48,8 @@ export class LogInComponent implements OnInit{
   updateUser(user: User) {
     this.user = user;
     this.settingsService.setUser(this.user);
+    this.settingsService.setIsLogged(true);
+    this.router.navigate(['/events']);
   }
 
   handleError(error: any) {

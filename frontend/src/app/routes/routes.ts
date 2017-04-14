@@ -8,6 +8,8 @@ export const routes = [
       {path: '', redirectTo: 'logIn', pathMatch: 'full'},
       {path: 'logIn', loadChildren: './logIn/logIn.module#LogInModule'},
       {path: 'register', loadChildren: './register/register.module#RegisterModule'},
+      {path: 'logOut', loadChildren: './logOut/logOut.module#LogOutModule'},
+      {path: 'events', loadChildren: './events/events.module#EventsModule'},
       {path: 'services', loadChildren: './services/services.module#ServicesModule'}
     ]
   },

@@ -14,10 +14,12 @@ export class SidebarComponent implements OnInit {
 
     menuItems: Array<any>;
     router: Router;
+    isLogged: boolean;
 
     constructor(private menu: MenuService, public settings: SettingsService, private injector: Injector) {
 
         this.menuItems = menu.getMenu();
+        this.isLogged = false;
 
     }
 
@@ -31,6 +33,8 @@ export class SidebarComponent implements OnInit {
             // scroll view to top
             window.scrollTo(0, 0);
         });
+
+        this.settings.getIsLogged().subscribe((isLogged: boolean) => { this.isLogged = isLogged; } );
 
     }
 
@@ -165,5 +169,18 @@ export class SidebarComponent implements OnInit {
     }
     isEnabledHover() {
         return this.settings.layout.asideHover;
+    }
+
+    validateUser(text: string): boolean {
+      switch (text) {
+        case 'Log In':
+          return this.isLogged ? false : true;
+        case 'Register':
+          return this.isLogged ? false : true;
+        case 'Log Out':
+          return this.isLogged ? true : false;
+        default:
+          return true;
+      }
     }
 }
