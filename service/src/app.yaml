@@ -1,8 +1,12 @@
-application: events-concept
-version: master
+#application: events-concept
+#version: master
 runtime: python27
 api_version: 1
 threadsafe: true
+
+libraries:
+- name: MySQLdb
+  version: "1.2.5"
 
 handlers:
 - url: /api/.*
