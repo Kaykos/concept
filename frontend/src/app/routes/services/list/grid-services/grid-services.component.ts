@@ -1,6 +1,6 @@
 import {Component, OnChanges, OnInit, OnDestroy, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {URLSearchParams} from '@angular/http';
-import {Observable, Subject, BehaviorSubject} from 'rxjs';
+import {Observable, BehaviorSubject} from 'rxjs';
 
 import {Logger} from '../../../../shared/services/logger.service';
 import {ServicesService} from '../../../../shared/services/services.service';
@@ -33,10 +33,7 @@ export class GridServicesComponent implements OnChanges, OnInit, OnDestroy{
 
   ngOnChanges(changes: SimpleChanges){
     if(changes['urlParams']){
-      this.logger.info('lista-suscripciones ngOnChanges entro');
       this.subject.next(changes['urlParams'].currentValue);
-    }else{
-      this.logger.info('lista-suscripciones ngOnChanges NO entro');
     }
   }
 
