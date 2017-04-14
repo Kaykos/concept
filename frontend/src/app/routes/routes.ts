@@ -5,11 +5,12 @@ export const routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
-      {path: 'home', loadChildren: './home/home.module#HomeModule'},
+      {path: '', redirectTo: 'logIn', pathMatch: 'full'},
+      {path: 'logIn', loadChildren: './logIn/logIn.module#LogInModule'},
+      {path: 'register', loadChildren: './register/register.module#RegisterModule'},
       {path: 'services', loadChildren: './services/services.module#ServicesModule'}
     ]
   },
 
-  {path: '**', redirectTo: 'home'}
+  {path: '**', redirectTo: 'logIn'}
 ];

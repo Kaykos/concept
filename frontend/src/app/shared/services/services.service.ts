@@ -8,14 +8,14 @@ import {PropsMapping} from './model.service';
 import {Service} from '../models/service.model';
 
 @Injectable()
-export class ServicesService{
+export class ServicesService {
   static propsMapping: PropsMapping = {
     id: 'id',
     cost: 'cost',
     description: 'description'
   };
 
-  constructor(private http: Http){}
+  constructor(private http: Http) {}
 
   search(params?: URLSearchParams): Observable<Service[]>{
     let options = new RequestOptions({

@@ -13,16 +13,17 @@ export class SettingsService {
         // User Settings
         // -----------------------------------
         this.user = {
-            name: 'John',
-            job: 'ng-developer',
-            picture: 'assets/img/user/02.jpg'
+            name: 'Guest',
+            role: 'Guest',
+            picture: 'assets/img/user/guest.jpg'
         };
 
         // App Settings
         // -----------------------------------
         this.app = {
-            name: 'Angle',
-            description: 'Angular Bootstrap Admin Template',
+            name: 'Concept',
+            company: 'SCAMS',
+            description: 'Events Platform',
             year: ((new Date()).getFullYear())
         };
 

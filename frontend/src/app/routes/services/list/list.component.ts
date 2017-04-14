@@ -11,7 +11,7 @@ import {Service} from '../../../shared/models/service.model';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent{
+export class ListComponent {
   private querySub: Subscription;
 
   listaServicios: {
@@ -22,7 +22,7 @@ export class ListComponent{
   };
 
   constructor(private route: ActivatedRoute,
-              private logger: Logger){
+              private logger: Logger) {
     this.listaServicios = {
       subject: new Subject<URLSearchParams>(),
       params: new URLSearchParams(),
@@ -30,7 +30,7 @@ export class ListComponent{
     };
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.querySub = this.route.queryParams
       .debounceTime(100)
       .subscribe((urlParams: Params) => {
@@ -42,30 +42,30 @@ export class ListComponent{
       });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.querySub = null;
     this.listaServicios = null;
   }
 
-  search(term: string){
+  search(term: string) {
     let params: URLSearchParams = this.listaServicios.params.clone();
     params.set('term', term);
     this.listaServicios.subject.next(params);
   }
 
-  updateServicesParams(params: URLSearchParams){
+  updateServicesParams(params: URLSearchParams) {
     this.listaServicios.params = params;
   }
 
-  isDisabled(term: string){
+  isDisabled(term: string) {
     return term == this.listaServicios.params.get('term');
   }
 
-  showForm(service: Service){
+  showForm(service: Service) {
     this.logger.info('showForm', service);
   }
 
-  deleteConfirmation(service: Service){
+  deleteConfirmation(service: Service) {
     this.logger.info('deleteConfirmation', service);
   }
 }

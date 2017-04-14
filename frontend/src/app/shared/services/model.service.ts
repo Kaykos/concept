@@ -1,3 +1,3 @@
-export interface PropsMapping{
+export interface PropsMapping {
   [modelProp: string]: string;
 }

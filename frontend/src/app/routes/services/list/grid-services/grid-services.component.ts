@@ -22,7 +22,7 @@ export class GridServicesComponent implements OnInit, OnDestroy{
   loading: boolean;
 
   constructor(private servicesService: ServicesService,
-              private logger: Logger){
+              private logger: Logger) {
     this.beforeQuery = new EventEmitter<URLSearchParams>();
     this.editClick = new EventEmitter<Service>();
     this.deleteClick = new EventEmitter<Service>();
@@ -31,7 +31,7 @@ export class GridServicesComponent implements OnInit, OnDestroy{
     this.loading = true;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.services = this.subject
       /**
        * Si se dejara el "debounceTime" seria mejor hacer primero el "do" y dejar en el "distinctUntilChanged":
@@ -68,7 +68,7 @@ export class GridServicesComponent implements OnInit, OnDestroy{
       .share();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.beforeQuery = null;
     this.editClick = null;
     this.deleteClick = null;

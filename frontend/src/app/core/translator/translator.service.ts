@@ -12,8 +12,7 @@ export class TranslatorService {
         translate.setDefaultLang(this.defaultLanguage);
 
         this.availablelangs = [
-            { code: 'en', text: 'English' },
-            { code: 'es_AR', text: 'Spanish' }
+            { code: 'en', text: 'English' }
         ];
 
         this.useLanguage();

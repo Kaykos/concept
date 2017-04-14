@@ -1,13 +1,24 @@
-const headingMain = {
-  text: 'Main Navigation',
+const Account = {
+  text: 'Account',
   heading: true
 };
 
-const Home = {
-  text: 'Home',
-  link: '/home',
-  icon: 'icon-home'
+const LogIn = {
+  text: 'Log In',
+  link: '/logIn',
+  icon: 'icon-login'
 };
+
+const Register = {
+  text: 'Register',
+  link: '/register',
+  icon: 'icon-home'
+}
+
+const Event = {
+  text: 'Event',
+  heading: true
+}
 
 const Services = {
   text: 'Services',
@@ -16,7 +27,9 @@ const Services = {
 };
 
 export const menu = [
-  headingMain,
-  Home,
+  Account,
+  LogIn,
+  Register,
+  Event,
   Services
 ];

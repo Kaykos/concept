@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiBase: 'http://192.168.1.122:8080/api'
+  apiBase: 'http://localhost:8080/api'
 };
