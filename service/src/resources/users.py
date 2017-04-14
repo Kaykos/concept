@@ -71,6 +71,7 @@ user_fields = {
   'id': fields.Integer,
   'name': fields.String,
   'last_name': fields.String,
+  'email': fields.String,
   'user_name': fields.String,
   'role': fields.String
 }
@@ -121,7 +122,6 @@ class Users(Resource):
       name=form.name.data,
       last_name=form.last_name.data,
       user_name=form.user_name.data,
-      address=form.address.data,
       email=form.email.data,
       password=form.password.data,
       role=form.role.data,

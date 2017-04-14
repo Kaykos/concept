@@ -8,7 +8,7 @@ import {PropsMapping} from './model.service';
 import {User} from '../models/user.model';
 
 @Injectable()
-export class LogInService {
+export class RegisterService {
   static propsMapping: PropsMapping = {
     id: 'id',
     name: 'name',
@@ -20,17 +20,17 @@ export class LogInService {
 
   constructor(private http: Http) {}
 
-  logIn(username: string, body: Object): Observable<User> {
+  register(body: Object): Observable<User> {
     const bodyString = JSON.stringify(body);
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.post(`${environment.apiBase}/auth/` + username, bodyString, options)
-      .map((response: Response) => LogInService.fromResponse(response));
+    return this.http.post(`${environment.apiBase}/users`, bodyString, options)
+      .map((response: Response) => RegisterService.fromResponse(response));
   }
 
   private static fromResponse(response: Response): User {
-    const propsMapping: PropsMapping = LogInService.propsMapping;
+    const propsMapping: PropsMapping = RegisterService.propsMapping;
     const user = new User();
     for(const prop in propsMapping) {
       user[prop] = response.json()[propsMapping[prop]];

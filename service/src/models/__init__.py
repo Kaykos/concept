@@ -13,7 +13,6 @@ class User(Base):
   name = Column(String(20), nullable=False)
   last_name = Column(String(30), nullable=True)
   user_name = Column(String(30), nullable=False, unique=True)
-  address = Column(String(50), nullable=False)
   email = Column(String(50), nullable=False, unique=True)
   password = Column(String(20), nullable=False)
   role = Column(String(20), nullable=False)

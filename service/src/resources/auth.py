@@ -35,6 +35,7 @@ response_fields = {
   'id': fields.Integer,
   'name': fields.String,
   'last_name': fields.String,
+  'email': fields.String,
   'user_name': fields.String,
   'role': fields.String
 }
