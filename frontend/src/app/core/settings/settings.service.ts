@@ -1,21 +1,31 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
+import {User} from '../../shared/models/user.model';
+import {Subject} from '@angular/core/src/facade/async';
+import {Observable} from 'rxjs/Observable';
+
 declare var $: any;
 
 @Injectable()
-export class SettingsService {
+export class SettingsService implements OnInit{
 
-    private user: any;
+    private user: User;
+    private subject: Subject<User> = new Subject<User>();
     private app: any;
     public layout: any;
 
     constructor() {
 
+        this.user = new User();
+
         // User Settings
         // -----------------------------------
         this.user = {
+            id: 0,
             name: 'Guest',
-            role: 'Guest',
-            picture: 'assets/img/user/guest.jpg'
+            lastName: ' ',
+            email: ' ',
+            username: 'guest',
+            role: 'guest'
         };
 
         // App Settings
@@ -49,6 +59,10 @@ export class SettingsService {
 
     }
 
+    ngOnInit() {
+      this.subject.next(this.user);
+    }
+
     getAppSetting(name) {
         return name ? this.app[name] : this.app;
     }
@@ -73,6 +87,15 @@ export class SettingsService {
         if (typeof this.layout[name] !== 'undefined') {
             return this.layout[name] = value;
         }
+    }
+
+    getUser(): Observable<User> {
+        return this.subject.asObservable();
+    }
+
+    setUser(user: User): void {
+        this.user = user;
+        this.subject.next(user);
     }
 
     toggleLayoutSetting(name) {

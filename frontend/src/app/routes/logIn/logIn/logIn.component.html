@@ -2,6 +2,7 @@
   <div _ngcontent-tpe-53="" class="panel-body">
     <form _ngcontent-tpe-53="" class="form-horizontal ng-untouched ng-pristine ng-valid">
       <div _ngcontent-tpe-53="" class="form-group">
+        <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">Invalid username or password</span>
         <label _ngcontent-tpe-53="" class="col-lg-2 control-label">Username</label>
         <div _ngcontent-tpe-53="" class="col-lg-10">
           <input _ngcontent-tpe-53="" class="form-control" placeholder="Username" type="text" #username>
@@ -32,4 +33,3 @@
     </form>
   </div>
 </div>
-{{user.name}}

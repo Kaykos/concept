@@ -10,31 +10,35 @@ import {User} from '../models/user.model';
 @Injectable()
 export class LogInService {
   static propsMapping: PropsMapping = {
-    id: 'id',
-    name: 'name',
-    lastName: 'last_name',
-    email: 'email',
-    username: 'user_name',
-    role: 'role'
+      id: 'id',
+      name: 'name',
+      lastName: 'last_name',
+      email: 'email',
+      username: 'user_name',
+      role: 'role'
   };
 
   constructor(private http: Http) {}
 
   logIn(username: string, body: Object): Observable<User> {
-    const bodyString = JSON.stringify(body);
-    const options = new RequestOptions({
-      headers: new Headers({'Content-Type': 'application/json'})
-    });
-    return this.http.post(`${environment.apiBase}/auth/` + username, bodyString, options)
-      .map((response: Response) => LogInService.fromResponse(response));
+      const bodyString = JSON.stringify(body);
+      const options = new RequestOptions({
+        headers: new Headers({'Content-Type': 'application/json'})
+      });
+      return this.http.post(`${environment.apiBase}/auth/` + username, bodyString, options)
+        .map((response: Response) => LogInService.fromResponse(response)).catch(this.handleError);
   }
 
   private static fromResponse(response: Response): User {
-    const propsMapping: PropsMapping = LogInService.propsMapping;
-    const user = new User();
-    for(const prop in propsMapping) {
-      user[prop] = response.json()[propsMapping[prop]];
-    }
-    return user;
+      const propsMapping: PropsMapping = LogInService.propsMapping;
+      const user = new User();
+      for(const prop in propsMapping) {
+        user[prop] = response.json()[propsMapping[prop]];
+      }
+      return user;
+  }
+
+  private handleError(error: Response | any) {
+      return Observable.throw(error.toString());
   }
 }

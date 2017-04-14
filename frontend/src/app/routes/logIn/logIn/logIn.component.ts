@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LogInService} from '../../../shared/services/logIn.service';
 
 import {User} from '../../../shared/models/user.model';
+import {SettingsService} from '../../../core/settings/settings.service';
 
 @Component({
     selector: 'app-logIn',
@@ -13,11 +14,13 @@ export class LogInComponent implements OnInit{
 
   usernameError: boolean;
   passwordError: boolean;
+  error: boolean;
 
-  constructor(private logInService: LogInService) {
+  constructor(private logInService: LogInService, private settingsService: SettingsService) {
     this.user = new User();
     this.usernameError = false;
     this.passwordError = false;
+    this.error = false;
   }
 
   ngOnInit() {}
@@ -25,6 +28,7 @@ export class LogInComponent implements OnInit{
   logIn(username: string, password: string) {
     this.usernameError = false;
     this.passwordError = false;
+    this.error = false;
     if (username === '') {
       this.usernameError = true;
     }
@@ -36,6 +40,17 @@ export class LogInComponent implements OnInit{
     }
     this.logInService.logIn(username, {'password': password})
       .subscribe(
-        user  => this.user = user);
+        (user: User)  => { this.updateUser(user); },
+        error => this.handleError(error));
+  }
+
+  updateUser(user: User) {
+    this.user = user;
+    this.settingsService.setUser(this.user);
+  }
+
+  handleError(error: any) {
+    console.log(error);
+    this.error = true;
   }
 }

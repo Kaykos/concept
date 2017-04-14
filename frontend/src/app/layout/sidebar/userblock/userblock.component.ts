@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserblockService } from './userblock.service';
+import {User} from 'app/shared/models/user.model';
+import {SettingsService} from '../../../core/settings/settings.service';
 
 @Component({
     selector: 'app-userblock',
@@ -8,30 +10,13 @@ import { UserblockService } from './userblock.service';
     styleUrls: ['./userblock.component.scss']
 })
 export class UserblockComponent implements OnInit {
-    user: any;
-    constructor(private userblockService: UserblockService) {
-        this.initDefault();
+    user: User;
+    constructor(private userblockService: UserblockService, private settingsService: SettingsService) {
+        this.user = new User();
     }
 
     ngOnInit() {
-    }
-
-    initDefault() {
-      this.user = {
-        picture: 'assets/img/user/guest.jpg',
-        name: 'Guest',
-        role: 'Guest',
-        logged: false
-      };
-    }
-
-    setUser(name: string, role: string, looged: boolean, image: string) {
-      this.user = {
-        picture: 'assets/img/user/' + image + '.jpg',
-        name: name,
-        role: role,
-        logged: true
-      };
+        this.settingsService.getUser().subscribe((user: User) => { this.user = user; } );
     }
 
     userBlockIsVisible() {
