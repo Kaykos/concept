@@ -1,15 +1,17 @@
 <div *ngIf="error">
-  Error
+  <ng-content select="[error]"></ng-content>
 </div>
 
-<loading *ngIf="!error && loading"></loading>
+<div *ngIf="!error && loading">
+  <ng-content select="[loading]"></ng-content>
+</div>
 
-<div [hidden]="error || loading">
-  <div [hidden]="(services | async)?.length" class="table-responsive">
+<div *ngIf="!error && !loading">
+  <div *ngIf="!services?.length">
     No hay ningún servicio
   </div>
 
-  <div [hidden]="!(services | async)?.length" class="table-responsive">
+  <div *ngIf="services?.length" class="table-responsive">
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
@@ -20,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let service of services | async">
+        <tr *ngFor="let service of services">
           <td>${{service.cost | number}}</td>
           <td>{{service.description}}</td>
           <td>

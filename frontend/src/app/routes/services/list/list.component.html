@@ -5,23 +5,27 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="row" style="margin-top: 10px;">
-      <div class="col-md-3">
-        <input type="text" [(ngModel)]="listaServicios.term" class="form-control input-sm" />
-      </div>
-      <div class="col-md-3">
-        <button type="button" [disabled]="isDisabled(listaServicios.term)" (click)="search(listaServicios.term)" class="btn btn-sm btn-primary">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          Buscar
-        </button>
-      </div>
-    </div>
+    <filters-services [term]="servicesList.urlParams.get('term')"
+                      (searchClick)="search($event)">
+    </filters-services>
   </div>
 
-  <grid-services [subject]="listaServicios.subject"
-                 (beforeQuery)="updateServicesParams($event)"
+  <grid-services [urlParams]="servicesList.urlParams"
                  (editClick)="showForm($event)"
                  (deleteClick)="deleteConfirmation($event)">
+    <div loading>
+      <loading></loading>
+    </div>
+
+    <div no-records>
+      <!-- <no-records>No hay ninguna suscripción</no-records> -->
+      <div>No hay ninguna suscripción</div>
+    </div>
+
+    <div error>
+      <!-- <error>Error</error> -->
+      <div>Error</div>
+    </div>
   </grid-services>
 
   <!-- <div class="panel-footer">

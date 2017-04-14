@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import {URLSearchParams} from '@angular/http';
-import {Subscription, Subject} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 import {Logger} from '../../../shared/services/logger.service';
 
@@ -14,51 +14,40 @@ import {Service} from '../../../shared/models/service.model';
 export class ListComponent {
   private querySub: Subscription;
 
-  listaServicios: {
-    subject: Subject<URLSearchParams>,
-    term: string,
-    params: URLSearchParams,
+  servicesList: {
+    urlParams?: URLSearchParams,
     selected?: Service
   };
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
               private logger: Logger) {
-    this.listaServicios = {
-      subject: new Subject<URLSearchParams>(),
-      params: new URLSearchParams(),
-      term: ''
-    };
+    this.servicesList = {};
   }
 
   ngOnInit() {
     this.querySub = this.route.queryParams
-      .debounceTime(100)
-      .subscribe((urlParams: Params) => {
-        this.logger.info('url params', urlParams);
-
-        let params: URLSearchParams = this.listaServicios.params.clone();
-        params.set('term', '');
-        this.listaServicios.subject.next(params);
+      .subscribe((params: Params) => {
+        let urlParams: URLSearchParams = new URLSearchParams();
+        if(params['term']){
+          urlParams.set('term', params['term']);
+        }
+        this.servicesList.urlParams = urlParams;
       });
   }
 
   ngOnDestroy() {
     this.querySub = null;
-    this.listaServicios = null;
+    this.servicesList = null;
   }
 
-  search(term: string) {
-    let params: URLSearchParams = this.listaServicios.params.clone();
-    params.set('term', term);
-    this.listaServicios.subject.next(params);
-  }
-
-  updateServicesParams(params: URLSearchParams) {
-    this.listaServicios.params = params;
-  }
-
-  isDisabled(term: string) {
-    return term == this.listaServicios.params.get('term');
+  search(params: {[key: string]: string}) {
+    // Actualiza los parametros de la url
+    const extras = {
+      relativeTo: this.route,
+      queryParams: params
+    };
+    this.router.navigate(['.'], extras);
   }
 
   showForm(service: Service) {
