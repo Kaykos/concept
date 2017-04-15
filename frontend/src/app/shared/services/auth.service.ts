@@ -6,10 +6,10 @@ import {User} from '../models/user.model';
 export class AuthService {
   user: User;
 
-  getCurrentUser(){
-    if(!this.user){
+  getCurrentUser() {
+    if (!this.user) {
       let obj: any = window.localStorage.getItem('u');
-      if(!obj){
+      if (!obj) {
         return null;
       }
       this.user = User.getInstance(JSON.parse(obj));
@@ -19,10 +19,10 @@ export class AuthService {
 
   setCurrentUser(user: User){
     this.user = user;
-    window.localStorage.setItem('u', JSON.stringify(user))
+    window.localStorage.setItem('u', JSON.stringify(user));
   }
 
-  clear(){
+  clear() {
     this.user = null;
     window.localStorage.clear();
   }
