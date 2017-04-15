@@ -19,7 +19,7 @@ errors = {
     'error': 1
   },
   'UserNameExists': {
-    'message': u'El usuario no está disponible',
+    'message': u'El user no está disponible',
     'error': 1
   },
   'EmailExists': {
@@ -27,7 +27,7 @@ errors = {
     'error': 1
   },
   'UserDoesNotExist': {
-    'message': u'El nombre de usuario no está registrado',
+    'message': u'El nombre de user no está registrado',
     'error': 1
   },
   'IncorrectPassword': {
@@ -84,7 +84,7 @@ class Users(Resource):
   @marshal_with(user_fields)
   def get(self, user_name=None):
     """
-    Obtener un usuario identificado por user_name, validadndo los datos
+    Obtener un user identificado por user_name, validadndo los datos
     :param user_id:
     :return:
     """
@@ -106,7 +106,7 @@ class Users(Resource):
   @marshal_with(user_fields)
   def post(self):
     """
-    Creación de un usuario
+    Creación de un user
     :return:
     """
 
@@ -117,7 +117,7 @@ class Users(Resource):
       raise IncompleteInformation
 
 
-    #Crear un nuevo usuario
+    #Crear un nuevo user
     user = User(
       name=form.name.data,
       last_name=form.last_name.data,

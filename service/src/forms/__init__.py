@@ -9,7 +9,7 @@ import logging
 
 class UserCreateForm(Form):
   """
-  Formulario para la creación de un usuario
+  Formulario para la creación de un user
   """
   name = StringField(InputRequired())
   last_name = StringField()
@@ -21,7 +21,7 @@ class UserCreateForm(Form):
 
   def validate_last_name(self, field):
     """
-    Verificar la existencia de apellido al crear un usuario cliente
+    Verificar la existencia de apellido al crear un user cliente
     :param field:
     :return:
     """
@@ -31,7 +31,7 @@ class UserCreateForm(Form):
 
   def validate_user_name(self,field):
     """
-    Verificar la existencia del nombre de usuario
+    Verificar la existencia del nombre de user
     :param field:
     :return:
     """
@@ -67,7 +67,7 @@ class UserAuthenticateForm(Form):
 
   def validate_user_name(self, field):
     """
-    Verificar la existencia del usuario
+    Verificar la existencia del user
     :param field:
     :return:
     """

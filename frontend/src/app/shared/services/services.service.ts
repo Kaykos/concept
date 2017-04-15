@@ -27,15 +27,9 @@ export class ServicesService {
   }
 
   private static fromResponse(response: Response): Service[]{
-    let propsMapping: PropsMapping = ServicesService.propsMapping;
-
     let list: Service[] = [];
     for(let data of response.json()){
-      let model = new Service();
-      for(let prop in propsMapping){
-        model[prop] = data[propsMapping[prop]];
-      }
-      list.push(model);
+      list.push(Service.getInstance(data));
     }
     return list;
   }

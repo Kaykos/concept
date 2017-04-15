@@ -37,7 +37,7 @@ class Services(Resource):
     if service_id:
       service = Service.get_by_id(service_id)
       if not service:
-        #raise UsuarioNoExiste(warn=u'No se encontro el usuario "{}"'.format(usuario_id))
+        #raise UsuarioNoExiste(warn=u'No se encontro el user "{}"'.format(usuario_id))
         pass
 
       return service

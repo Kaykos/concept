@@ -48,7 +48,7 @@ class Authentication(Resource):
   @marshal_with(response_fields)
   def post(self, user_name=None):
     """
-    Obtener un usuario identificado por user_name, validadndo los datos
+    Obtener un user identificado por user_name, validadndo los datos
     :param user_id:
     :return:
     """
