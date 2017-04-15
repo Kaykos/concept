@@ -2,17 +2,6 @@
   <div _ngcontent-iou-53="" class="panel-body">
     <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
       <legend _ngcontent-iou-53="">Register</legend>
-      <!--Start With help
-      <fieldset _ngcontent-iou-53="">
-        <div _ngcontent-iou-53="" class="form-group">
-          <label _ngcontent-iou-53="" class="col-sm-2 control-label">With help</label>
-          <div _ngcontent-iou-53="" class="col-sm-10">
-            <input _ngcontent-iou-53="" class="form-control" type="text">
-            <span _ngcontent-iou-53="" class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-          </div>
-        </div>
-      </fieldset>
-      End With help-->
       <fieldset _ngcontent-iou-53="">
         <div _ngcontent-iou-53="" class="form-group">
           <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Name</label>
@@ -67,8 +56,8 @@
           <label _ngcontent-iou-53="" class="col-sm-2 control-label">Register as</label>
           <div _ngcontent-iou-53="" class="col-sm-10">
             <select _ngcontent-iou-53="" class="form-control" name="account" #role>
-              <option _ngcontent-iou-53="">Client</option>
-              <option _ngcontent-iou-53="">Provider</option>
+              <option _ngcontent-iou-53="">client</option>
+              <option _ngcontent-iou-53="">provider</option>
             </select>
           </div>
         </div>
@@ -78,7 +67,7 @@
           <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="register(name.value, lastName.value, email.value, username.value, password.value, role.value)">Register</button>
         </div>
       </div>
+      <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
     </form>
   </div>
 </div>
-{{user.name}}

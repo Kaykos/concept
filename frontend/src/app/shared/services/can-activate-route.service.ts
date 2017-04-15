@@ -11,16 +11,14 @@ export class CanActivateRouteService implements CanActivate{
 
   constructor(private router: Router,
               private authService: AuthService,
-              private logger: Logger){}
+              private logger: Logger) {}
 
-  canActivate(){
+  canActivate() {
     const user: User = this.authService.getCurrentUser();
     this.logger.info('canActivate', user);
-    if(user){
-      this.logger.info('canActivate entro');
+    if (user) {
       return true;
     }
-    this.logger.info('canActivate NO entro');
     this.router.navigate(['/logIn']);
     return false;
   }

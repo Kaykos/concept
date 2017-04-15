@@ -18,7 +18,9 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [RegisterComponent],
+  declarations: [
+    RegisterComponent
+  ],
   providers: [
     RegisterService
   ],

@@ -16,11 +16,7 @@ export const routes = [
         canActivate: [CanActivateRouteService],
         loadChildren: './events/events.module#EventsModule'
       },
-      {
-        path: 'services',
-        canActivate: [CanActivateRouteService],
-        loadChildren: './services/services.module#ServicesModule'
-      }
+      {path: 'services', loadChildren: './services/services.module#ServicesModule'}
     ]
   },
 

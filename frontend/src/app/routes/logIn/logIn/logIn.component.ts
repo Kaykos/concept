@@ -10,9 +10,9 @@ import {Router} from '@angular/router';
     templateUrl: './logIn.component.html',
     styleUrls: ['./logIn.component.scss']
 })
-export class LogInComponent implements OnInit{
-  user: User;
+export class LogInComponent implements OnInit {
 
+  user: User;
   usernameError: boolean;
   passwordError: boolean;
   error: boolean;
@@ -53,7 +53,6 @@ export class LogInComponent implements OnInit{
   }
 
   handleError(error: any) {
-    console.log(error);
     this.error = true;
   }
 }
