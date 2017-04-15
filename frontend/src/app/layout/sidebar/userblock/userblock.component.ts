@@ -13,6 +13,15 @@ export class UserblockComponent implements OnInit {
     user: User;
     constructor(private userblockService: UserblockService, private settingsService: SettingsService) {
         this.user = new User();
+
+        this.user = {
+          id: 0,
+          name: 'Guest',
+          lastName: ' ',
+          email: ' ',
+          username: 'guest',
+          role: 'guest'
+        };
     }
 
     ngOnInit() {

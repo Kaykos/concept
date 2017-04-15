@@ -10,6 +10,8 @@ export class SettingsService implements OnInit{
 
     private user: User;
     private subject: Subject<User> = new Subject<User>();
+    private isLogged: boolean;
+    private subjectLogged: Subject<boolean> = new Subject<boolean>();
     private app: any;
     public layout: any;
 
@@ -27,6 +29,8 @@ export class SettingsService implements OnInit{
             username: 'guest',
             role: 'guest'
         };
+
+        this.isLogged = false;
 
         // App Settings
         // -----------------------------------
@@ -60,7 +64,8 @@ export class SettingsService implements OnInit{
     }
 
     ngOnInit() {
-      this.subject.next(this.user);
+        this.subject.next(this.user);
+        this.subjectLogged.next(this.isLogged);
     }
 
     getAppSetting(name) {
@@ -92,10 +97,17 @@ export class SettingsService implements OnInit{
     getUser(): Observable<User> {
         return this.subject.asObservable();
     }
+    getIsLogged(): Observable<boolean> {
+        return this.subjectLogged.asObservable();
+    }
 
     setUser(user: User): void {
         this.user = user;
-        this.subject.next(user);
+        this.subject.next(this.user);
+    }
+    setIsLogged(isLogged: boolean): void {
+        this.isLogged = isLogged;
+        this.subjectLogged.next(this.isLogged);
     }
 
     toggleLayoutSetting(name) {

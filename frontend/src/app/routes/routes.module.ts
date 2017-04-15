@@ -19,7 +19,6 @@ import {routes} from './routes';
 })
 
 export class RoutesModule{
-
   constructor(private menuService: MenuService){
     menuService.addMenu(menu);
   }
