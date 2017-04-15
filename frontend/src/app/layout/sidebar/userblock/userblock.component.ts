@@ -12,6 +12,7 @@ import { User } from 'app/shared/models/user.model';
 })
 export class UserblockComponent implements OnInit {
     private user: User;
+
     constructor(private userblockService: UserblockService, private authService: AuthService) {
         this.user = new User();
 
@@ -25,15 +26,23 @@ export class UserblockComponent implements OnInit {
         };
     }
 
+    /*
+      Suscribe to subject
+
+     */
     ngOnInit() {
         this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
-
     }
 
     userBlockIsVisible() {
         return this.userblockService.getVisibility();
     }
 
+    /*
+      Update user information
+      If there is no user logged, set guest information
+
+     */
     updateUser(user: User) {
       this.user = user;
       if (this.user == null) {

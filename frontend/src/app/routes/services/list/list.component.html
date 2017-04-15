@@ -1,14 +1,18 @@
 <div class="content-heading">
-  Servicios
-  <small>A showcase of different components inside tables</small>
+  Services
 </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <filters-services [term]="servicesList.urlParams.get('term')"
-                      (searchClick)="search($event)">
-    </filters-services>
+<form *ngIf="user !== null && user.role === 'provider'" _ngcontent-nxj-53="" class="form-horizontal ng-untouched ng-pristine ng-valid">
+  <div _ngcontent-nxj-53="" class="col-lg-offset-2 col-lg-10">
+    <div _ngcontent-nxj-53="" class="checkbox c-checkbox">
+      <label _ngcontent-nxj-53="">
+        <input _ngcontent-nxj-53="" checked="false" type="checkbox" #myServices>
+        <span _ngcontent-nxj-53="" class="fa fa-check"></span>Show my services</label>
+    </div>
   </div>
+</form>
+
+<div class="panel panel-default">
 
   <grid-services [urlParams]="servicesList.urlParams"
                  (editClick)="showForm($event)"
@@ -16,15 +20,14 @@
     <div loading>
       <loading></loading>
     </div>
-
     <div no-records>
-      <!-- <no-records>No hay ninguna suscripción</no-records> -->
-      <div>No hay ninguna suscripción</div>
+      <!-- <no-records>There is no record</no-records> -->
+      <div>No services</div>
     </div>
-
     <div error>
       <!-- <error>Error</error> -->
       <div>Error</div>
     </div>
   </grid-services>
+
 </div>
