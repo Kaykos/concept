@@ -10,6 +10,10 @@ export const routes = [
       {path: '', redirectTo: 'logIn', pathMatch: 'full'},
       {path: 'logIn', loadChildren: './logIn/logIn.module#LogInModule'},
       {path: 'register', loadChildren: './register/register.module#RegisterModule'},
+      /*
+        Check if user is logged in
+
+       */
       {path: 'logOut', loadChildren: './logOut/logOut.module#LogOutModule'},
       {
         path: 'events',

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {LogInService} from '../../../shared/services/logIn.service';
+import {Router} from '@angular/router';
 
 import {User} from '../../../shared/models/user.model';
-import {SettingsService} from '../../../core/settings/settings.service';
-import {Router} from '@angular/router';
+
+import {AuthService} from '../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-logIn',
@@ -12,20 +13,28 @@ import {Router} from '@angular/router';
 })
 export class LogInComponent implements OnInit {
 
-  user: User;
-  usernameError: boolean;
-  passwordError: boolean;
-  error: boolean;
+  private user: User;
+  private usernameError: boolean;
+  private passwordError: boolean;
+  private error: boolean;
+  private errorMessage: string;
 
-  constructor(private router: Router, private logInService: LogInService, private settingsService: SettingsService) {
+  constructor(private logInService: LogInService, private authService: AuthService, private router: Router) {
     this.user = new User();
     this.usernameError = false;
     this.passwordError = false;
     this.error = false;
+    this.errorMessage = '';
   }
 
   ngOnInit() {}
 
+  /*
+    Request if user has an account
+    Validates if the username and password isn't empty
+    Validates if username and password are registered
+
+   */
   logIn(username: string, password: string) {
     this.usernameError = false;
     this.passwordError = false;
@@ -45,14 +54,22 @@ export class LogInComponent implements OnInit {
         error => this.handleError(error));
   }
 
+  /*
+    Update user session and redirects to events page
+
+   */
   updateUser(user: User) {
     this.user = user;
-    this.settingsService.setUser(this.user);
-    this.settingsService.setIsLogged(true);
+    this.authService.setCurrentUser(this.user);
     this.router.navigate(['/events']);
   }
 
+  /*
+    Show error message in page
+
+   */
   handleError(error: any) {
     this.error = true;
+    this.errorMessage = error.json().message;
   }
 }

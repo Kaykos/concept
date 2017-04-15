@@ -110,7 +110,6 @@ import {LoadingComponent} from './components/loading/loading.component';
 
 // https://github.com/ocombe/ng2-translate/issues/209
 export class SharedModule{
-
   static forRoot(): ModuleWithProviders{
     return {
       ngModule: SharedModule

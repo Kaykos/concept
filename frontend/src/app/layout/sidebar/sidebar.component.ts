@@ -4,6 +4,8 @@ declare var $: any;
 
 import { MenuService } from '../../core/menu/menu.service';
 import { SettingsService } from '../../core/settings/settings.service';
+import { User } from '../../shared/models/user.model';
+import { AuthService } from 'app/shared/services/auth.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -14,12 +16,12 @@ export class SidebarComponent implements OnInit {
 
     menuItems: Array<any>;
     router: Router;
-    isLogged: boolean;
+    private user: User;
 
-    constructor(private menu: MenuService, public settings: SettingsService, private injector: Injector) {
+    constructor(private menu: MenuService, public settings: SettingsService, private injector: Injector, private authService: AuthService) {
 
         this.menuItems = menu.getMenu();
-        this.isLogged = false;
+        this.user = null;
 
     }
 
@@ -34,7 +36,7 @@ export class SidebarComponent implements OnInit {
             window.scrollTo(0, 0);
         });
 
-        this.settings.getIsLogged().subscribe((isLogged: boolean) => { this.isLogged = isLogged; } );
+        this.authService.getUserSubject().subscribe((user: User) => { this.user = user; } );
 
     }
 
@@ -42,7 +44,7 @@ export class SidebarComponent implements OnInit {
         if (!this.isSidebarCollapsed() && !this.isSidebarCollapsedText() && !this.isEnabledHover()) {
             event.preventDefault();
 
-            let target = $(event.target || event.srcElement || event.currentTarget);
+            const target = $(event.target || event.srcElement || event.currentTarget);
             let ul, anchor = target;
 
             // find the UL
@@ -52,9 +54,9 @@ export class SidebarComponent implements OnInit {
             ul = anchor.next();
 
             // hide other submenus
-            let parentNav = ul.parents('.sidebar-subnav');
+            const parentNav = ul.parents('.sidebar-subnav');
             $('.sidebar-subnav').each((idx, el) => {
-                let $el = $(el);
+                const $el = $(el);
                 // if element is not a parent or self ul
                 if (!$el.is(parentNav) && !$el.is(ul)) {
                     this.closeMenu($el);
@@ -96,13 +98,13 @@ export class SidebarComponent implements OnInit {
     }
 
     toggleSubmenuHover(event) {
-        let self = this;
+        const self = this;
         if (this.isSidebarCollapsed() || this.isSidebarCollapsedText() || this.isEnabledHover()) {
             event.preventDefault();
 
             this.removeFloatingNav();
 
-            let target = $(event.target || event.srcElement || event.currentTarget);
+            const target = $(event.target || event.srcElement || event.currentTarget);
             let ul, anchor = target;
             // find the UL
             if (!target.is('a')) {
@@ -114,14 +116,14 @@ export class SidebarComponent implements OnInit {
                 return; // if not submenu return
             }
 
-            let $aside = $('.aside');
-            let $asideInner = $aside.children('.aside-inner'); // for top offset calculation
-            let $sidebar = $asideInner.children('.sidebar');
-            let mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
-            let itemTop = ((anchor.parent().position().top) + mar) - $sidebar.scrollTop();
+            const $aside = $('.aside');
+            const $asideInner = $aside.children('.aside-inner'); // for top offset calculation
+            const $sidebar = $asideInner.children('.sidebar');
+            const mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
+            const itemTop = ((anchor.parent().position().top) + mar) - $sidebar.scrollTop();
 
-            let floatingNav = ul.clone().appendTo($aside);
-            let vwHeight = $(window).height();
+            const floatingNav = ul.clone().appendTo($aside);
+            const vwHeight = $(window).height();
 
             // let itemTop = anchor.position().top || anchor.offset().top;
 
@@ -149,7 +151,7 @@ export class SidebarComponent implements OnInit {
     }
 
     listenForExternalClicks() {
-        let $doc = $(document).on('click.sidebar', (e) => {
+        const $doc = $(document).on('click.sidebar', (e) => {
             if (!$(e.target).parents('.aside').length) {
                 this.removeFloatingNav();
                 $doc.off('click.sidebar');
@@ -171,16 +173,23 @@ export class SidebarComponent implements OnInit {
         return this.settings.layout.asideHover;
     }
 
+    /*
+      Checks if the user has a current session
+        - If it's false: Do not show Log In and Register menu items
+        - If it's true: Do not show Log Out menu item
+
+     */
     validateUser(text: string): boolean {
       switch (text) {
         case 'Log In':
-          return this.isLogged ? false : true;
+          return this.user == null ? true : false;
         case 'Register':
-          return this.isLogged ? false : true;
+          return this.user == null ? true : false;
         case 'Log Out':
-          return this.isLogged ? true : false;
+          return this.user == null ? false : true;
         default:
           return true;
       }
     }
+
 }

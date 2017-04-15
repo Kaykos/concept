@@ -6,8 +6,6 @@ import {SharedModule} from '../../shared/shared.module';
 
 import {EventsComponent} from './events/events.component';
 
-import { AgmCoreModule } from "angular2-google-maps/core";
-
 const routes: Routes = [
   {path: '', component: EventsComponent},
 ];
@@ -17,7 +15,6 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    AgmCoreModule.forRoot()
   ],
   declarations: [EventsComponent],
   exports: [

@@ -15,22 +15,5 @@
         </a>
     </div>
     <!-- END navbar header-->
-    <!-- START Nav wrapper-->
-    <div class="collapse navbar-collapse" [collapse]="navCollapsed">
-        <!-- START Right Navbar-->
-        <ul class="nav navbar-nav navbar-right">
-            <!-- Search icon-->
-            <li>
-                <a (click)="openNavSearch($event)">
-                    <em class="icon-magnifier"></em>
-                </a>
-            </li>
-        </ul>
-        <!-- END Right Navbar-->
-    </div>
-    <!-- END Nav wrapper-->
-
-    <app-navsearch [visible]="getNavSearchVisible()" (onclose)="setNavSearchVisible(false)"></app-navsearch>
-
 </nav>
 <!-- END Top Navbar-->

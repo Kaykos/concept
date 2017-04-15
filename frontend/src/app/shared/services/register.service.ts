@@ -9,6 +9,10 @@ import {User} from '../models/user.model';
 
 @Injectable()
 export class RegisterService {
+  /*
+   Mapping with server json fields
+
+   */
   static propsMapping: PropsMapping = {
     id: 'id',
     name: 'name',
@@ -20,6 +24,10 @@ export class RegisterService {
 
   constructor(private http: Http) {}
 
+  /*
+   Post service to register user
+
+   */
   register(body: Object): Observable<User> {
     const bodyString = JSON.stringify(body);
     const options = new RequestOptions({
@@ -29,6 +37,10 @@ export class RegisterService {
       .map((response: Response) => RegisterService.fromResponse(response));
   }
 
+  /*
+   Handle response by mapping data
+
+   */
   private static fromResponse(response: Response): User {
     const propsMapping: PropsMapping = RegisterService.propsMapping;
     const user = new User();

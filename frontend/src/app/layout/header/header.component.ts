@@ -12,11 +12,9 @@ import { MenuService } from '../../core/menu/menu.service';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
     navCollapsed = true; // for horizontal layout
     menuItems = []; // for horizontal layout
 
-    isNavSearchVisible: boolean;
     @ViewChild('fsbutton') fsbutton;  // the fullscreen button
 
     constructor(private menu: MenuService, private userblockService: UserblockService, private settings: SettingsService) {
@@ -27,24 +25,8 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isNavSearchVisible = false;
         if (browser.msie) { // Not supported under IE
             this.fsbutton.nativeElement.style.display = 'none';
         }
-    }
-
-    openNavSearch(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        this.setNavSearchVisible(true);
-    }
-
-    setNavSearchVisible(stat: boolean) {
-        // console.log(stat);
-        this.isNavSearchVisible = stat;
-    }
-
-    getNavSearchVisible() {
-        return this.isNavSearchVisible;
     }
 }

@@ -17,11 +17,11 @@ export class User {
   username: string;
   role: string;
 
-  static getInstance(data: {[prop: string]: any}): User{
-    let model = new User();
-    for(let prop in propsMapping){
-      model[prop] = data[propsMapping[prop]];
+  static getInstance(data: {[prop: string]: any}): User {
+    const user = new User();
+    for (const prop in propsMapping){
+      user[prop] = data[propsMapping[prop]];
     }
-    return model;
+    return user;
   }
 }

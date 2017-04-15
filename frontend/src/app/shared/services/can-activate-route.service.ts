@@ -8,14 +8,11 @@ import {User} from '../models/user.model';
 
 @Injectable()
 export class CanActivateRouteService implements CanActivate{
-
   constructor(private router: Router,
-              private authService: AuthService,
-              private logger: Logger) {}
+              private authService: AuthService) {}
 
   canActivate() {
     const user: User = this.authService.getCurrentUser();
-    this.logger.info('canActivate', user);
     if (user) {
       return true;
     }
