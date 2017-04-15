@@ -1,5 +1,7 @@
 import {LayoutComponent} from '../layout/layout.component';
 
+import {CanActivateRouteService} from '../shared/services/can-activate-route.service';
+
 export const routes = [
   {
     path: '',
@@ -9,8 +11,16 @@ export const routes = [
       {path: 'logIn', loadChildren: './logIn/logIn.module#LogInModule'},
       {path: 'register', loadChildren: './register/register.module#RegisterModule'},
       {path: 'logOut', loadChildren: './logOut/logOut.module#LogOutModule'},
-      {path: 'events', loadChildren: './events/events.module#EventsModule'},
-      {path: 'services', loadChildren: './services/services.module#ServicesModule'}
+      {
+        path: 'events',
+        canActivate: [CanActivateRouteService],
+        loadChildren: './events/events.module#EventsModule'
+      },
+      {
+        path: 'services',
+        canActivate: [CanActivateRouteService],
+        loadChildren: './services/services.module#ServicesModule'
+      }
     ]
   },
 
