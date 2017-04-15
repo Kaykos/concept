@@ -19,16 +19,6 @@ class UserCreateForm(Form):
   password = PasswordField([InputRequired()])
   role = StringField([InputRequired()])
 
-  def validate_last_name(self, field):
-    """
-    Verificar la existencia de apellido al crear un user cliente
-    :param field:
-    :return:
-    """
-    from resources.users import LastNameRequired
-    if self.role.data == 'client' and field.data == None:
-      raise LastNameRequired()
-
   def validate_user_name(self,field):
     """
     Verificar la existencia del nombre de user
@@ -88,7 +78,7 @@ class UserAuthenticateForm(Form):
     :param field:
     :return:
     """
-    from resources.users import IncorrectPassword
+    from resources.auth import IncorrectPassword
 
     if not field.data == self.user.password:
       raise IncorrectPassword

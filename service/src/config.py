@@ -26,11 +26,12 @@ class Config(object):
 
   DOMAIN = 'events-concept.appspot.com'
 
-  DB_USER = 'root'
-  DB_PASSWORD = 'root-password'
-  DB_DATABASE = 'concept-db'
-  DB_INSTANCE = 'events-concept:us-central1:concept-db'
-  DB_PROJECT_ID = 'events-concept'
+  PROJECT_ID = 'events-concept'
+  DATA_BACKEND = 'cloudsql'
+  CLOUDSQL_USER = 'root'
+  CLOUDSQL_PASSWORD = 'root-password'
+  CLOUDSQL_DATABASE = 'concept-db'
+  CLOUDSQL_CONNECTION_NAME = 'events-concept:us-central1:concept-db'
 
 
 class DevelopmentConfig(Config):
@@ -41,7 +42,4 @@ class DevelopmentConfig(Config):
 
   DOMAIN = 'localhost:8080'
 
-  DB_HOST = '104.197.194.145'
-  DB_USER = 'root'
-  DB_PASSWORD = 'root-password'
-  DB_DATABASE = 'concept-db'
+  DB_HOST = '104.197.194.145:3306'

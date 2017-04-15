@@ -9,12 +9,10 @@ from resources import APIError
 
 errors = {
   'IncompleteInformation': {
-    'message': u'La información ingresada no es completa',
-    'error': 1
+    'message': u'Incomplete information',
   },
   'IncorrectPassword': {
-    'message': u'La contraseña ingresada no es correcta',
-    'error': 1
+    'message': u'Incorrect password',
   }
 }
 

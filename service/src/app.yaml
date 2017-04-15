@@ -1,8 +1,12 @@
 #application: events-concept
 #version: master
+
 runtime: python27
 api_version: 1
 threadsafe: true
+resources:
+  cpu: 2
+  memory_gb: 2
 
 libraries:
 - name: MySQLdb

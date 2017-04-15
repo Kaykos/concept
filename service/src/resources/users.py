@@ -11,37 +11,21 @@ from resources import APIError
 
 errors = {
   'IncompleteInformation': {
-    'message': u'La información ingresada no es completa',
-    'error': 1
-  },
-  'LastNameRequired': {
-    'message': u'Es necesario ingresar un apellido',
-    'error': 1
+    'message': u'Incomplete information',
   },
   'UserNameExists': {
-    'message': u'El user no está disponible',
-    'error': 1
+    'message': u'Username not available',
   },
   'EmailExists': {
-    'message': u'El correo electrónico ya está registrado',
-    'error': 1
+    'message': u'Email is already registered',
   },
   'UserDoesNotExist': {
-    'message': u'El nombre de user no está registrado',
-    'error': 1
-  },
-  'IncorrectPassword': {
-    'message': u'La contraseña ingresada no es correcta',
-    'error': 1
+    'message': u'Username does not exist',
   }
 }
 
 #Excepciones
 class IncompleteInformation(APIError):
-  def __init__(self, *args, **kwargs):
-    super(self.__class__, self).__init__(*args, **kwargs)
-
-class LastNameRequired(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
@@ -56,10 +40,6 @@ class EmailExists(APIError):
 class UserDoesNotExist(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__,self).__init__(*args, **kwargs)
-
-class IncorrectPassword(APIError):
-  def __init__(self, *args, **kwargs):
-    super(self.__class__, self).__init__(*args, **kwargs)
 
 
 #Creación del blueprint
