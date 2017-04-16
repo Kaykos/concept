@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {URLSearchParams} from '@angular/http';
 import {Subscription} from 'rxjs';
@@ -14,7 +14,7 @@ import {User} from '../../../shared/models/user.model';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent {
+export class ListComponent implements OnInit, OnDestroy {
   private user: User;
   private querySub: Subscription;
 
@@ -23,16 +23,22 @@ export class ListComponent {
     selected?: Service
   };
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private logger: Logger,
+  constructor(private route: ActivatedRoute,
               private authService: AuthService) {
     this.servicesList = {};
-    this.user = null;
+    this.user = new User();
+    this.user = {
+      id: 0,
+      name: 'Guest',
+      lastName: ' ',
+      email: ' ',
+      username: 'guest',
+      role: 'guest'
+    };
   }
 
   ngOnInit() {
-    this.authService.getUserSubject().subscribe((user: User) => { this.user = user; } );
+    this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
     this.querySub = this.route.queryParams
       .subscribe((params: Params) => {
         let urlParams: URLSearchParams = new URLSearchParams();
@@ -48,20 +54,22 @@ export class ListComponent {
     this.servicesList = null;
   }
 
-  search(params: {[key: string]: string}) {
-    // Actualiza los parametros de la url
-    const extras = {
-      relativeTo: this.route,
-      queryParams: params
-    };
-    this.router.navigate(['.'], extras);
-  }
+  /*
+   Update user information
+   If there is no user logged, set guest information
 
-  showForm(service: Service) {
-    this.logger.info('showForm', service);
-  }
-
-  deleteConfirmation(service: Service) {
-    this.logger.info('deleteConfirmation', service);
+   */
+  updateUser(user: User) {
+    this.user = user;
+    if (this.user == null) {
+      this.user = {
+        id: 0,
+        name: 'Guest',
+        lastName: ' ',
+        email: ' ',
+        username: 'guest',
+        role: 'guest'
+      };
+    }
   }
 }

@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 export class AuthService {
   private user: User;
   private userSubject: Subject<User> = new Subject<User>();
+  private userTestSubject: Subject<User> = new Subject<User>();
 
   /*
     Checks if user information is stored in local storage

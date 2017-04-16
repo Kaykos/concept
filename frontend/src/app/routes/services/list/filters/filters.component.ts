@@ -25,15 +25,15 @@ export class FiltersServicesComponent implements OnInit, OnDestroy{
     this.model = null;
   }
 
-  isDisabled(){
-    let modelTerm: string = this.model['term'] ? this.model['term'] : '';
-    let term: string = this.term ? this.term : '';
-    return modelTerm == term;
+  isDisabled() {
+    const modelTerm: string = this.model['term'] ? this.model['term'] : '';
+    const term: string = this.term ? this.term : '';
+    return modelTerm === term;
   }
 
   search(){
     // Filtra los parametros diferentes a falsy
-    let filteredModel: {[key: string]: string} = _.pickBy(this.model, (value) => {
+    const filteredModel: {[key: string]: string} = _.pickBy(this.model, (value) => {
       return !!value;
     });
     this.searchClick.emit(filteredModel);

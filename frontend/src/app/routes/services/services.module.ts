@@ -5,10 +5,10 @@ import {Ng2TableModule} from 'ng2-table/ng2-table';
 import {SharedModule} from '../../shared/shared.module';
 
 import {ListComponent} from './list/list.component';
-import {FiltersServicesComponent} from './list/filters/filters.component';
 import {GridServicesComponent} from './list/grid-services/grid-services.component';
 
 import {ServicesService} from '../../shared/services/services.service';
+import {AuthService} from 'app/shared/services/auth.service';
 
 const routes: Routes = [
   {path: '', component: ListComponent}
@@ -16,18 +16,18 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    SharedModule,
+    SharedModule.forRoot(),
     RouterModule.forChild(routes),
     DataTableModule,
     Ng2TableModule
   ],
   declarations: [
     ListComponent,
-    FiltersServicesComponent,
     GridServicesComponent
   ],
   providers: [
-    ServicesService
+    ServicesService,
+    AuthService
   ],
   exports: [
     RouterModule
