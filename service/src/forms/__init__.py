@@ -51,24 +51,33 @@ class UserCreateForm(Form):
 
 class UserAuthenticateForm(Form):
 
-  user_name = StringField()
+  user_id = StringField()
   password = PasswordField(InputRequired())
+  id_is_email = False
   user = None
 
-  def validate_user_name(self, field):
+  def validate_user_id(self, field):
     """
-    Verificar la existencia del user
+    Verificar la existencia del usuario
     :param field:
     :return:
     """
     from models import User
-    from resources.users import UserDoesNotExist
+    from resources.auth import UserDoesNotExist, EmailDoesNotExist
 
     session = DbManager.get_database_session()
-    user = session.query(User).filter_by(user_name=field.data).first()
+
+    if self.id_is_email:
+      user = session.query(User).filter_by(email=field.data).first()
+    else:
+      user = session.query(User).filter_by(user_name=field.data).first()
     session.close()
+
     if not user:
-      raise UserDoesNotExist
+      if self.id_is_email:
+        raise EmailDoesNotExist
+      else:
+        raise UserDoesNotExist
     else:
       self.user = user
 

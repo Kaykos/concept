@@ -21,8 +21,11 @@ api = Api(services_bp, errors=errors, catch_all_404s=True)
 #Campos para retornar
 service_fields = {
   'id': fields.Integer,
-  'description': fields.String,
+  'provider_id': fields.Integer,
   'cost': fields.Integer,
+  'description': fields.String,
+  'type': fields.String,
+  'name': fields.String
 }
 
 
@@ -31,20 +34,11 @@ test_services = [{'id':1, 'description':'El primer servicio de prueba', 'cost': 
 
 #Servicios de servicios
 class Services(Resource):
-
+  """
+  Servicios de servicios
+  """
   @marshal_with(service_fields)
-  def get(self, service_id=None):
-    if service_id:
-      service = Service.get_by_id(service_id)
-      if not service:
-        #raise UsuarioNoExiste(warn=u'No se encontro el user "{}"'.format(usuario_id))
-        pass
-
-      return service
-
-    #term = request.args.get('term')
-    # if term: term
-    # services = Service.query().fetch()
+  def get(self, user_id=None):
     return test_services
 
   def post(self):
@@ -56,4 +50,4 @@ class Services(Resource):
   def delete(self, usuario_id):
     logging.info('Usuarios delete: {}'.format(usuario_id))
 
-api.add_resource(Services, '/api/services', '/api/services/<int:service_id>')
+api.add_resource(Services, '/api/services', '/api/services/<int:user_id>')

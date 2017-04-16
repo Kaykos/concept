@@ -11,16 +11,13 @@ from resources import APIError
 
 errors = {
   'IncompleteInformation': {
-    'message': u'Incomplete information',
+    'message': u'Incomplete information'
   },
   'UserNameExists': {
-    'message': u'Username not available',
+    'message': u'Username not available'
   },
   'EmailExists': {
-    'message': u'Email is already registered',
-  },
-  'UserDoesNotExist': {
-    'message': u'Username does not exist',
+    'message': u'Email is already registered'
   }
 }
 
@@ -36,11 +33,6 @@ class UserNameExists(APIError):
 class EmailExists(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
-
-class UserDoesNotExist(APIError):
-  def __init__(self, *args, **kwargs):
-    super(self.__class__,self).__init__(*args, **kwargs)
-
 
 #Creación del blueprint
 users_bp = Blueprint('users_api', __name__)

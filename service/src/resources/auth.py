@@ -6,6 +6,7 @@ from forms import UserAuthenticateForm
 from flask import Blueprint, jsonify, request
 from flask_restful import Api, Resource, fields, marshal_with
 from resources import APIError
+from utilities import Utilities
 
 errors = {
   'IncompleteInformation': {
@@ -13,6 +14,12 @@ errors = {
   },
   'IncorrectPassword': {
     'message': u'Incorrect password',
+  },
+  'UserDoesNotExist': {
+    'message': u'User does not exist',
+  },
+  'EmailDoesNotExist': {
+    'message': u'Email is not registered'
   }
 }
 
@@ -21,6 +28,14 @@ class IncompleteInformation(APIError):
     super(self.__class__, self).__init__(*args, **kwargs)
 
 class IncorrectPassword(APIError):
+  def __init__(self, *args, **kwargs):
+    super(self.__class__, self).__init__(*args, **kwargs)
+
+class UserDoesNotExist(APIError):
+  def __init__(self, *args, **kwargs):
+    super(self.__class__, self).__init__(*args, **kwargs)
+
+class EmailDoesNotExist(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
@@ -44,7 +59,7 @@ class Authentication(Resource):
   """
 
   @marshal_with(response_fields)
-  def post(self, user_name=None):
+  def post(self, user_id=None):
     """
     Obtener un user identificado por user_name, validadndo los datos
     :param user_id:
@@ -52,17 +67,23 @@ class Authentication(Resource):
     """
 
     # Validar los campos de la solicitud
-    if user_name:
+    if user_id:
       wtforms_json.init()
       form = UserAuthenticateForm.from_json(request.json)
-      form.user_name.data = user_name
+      form.user_id.data = user_id
+      form.id_is_email = Utilities.is_email(user_id)
+
       if not form.validate():
         raise IncompleteInformation
 
       session = DbManager.get_database_session()
-      user = session.query(User).filter_by(user_name=user_name).first()
+
+      if form.id_is_email:
+        user = session.query(User).filter_by(email=user_id).first()
+      else:
+        user = session.query(User).filter_by(user_name=user_id).first()
       session.close()
 
       return user
 
-api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_name>')
+api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_id>')
