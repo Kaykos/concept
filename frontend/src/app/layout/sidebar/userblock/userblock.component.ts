@@ -32,7 +32,7 @@ export class UserblockComponent implements OnInit, OnDestroy {
 
      */
     ngOnInit() {
-        this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
+        this.subscription = this.authService.getUserSubject().subscribe(user => this.updateUser(user));
     }
 
     /*

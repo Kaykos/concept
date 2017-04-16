@@ -9,6 +9,8 @@ import {CoreModule} from './core/core.module';
 import {LayoutModule} from './layout/layout.module';
 import {SharedModule} from './shared/shared.module';
 import {RoutesModule} from './routes/routes.module';
+import {CanActivateRouteService} from './shared/services/can-activate-route.service';
+import {AuthService} from './shared/services/auth.service';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: Http) {
@@ -29,9 +31,12 @@ export function createTranslateLoader(http: Http) {
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
       deps: [Http]
-    }),
+    })
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    CanActivateRouteService
+  ],
   bootstrap: [
     AppComponent
   ]

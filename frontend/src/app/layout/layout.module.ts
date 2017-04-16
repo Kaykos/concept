@@ -7,9 +7,17 @@ import { UserblockComponent } from './sidebar/userblock/userblock.component';
 import { UserblockService } from './sidebar/userblock/userblock.service';
 import { FooterComponent } from './footer/footer.component';
 
+import {SharedModule} from '../shared/shared.module';
+
+import {AuthService} from '../shared/services/auth.service';
+
 @NgModule({
+    imports: [
+        SharedModule
+    ],
     providers: [
-        UserblockService,
+        AuthService,
+        UserblockService
     ],
     declarations: [
         LayoutComponent,

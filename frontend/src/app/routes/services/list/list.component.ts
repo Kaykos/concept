@@ -14,7 +14,6 @@ import {User} from '../../../shared/models/user.model';
 })
 export class ListComponent implements OnInit, OnDestroy {
   private user: User;
-  private subscription: any;
   private querySub: Subscription;
 
   servicesList: {
@@ -26,14 +25,6 @@ export class ListComponent implements OnInit, OnDestroy {
               private authService: AuthService) {
     this.servicesList = {};
     this.user = new User();
-    this.user = {
-      id: 0,
-      name: 'Guest',
-      lastName: ' ',
-      email: ' ',
-      username: 'guest',
-      role: 'guest'
-    };
   }
 
   ngOnInit() {
@@ -45,31 +36,21 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.servicesList.urlParams = urlParams;
       });
-      this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
+      this.user = this.authService.getCurrentUser();
+      if (this.user == null) {
+        this.user = {
+          id: 0,
+          name: 'Guest',
+          lastName: ' ',
+          email: ' ',
+          username: 'guest',
+          role: 'guest'
+        };
+      }
   }
 
   ngOnDestroy() {
     this.querySub = null;
     this.servicesList = null;
-    this.subscription.unsubscribe();
-  }
-
-  /*
-   Update user information
-   If there is no user logged, set guest information
-
-   */
-  updateUser(user: User) {
-    this.user = user;
-    if (this.user == null) {
-      this.user = {
-        id: 0,
-        name: 'Guest',
-        lastName: ' ',
-        email: ' ',
-        username: 'guest',
-        role: 'guest'
-      };
-    }
   }
 }

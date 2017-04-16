@@ -40,7 +40,7 @@ import { RegisterService } from './services/register.service';
 import { UsersService } from 'app/shared/services/users.service';
 import { ServicesService } from './services/services.service';
 import { LogInService } from './services/logIn.service';
-import {Logger} from './services/logger.service';
+import { Logger } from './services/logger.service';
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
@@ -69,7 +69,6 @@ import {Logger} from './services/logger.service';
   ],
   providers: [
     ColorsService,
-    AuthService,
     CanActivateRouteService,
     Logger,
     LogInService,
