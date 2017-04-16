@@ -5,12 +5,18 @@ from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
 
 class DbManager:
-
+  """
+  Clase encargada de establecer la conexión con la base de datos
+  """
   connection_string = None
   engine = None
 
   @staticmethod
   def set_connection_string():
+    """
+    Establecer la cadena de conexión dependiendo del entorno
+    :return: 
+    """
     if DbManager.connection_string == None:
       if current_app.config.get('DEBUG'):
         # Desarrollo
@@ -31,13 +37,15 @@ class DbManager:
 
   @staticmethod
   def get_database_session():
+    """
+    Obtener una sesión de la base de datos
+    :return: 
+    """
     if DbManager.connection_string == None:
       DbManager.set_connection_string()
     if DbManager.engine == None:
-      #DbManager.engine = create_engine('mysql+mysqldb://root:root-password@/concept-db?unix_socket=/cloudsql/events-concept:us-central1:concept-db')
       DbManager.engine = create_engine(DbManager.connection_string)
 
-    #engine = create_engine(connection_string, echo=current_app.config.get('DEBUG'))
     Session = sessionmaker(bind=DbManager.engine, expire_on_commit=False)
     session = Session()
     session.execute(text('SET NAMES utf8'))

@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
+import json
+
 class Utilities():
+  """
+  Clase con métodos de utilidades
+  """
 
   @staticmethod
   def is_email(user_id):

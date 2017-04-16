@@ -68,15 +68,18 @@ class Authentication(Resource):
 
     # Validar los campos de la solicitud
     if user_id:
-      wtforms_json.init()
-      form = UserAuthenticateForm.from_json(request.json)
-      form.user_id.data = user_id
-      form.id_is_email = Utilities.is_email(user_id)
-
-      if not form.validate():
-        raise IncompleteInformation
 
       session = DbManager.get_database_session()
+
+      wtforms_json.init()
+      form = UserAuthenticateForm.from_json(request.json)
+      form.id.data = user_id
+      form.id_is_email = Utilities.is_email(user_id)
+      form.session = session
+
+      if not form.validate():
+        session.close()
+        raise IncompleteInformation
 
       if form.id_is_email:
         user = session.query(User).filter_by(email=user_id).first()

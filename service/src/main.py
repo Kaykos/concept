@@ -14,7 +14,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Cargar la correspondiente configuracion dependiendo del entorno donde se este
-# ejecutando la app
+# ejecutando la aplicación
 gae_development = os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/')
 config_class = 'Config' if gae_development else 'DevelopmentConfig'
 app.config.from_object('config.{}'.format(config_class))

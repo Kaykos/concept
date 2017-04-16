@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
 
 import wtforms_json
 from flask import Blueprint, request
 from flask_restful import Api, Resource, fields, marshal_with
 
 from db_manager import DbManager
-from forms import UserCreateForm
+from forms import UserCreateForm, UserDeleteForm, UserUpdateForm
 from models import User
 from resources import APIError
 
@@ -20,6 +19,9 @@ errors = {
   },
   'EmailExists': {
     'message': u'Email is already registered'
+  },
+  'UserDoesNotExist': {
+    'message': u'User does not exist',
   }
 }
 
@@ -36,6 +38,11 @@ class UserNameExists(APIError):
 
 
 class EmailExists(APIError):
+  def __init__(self, *args, **kwargs):
+    super(self.__class__, self).__init__(*args, **kwargs)
+
+
+class UserDoesNotExist(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
@@ -61,7 +68,7 @@ class Users(Resource):
   """
 
   @marshal_with(user_fields)
-  def get(self, user_name=None):
+  def get(self, user_id=None):
     """
     Obtener un user identificado por user_name, validadndo los datos
     :param user_id:
@@ -69,15 +76,9 @@ class Users(Resource):
     """
 
     # Validar los campos de la solicitud
-    if user_name:
-      wtforms_json.init()
-      form = UserCreateForm.from_json(request.json)
-      form.user_name = user_name
-      if not form.validate():
-        raise IncompleteInformation
-
+    if user_id:
       session = DbManager.get_database_session()
-      user = session.query(User).filter_by(user_name=user_name).first()
+      user = session.query(User).filter_by(id=user_id).first()
       session.close()
 
       return user
@@ -96,10 +97,15 @@ class Users(Resource):
     :return:
     """
 
+    session = DbManager.get_database_session()
+
     # Validar los campos de la solicitud
     wtforms_json.init()
     form = UserCreateForm.from_json(request.json)
+    form.session = session
+
     if not form.validate():
+      session.close()
       raise IncompleteInformation
 
     # Crear un nuevo user
@@ -110,22 +116,58 @@ class Users(Resource):
       email=form.email.data,
       password=form.password.data,
       role=form.role.data,
-      registered_at=datetime.datetime.now(),
+      registered_at=datetime.datetime.now()
     )
 
     # Actualizar en la base de datos
-    session = DbManager.get_database_session()
+
     session.add(user)
     session.commit()
     session.close()
 
     return user
 
-  def put(self, usuario_id):
-    logging.info('Usuarios put: {}'.format(usuario_id))
+  @marshal_with(user_fields)
+  def put(self, user_id):
+    """
+    Actualizar la información de un usuario
+    :param usuario_id: 
+    :return: 
+    """
+    wtforms_json.init()
+    form = UserUpdateForm.from_json(request.json)
+    form.id.data = user_id
+    if not form.validate():
+      raise IncompleteInformation
 
-  def delete(self, usuario_id):
-    logging.info('Usuarios delete: {}'.format(usuario_id))
+    session = DbManager.get_database_session()
+    user = session.query(User).filter_by(id=user_id).first()
+
+    user.update(request.json)
+    session.commit()
+    session.close()
+
+    return user
+
+  def delete(self, user_id):
+    """
+    Eliminar un usuario
+    :param usuario_id: 
+    :return: 
+    """
+
+    wtforms_json.init()
+    form = UserDeleteForm.from_json(request.json)
+    form.id.data = user_id
+
+    if not form.validate():
+      raise IncompleteInformation
+
+    session = DbManager.get_database_session()
+    user = session.query(User).filter_by(id=user_id).first()
+    session.delete(user)
+    session.commit()
+    return
 
 
-api.add_resource(Users, '/api/users', '/api/users/<string:user_name>')
+api.add_resource(Users, '/api/users', '/api/users/<string:user_id>')
