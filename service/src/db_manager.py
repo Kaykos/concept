@@ -3,9 +3,6 @@ from flask import current_app
 from sqlalchemy import create_engine
 from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
-from flask_sqlalchemy import SQLAlchemy
-
-SQLAlchemy()
 
 class DbManager:
 

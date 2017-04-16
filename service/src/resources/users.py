@@ -75,6 +75,13 @@ class Users(Resource):
 
       return user
 
+    else:
+      session = DbManager.get_database_session()
+      users = session.query(User).order_by(User.id).all()
+      session.close()
+
+      return users
+
   @marshal_with(user_fields)
   def post(self):
     """
