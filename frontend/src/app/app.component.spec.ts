@@ -9,7 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 import { APP_BASE_HREF } from '@angular/common';
 
-describe('App: Ng2angle', () => {
+describe('App: Concept', () => {
     beforeEach(() => {
 
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;

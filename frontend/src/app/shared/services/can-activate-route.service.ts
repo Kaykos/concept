@@ -7,7 +7,7 @@ import {Logger} from './logger.service';
 import {User} from '../models/user.model';
 
 @Injectable()
-export class CanActivateRouteService implements CanActivate{
+export class CanActivateRouteService implements CanActivate {
   constructor(private router: Router,
               private authService: AuthService) {}
 

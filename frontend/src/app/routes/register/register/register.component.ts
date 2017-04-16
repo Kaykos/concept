@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
   updateUser(user: User) {
     this.user = user;
     this.authService.setCurrentUser(this.user);
-    this.router.navigate(['/events']);
+    this.router.navigate(['/services']);
   }
 
   /*
