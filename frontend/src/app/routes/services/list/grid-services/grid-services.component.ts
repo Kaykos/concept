@@ -39,7 +39,7 @@ export class GridServicesComponent implements OnChanges, OnInit, OnDestroy{
 
   ngOnInit() {
     this.subject
-      .distinctUntilChanged((before: URLSearchParams, now: URLSearchParams) => {  // ignore if next search term is same as previous
+      .distinctUntilChanged((before: URLSearchParams, now: URLSearchParams) => {
         let equal: boolean = before.get('term') == now.get('term');
         if(!equal){
           this.error = false;

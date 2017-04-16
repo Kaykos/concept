@@ -24,7 +24,6 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private authService: AuthService) {
     this.servicesList = {};
-    this.user = new User();
   }
 
   ngOnInit() {
@@ -36,17 +35,18 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.servicesList.urlParams = urlParams;
       });
-      this.user = this.authService.getCurrentUser();
-      if (this.user == null) {
-        this.user = {
-          id: 0,
-          name: 'Guest',
-          lastName: ' ',
-          email: ' ',
-          username: 'guest',
-          role: 'guest'
-        };
-      }
+
+    this.user = this.authService.getCurrentUser();
+    if (!this.user) {
+      this.user = {
+        id: 0,
+        name: 'Guest',
+        lastName: ' ',
+        email: ' ',
+        username: 'guest',
+        role: 'guest'
+      };
+    }
   }
 
   ngOnDestroy() {

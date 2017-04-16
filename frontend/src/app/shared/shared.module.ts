@@ -33,8 +33,8 @@ import { ScrollableDirective } from './directives/scrollable/scrollable.directiv
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
 import {LoadingComponent} from './components/loading/loading.component';
+import {NoRecordsComponent} from './components/no-records/no-records.component';
 
-import { AuthService } from 'app/shared/services/auth.service';
 import { CanActivateRouteService } from './services/can-activate-route.service';
 import { RegisterService } from './services/register.service';
 import { UsersService } from 'app/shared/services/users.service';
@@ -85,7 +85,8 @@ import { Logger } from './services/logger.service';
     NowDirective,
     ScrollableDirective,
     JqcloudDirective,
-    LoadingComponent
+    LoadingComponent,
+    NoRecordsComponent,
   ],
   exports: [
     CommonModule,
@@ -118,7 +119,8 @@ import { Logger } from './services/logger.service';
     ScrollableDirective,
     JqcloudDirective,
     Ng2Bs3ModalModule,
-    LoadingComponent
+    LoadingComponent,
+    NoRecordsComponent
   ]
 })
 
