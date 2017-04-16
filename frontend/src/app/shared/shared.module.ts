@@ -34,6 +34,14 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
 import {LoadingComponent} from './components/loading/loading.component';
 
+import { AuthService } from 'app/shared/services/auth.service';
+import { CanActivateRouteService } from './services/can-activate-route.service';
+import { RegisterService } from './services/register.service';
+import { UsersService } from 'app/shared/services/users.service';
+import { ServicesService } from './services/services.service';
+import { LogInService } from './services/logIn.service';
+import {Logger} from './services/logger.service';
+
 // https://angular.io/styleguide#!#04-10
 @NgModule({
   imports: [
@@ -60,7 +68,14 @@ import {LoadingComponent} from './components/loading/loading.component';
     Ng2Bs3ModalModule
   ],
   providers: [
-    ColorsService
+    ColorsService,
+    AuthService,
+    CanActivateRouteService,
+    Logger,
+    LogInService,
+    RegisterService,
+    ServicesService,
+    UsersService
   ],
   declarations: [
     FlotDirective,
@@ -109,8 +124,8 @@ import {LoadingComponent} from './components/loading/loading.component';
 })
 
 // https://github.com/ocombe/ng2-translate/issues/209
-export class SharedModule{
-  static forRoot(): ModuleWithProviders{
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule
     };

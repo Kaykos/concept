@@ -10,11 +10,6 @@ import {LayoutModule} from './layout/layout.module';
 import {SharedModule} from './shared/shared.module';
 import {RoutesModule} from './routes/routes.module';
 
-import {AuthService} from './shared/services/auth.service';
-import {Logger} from './shared/services/logger.service';
-
-import {CanActivateRouteService} from './shared/services/can-activate-route.service';
-
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -34,13 +29,11 @@ export function createTranslateLoader(http: Http) {
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
       deps: [Http]
-    })
+    }),
   ],
-  providers: [
-    AuthService,
-    Logger,
-    CanActivateRouteService
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [
+    AppComponent
+  ]
 })
-export class AppModule{}
+export class AppModule {}

@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 declare var debug: any;
 
 @Injectable()
-export class Logger{
+export class Logger {
   private logger: any;
 
   constructor(){

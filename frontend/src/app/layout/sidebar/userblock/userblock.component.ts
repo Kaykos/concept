@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import { UserblockService } from './userblock.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -10,8 +10,9 @@ import { User } from 'app/shared/models/user.model';
     templateUrl: './userblock.component.html',
     styleUrls: ['./userblock.component.scss']
 })
-export class UserblockComponent implements OnInit {
+export class UserblockComponent implements OnInit, OnDestroy {
     private user: User;
+    private subscription: any;
 
     constructor(private userblockService: UserblockService, private authService: AuthService) {
         this.user = new User();
@@ -31,7 +32,15 @@ export class UserblockComponent implements OnInit {
 
      */
     ngOnInit() {
-        this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
+        this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); } );
+    }
+
+    /*
+      Destroy subscription
+
+     */
+    ngOnDestroy() {
+      this.subscription.unsubscribe();
     }
 
     userBlockIsVisible() {
