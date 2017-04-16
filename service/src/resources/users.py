@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-import logging
 import datetime
+import logging
+
 import wtforms_json
-from models import User
+from flask import Blueprint, request
+from flask_restful import Api, Resource, fields, marshal_with
+
 from db_manager import DbManager
 from forms import UserCreateForm
-from flask import Blueprint, jsonify, request
-from flask_restful import Api, Resource, fields, marshal_with
+from models import User
 from resources import APIError
 
 errors = {
@@ -21,24 +23,28 @@ errors = {
   }
 }
 
-#Excepciones
+
+# Excepciones
 class IncompleteInformation(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
+
 
 class UserNameExists(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
+
 class EmailExists(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
-#Creación del blueprint
+
+# Creación del blueprint
 users_bp = Blueprint('users_api', __name__)
 api = Api(users_bp, errors=errors, catch_all_404s=True)
 
-#Campos para retornar
+# Campos para retornar
 user_fields = {
   'id': fields.Integer,
   'name': fields.String,
@@ -47,6 +53,7 @@ user_fields = {
   'user_name': fields.String,
   'role': fields.String
 }
+
 
 class Users(Resource):
   """
@@ -70,7 +77,7 @@ class Users(Resource):
         raise IncompleteInformation
 
       session = DbManager.get_database_session()
-      user = session.query(User).filter_by(user_name).first()
+      user = session.query(User).filter_by(user_name=user_name).first()
       session.close()
 
       return user
@@ -85,18 +92,17 @@ class Users(Resource):
   @marshal_with(user_fields)
   def post(self):
     """
-    Creación de un user
+    Crear un usuario
     :return:
     """
 
-    #Validar los campos de la solicitud
+    # Validar los campos de la solicitud
     wtforms_json.init()
     form = UserCreateForm.from_json(request.json)
     if not form.validate():
       raise IncompleteInformation
 
-
-    #Crear un nuevo user
+    # Crear un nuevo user
     user = User(
       name=form.name.data,
       last_name=form.last_name.data,
@@ -107,7 +113,7 @@ class Users(Resource):
       registered_at=datetime.datetime.now(),
     )
 
-    #Actualizar en la base de datos
+    # Actualizar en la base de datos
     session = DbManager.get_database_session()
     session.add(user)
     session.commit()
@@ -120,5 +126,6 @@ class Users(Resource):
 
   def delete(self, usuario_id):
     logging.info('Usuarios delete: {}'.format(usuario_id))
+
 
 api.add_resource(Users, '/api/users', '/api/users/<string:user_name>')

@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+
 class User(Base):
   """
   Representa un usuario en la base de datos
@@ -21,6 +22,7 @@ class User(Base):
 
   created_services = relationship("Service")
 
+
 class Service(Base):
   """
   Representa un servicio en la base de datos
@@ -34,4 +36,3 @@ class Service(Base):
   name = Column(String(45), nullable=False)
 
   provider = relationship("User", foreign_keys=[provider_id])
-

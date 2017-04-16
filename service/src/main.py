@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import logging
-from flask_cors import CORS
 
 from flask import Flask
-from resources.users import users_bp
-from resources.services import services_bp
+from flask_cors import CORS
+
 from resources.auth import auth_bp
+from resources.services import services_bp
+from resources.users import users_bp
 from resources.utils import utils_bp
-from flask_restful import Api
 
 #Aplicación principal
 app = Flask(__name__)

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from wtforms import Form, StringField, PasswordField, IntegerField
+from wtforms.validators import InputRequired, Email
+
 from db_manager import DbManager
-from wtforms import Form, StringField, PasswordField, IntegerField, DecimalField
-from wtforms.validators import InputRequired, Length, Email, ValidationError
-import logging
 
 
-#Usuarios
+# Usuarios
 
 class UserCreateForm(Form):
   """
@@ -19,7 +19,7 @@ class UserCreateForm(Form):
   password = PasswordField([InputRequired()])
   role = StringField([InputRequired()])
 
-  def validate_user_name(self,field):
+  def validate_user_name(self, field):
     """
     Verificar la existencia del nombre de user
     :param field:
@@ -49,8 +49,11 @@ class UserCreateForm(Form):
     if user:
       raise EmailExists
 
-class UserAuthenticateForm(Form):
 
+class UserAuthenticateForm(Form):
+  """
+  Formulario para la autenticación de un usuario
+  """
   user_id = StringField()
   password = PasswordField(InputRequired())
   id_is_email = False
@@ -91,3 +94,15 @@ class UserAuthenticateForm(Form):
 
     if not field.data == self.user.password:
       raise IncorrectPassword
+
+
+class ServiceCreateForm(Form):
+  """
+  Formulario para la obtención de servicios
+  """
+  provider_id = IntegerField(InputRequired())
+  cost = IntegerField(InputRequired())
+  description = StringField(InputRequired())
+  type = StringField(InputRequired())
+  name = StringField(InputRequired())
+
