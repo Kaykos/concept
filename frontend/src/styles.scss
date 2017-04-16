@@ -13,7 +13,26 @@
 //== Application
 @import "./app/shared/styles/app.scss";
 
+no-records {
+  h4 {
+    display: inline;
+    margin-bottom: 0;
+  }
+}
+
 table.table {
+  &.table-bordered {
+    & > thead {
+      & > tr {
+        &:first-child {
+          th {
+            border-top: rgb(238, 238, 238) solid 1px;
+          }
+        }
+      }
+    }
+  }
+  
   td.actions {
     table {
       td {
