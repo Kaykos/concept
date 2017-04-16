@@ -1,26 +1,17 @@
-<div class="content-heading">
+<!--If user is a guest or client-->
+<div *ngIf="user.role == 'guest' || user.role == 'client'"class="content-heading">
+  Locations
+</div>
+
+<!--If user is a provider or admin-->
+<div *ngIf="user.role == 'provider' || user.role == 'admin'" class="content-heading">
   Services
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
-    <!--(editClick)="" (deleteClick)=""-->
-    <grid-services [urlParams]="servicesList.urlParams">
-      <div loading>
-        <loading></loading>
-      </div>
-      <div no-records>
-        <no-records>
-          <em class="fa fa-exclamation-circle fa-lg fa-fw"></em>
-          <h4>No services</h4>
-        </no-records>
-      </div>
-      <div error>
-        <!-- <error>Error</error> -->
-        <div>Error</div>
-      </div>
-    </grid-services>
 
-    {{user.name}}
-  </div>
+  <!--Load table-->
+  <grid-services>
+  </grid-services>
+
 </div>

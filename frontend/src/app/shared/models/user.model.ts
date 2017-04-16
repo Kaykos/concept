@@ -19,7 +19,7 @@ export class User {
 
   static getInstance(data: {[prop: string]: any}): User {
     const user = new User();
-    for (const prop in propsMapping){
+    for(const prop in propsMapping){
       user[prop] = data[propsMapping[prop]];
     }
     return user;

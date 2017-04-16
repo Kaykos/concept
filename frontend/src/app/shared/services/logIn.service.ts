@@ -42,11 +42,6 @@ export class LogInService {
 
    */
   private static fromResponse(response: Response): User {
-    const propsMapping: PropsMapping = LogInService.propsMapping;
-    const user = new User();
-    for(const prop in propsMapping) {
-      user[prop] = response.json()[propsMapping[prop]];
-    }
-    return user;
+    return User.getInstance(response.json());
   }
 }

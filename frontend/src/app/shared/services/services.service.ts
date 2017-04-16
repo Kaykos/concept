@@ -11,17 +11,19 @@ export class ServicesService {
 
   constructor(private http: Http) {}
 
-  search(params?: URLSearchParams): Observable<Service[]>{
-    let options = new RequestOptions({search: params});
-    return this.http.get(`${environment.apiBase}/services`, options)
+  search(route: string): Observable<Service[]>{
+    const options = new RequestOptions({
+      headers: new Headers({'Content-Type': 'application/json'})
+    });
+    return this.http.get(`${environment.apiBase}` + route, options)
       .map((response: Response) => ServicesService.fromResponse(response));
   }
 
-  private static fromResponse(response: Response): Service[]{
-    let list: Service[] = [];
-    for(let data of response.json()){
-      list.push(Service.getInstance(data));
+  private static fromResponse(response: Response): Service[] {
+    const listService: Service[] = [];
+    for(const service of response.json()){
+      listService.push(Service.getInstance(service));
     }
-    return list;
+    return listService;
   }
 }

@@ -6,7 +6,8 @@ const propsMapping: PropsMapping = {
   cost: 'cost',
   description: 'description',
   type: 'type',
-  name: 'name'
+  name: 'name',
+  rating: 'rating'
 };
 
 export class Service {
@@ -16,12 +17,13 @@ export class Service {
   description: string;
   type: string;
   name: string;
+  rating: number;
 
-  static getInstance(data: {[prop: string]: any}): Service{
-    const model = new Service();
-    for(const prop in propsMapping){
-      model[prop] = data[propsMapping[prop]];
+  static getInstance(data: {[prop: string]: any}): Service {
+    const service = new Service();
+    for(const prop in propsMapping) {
+      service[prop] = data[propsMapping[prop]];
     }
-    return model;
+    return service;
   }
 }

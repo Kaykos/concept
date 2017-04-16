@@ -1,51 +1,18 @@
-<div *ngIf="error">
-  <ng-content select="[error]"></ng-content>
-</div>
-
-<div *ngIf="!error && loading">
-  <ng-content select="[loading]"></ng-content>
-</div>
-
-<div *ngIf="!error && !loading">
-  <div *ngIf="!services?.length">
-    No hay ningún servicio
-  </div>
-
-  <div *ngIf="services?.length" class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Costo</th>
-          <th>Descripción</th>
-          <th>Estado</th>
-          <th style="width: 42px;"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let service of services">
-          <td>${{service.cost | number}}</td>
-          <td>{{service.description}}</td>
-          <td>
-            <span class="label label-success">
-              {{service.id}}
-            </span>
-          </td>
-          <td class="actions">
-            <table>
-              <tbody>
-              <tr>
-                <td>
-                  <a (click)="editClick.emit(service)" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                </td>
-                <td>
-                  <a (click)="deleteClick.emit(service)" title="Borrar"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<ng-table [config]="config"
+          (tableChanged)="onChangeTable(config)"
+          (cellClicked)="onCellClick($event)"
+          [rows]="rows" [columns]="columns">
+</ng-table>
+<div class="page-container">
+  <pagination *ngIf="config.paging"
+              class="pagination-sm"
+              [(ngModel)]="page"
+              [totalItems]="length"
+              [itemsPerPage]="itemsPerPage"
+              [maxSize]="maxSize"
+              [boundaryLinks]="true"
+              [rotate]="false"
+              (pageChanged)="onChangeTable(config, $event)"
+              (numPages)="numPages = $event">
+  </pagination>
 </div>
