@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {LogInService} from '../../../shared/services/logIn.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {User} from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user.model';
 
-import {AuthService} from '../../../shared/services/auth.service';
+import { LogInService } from '../../../shared/services/logIn.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-logIn',
@@ -12,7 +12,6 @@ import {AuthService} from '../../../shared/services/auth.service';
     styleUrls: ['./logIn.component.scss']
 })
 export class LogInComponent implements OnInit {
-
   private user: User;
   private usernameError: boolean;
   private passwordError: boolean;
@@ -31,7 +30,7 @@ export class LogInComponent implements OnInit {
 
   /*
     Request if user has an account
-    Validates if the username and password isn't empty
+    Validates if the username or password are empty
     Validates if username and password are registered
 
    */

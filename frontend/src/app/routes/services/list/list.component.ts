@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {AuthService} from 'app/shared/services/auth.service';
+import { AuthService } from 'app/shared/services/auth.service';
 
-import {User} from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user.model';
 
 @Component({
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit {
   private user: User;
@@ -25,11 +24,11 @@ export class ListComponent implements OnInit {
       if (this.user == null) {
         this.user = {
           id: 0,
-          name: 'Guest',
+          name: 'Invitado',
           lastName: ' ',
           email: ' ',
-          username: 'guest',
-          role: 'guest'
+          username: '',
+          role: 'invitado'
         };
       }
   }

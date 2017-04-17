@@ -21,8 +21,7 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
-      140
+      false
     ],
     "member-access": false,
     "member-ordering": [
@@ -97,7 +96,6 @@
       "check-separator",
       "check-type"
     ],
-
     "directive-selector": [true, "attribute", "app", "camelCase"],
     "component-selector": [true, "element", "app", "kebab-case"],
     "use-input-property-decorator": true,

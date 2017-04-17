@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../../shared/models/user.model';
+
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ServicesService } from 'app/shared/services/services.service';
+
+import { User } from '../../../../shared/models/user.model';
 
 @Component({
   selector: 'grid-services',
@@ -14,10 +16,10 @@ export class GridServicesComponent implements OnInit {
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'}},
-    {title: 'Description', name: 'description'},
-    {title: 'Cost ($)', name: 'cost'},
-    {title: 'Rating', name: 'rating'},
+    {title: 'Nombre', name: 'name', filtering: {filterString: '', placeholder: 'Filtrar por nombre'}},
+    {title: 'Descripción', name: 'description'},
+    {title: 'Costo ($)', name: 'cost'},
+    {title: 'Valoración', name: 'rating'},
     {title: '', name: 'viewbutton'}
   ];
   public page = 1;
@@ -51,19 +53,19 @@ export class GridServicesComponent implements OnInit {
     if (this.user === null) {
       this.user = {
         id: 0,
-        name: 'Guest',
-        lastName: ' ',
-        email: ' ',
-        username: 'guest',
-        role: 'guest'
+        name: 'Invitado',
+        lastName: '',
+        email: '',
+        username: '',
+        role: 'invitado'
       };
     }
     switch (this.user.role) {
-      case 'guest':
-      case 'client':
+      case 'invitado':
+      case 'cliente':
         this.param = '/services/location';
         break;
-      case 'provider':
+      case 'proveedor':
         this.param = '/users/' + this.user.id.toString() + '/services';
         break;
       case 'admin':

@@ -4,7 +4,6 @@ const themeA = require('../../shared/styles/themes/theme-a.scss');
 
 @Injectable()
 export class ThemesService {
-
     styleTag: any;
     defaultTheme: string = 'A';
 
@@ -28,5 +27,4 @@ export class ThemesService {
     getDefaultTheme() {
         return this.defaultTheme;
     }
-
 }

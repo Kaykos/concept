@@ -1,39 +1,39 @@
 const Account = {
-  text: 'Account',
+  text: 'Cuenta',
   heading: true
 };
 
 const LogIn = {
-  text: 'Log In',
+  text: 'Iniciar sesión',
   link: '/logIn',
   icon: 'icon-login'
 };
 
 const Register = {
-  text: 'Register',
+  text: 'Registro',
   link: '/register',
   icon: 'icon-home'
 }
 
 const LogOut = {
-  text: 'Log Out',
+  text: 'Cerrar sesión',
   link: '/logOut',
   icon: 'icon-logout'
 }
 
 const Event = {
-  text: 'Event',
+  text: 'Evento',
   heading: true
 }
 
 const Events = {
-  text: 'Events',
+  text: 'Eventos',
   link: '/events',
   icon: 'icon-calendar'
 };
 
 const Services = {
-  text: 'Services',
+  text: 'Servicios',
   link: '/services',
   icon: 'icon-layers'
 };

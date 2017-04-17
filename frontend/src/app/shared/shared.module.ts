@@ -32,15 +32,11 @@ import { NowDirective } from './directives/now/now.directive';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
-import {LoadingComponent} from './components/loading/loading.component';
-import {NoRecordsComponent} from './components/no-records/no-records.component';
-
 import { CanActivateRouteService } from './services/can-activate-route.service';
-import { RegisterService } from './services/register.service';
-import { UsersService } from 'app/shared/services/users.service';
-import { ServicesService } from './services/services.service';
 import { LogInService } from './services/logIn.service';
-import { Logger } from './services/logger.service';
+import { RegisterService } from './services/register.service';
+import { ServicesService } from './services/services.service';
+import { UsersService } from 'app/shared/services/users.service';
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
@@ -70,7 +66,6 @@ import { Logger } from './services/logger.service';
   providers: [
     ColorsService,
     CanActivateRouteService,
-    Logger,
     LogInService,
     RegisterService,
     ServicesService,
@@ -85,8 +80,6 @@ import { Logger } from './services/logger.service';
     NowDirective,
     ScrollableDirective,
     JqcloudDirective,
-    LoadingComponent,
-    NoRecordsComponent,
   ],
   exports: [
     CommonModule,
@@ -119,8 +112,6 @@ import { Logger } from './services/logger.service';
     ScrollableDirective,
     JqcloudDirective,
     Ng2Bs3ModalModule,
-    LoadingComponent,
-    NoRecordsComponent
   ]
 })
 

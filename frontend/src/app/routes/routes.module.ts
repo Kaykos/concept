@@ -1,17 +1,15 @@
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {MenuService} from '../core/menu/menu.service';
+import { MenuService } from '../core/menu/menu.service';
 
-import {menu} from './menu';
+import { menu } from './menu';
 
-import {routes} from './routes';
+import { routes } from './routes';
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)
-  ],
-  declarations: [
   ],
   exports: [
     RouterModule

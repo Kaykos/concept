@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {RegisterService} from '../../../shared/services/register.service';
-import {AuthService} from '../../../shared/services/auth.service';
+import { RegisterService } from '../../../shared/services/register.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 import {User} from '../../../shared/models/user.model';
 
@@ -11,8 +11,7 @@ import {User} from '../../../shared/models/user.model';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
-
+export class RegisterComponent {
   private user: User;
   private error: boolean;
   private errorMessage: string;
@@ -29,17 +28,15 @@ export class RegisterComponent implements OnInit {
     this.nameError = false;
     this.emailError = false;
     this.usernameError= false;
-    this.passwordError = false;
+    this.passwordsError = false;
     this.passwordError = false;
   }
-
-  ngOnInit() {}
 
   /*
     Validates if the second typed password matches first one
 
    */
-  onKeyConfirmPassword(event: KeyboardEvent, password: string, confirmPassword: string) {
+  onKeyConfirmPassword(password: string, confirmPassword: string) {
     this.passwordError = false;
     if (password !== confirmPassword) {
       this.passwordError = true;
@@ -54,10 +51,11 @@ export class RegisterComponent implements OnInit {
    */
   register(name: string, lastName: string, email: string, username: string, password: string, role: string) {
     this.error = false;
+    this.errorMessage = '';
     this.nameError = false;
     this.emailError = false;
     this.usernameError= false;
-    this.passwordError = false;
+    this.passwordsError = false;
     if (name === '') {
       this.nameError = true;
     }
@@ -81,7 +79,8 @@ export class RegisterComponent implements OnInit {
   }
 
   /*
-   Update user session and redirects to events page
+   Update user session
+   Redirects to events page
 
    */
   updateUser(user: User) {

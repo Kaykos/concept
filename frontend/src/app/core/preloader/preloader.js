@@ -1,5 +1,4 @@
 (function(global) {
-
     var counter = 0, timeout;
     var preloader = document.querySelector('.preloader');
     var progressBar = document.querySelector('.preloader-progress-bar');
@@ -25,7 +24,6 @@
     }
 
     function endCounter() {
-
         clearTimeout(timeout);
 
         if(progressBar) progressBar.style.width = '100%';
@@ -44,5 +42,4 @@
         });
         preloader.className += ' preloader-hidden-add preloader-hidden-add-active';
     };
-
 })(window);

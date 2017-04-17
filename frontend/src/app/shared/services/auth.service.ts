@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {User} from '../models/user.model';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,8 @@ export class AuthService {
 
   /*
     Checks if user information is stored in local storage
+    If it's true, return user information
+    If it's false, return null
 
    */
   getCurrentUser() {
@@ -30,7 +33,7 @@ export class AuthService {
 
   /*
     Stores user information in local storage
-    Updates observers
+    Update observers
 
    */
   setCurrentUser(user: User) {
@@ -41,7 +44,7 @@ export class AuthService {
 
   /*
     Clear user information in local storage
-    Updates observers
+    Update observers
 
    */
   clear() {

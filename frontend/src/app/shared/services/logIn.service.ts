@@ -1,27 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Observable } from 'rxjs';
 
-import {environment} from '../../../environments/environment';
-import {PropsMapping} from './model.service';
+import { environment } from '../../../environments/environment';
 
-import {User} from '../models/user.model';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class LogInService {
-  /*
-    Mapping with server json fields
-
-   */
-  static propsMapping: PropsMapping = {
-    id: 'id',
-    name: 'name',
-    lastName: 'last_name',
-    email: 'email',
-    username: 'user_name',
-    role: 'role'
-  };
-
   constructor(private http: Http) {}
 
   /*

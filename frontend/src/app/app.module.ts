@@ -1,18 +1,18 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {Http} from '@angular/http';
-import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate/ng2-translate';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { Http } from '@angular/http';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 
-import {AppComponent} from './app.component';
+import { CoreModule } from './core/core.module';
+import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
+import { RoutesModule } from './routes/routes.module';
 
-import {CoreModule} from './core/core.module';
-import {LayoutModule} from './layout/layout.module';
-import {SharedModule} from './shared/shared.module';
-import {RoutesModule} from './routes/routes.module';
-import {CanActivateRouteService} from './shared/services/can-activate-route.service';
-import {AuthService} from './shared/services/auth.service';
+import { AppComponent } from './app.component';
 
-// https://github.com/ocombe/ng2-translate/issues/218
+import { AuthService } from './shared/services/auth.service';
+import { CanActivateRouteService } from './shared/services/can-activate-route.service';
+
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }

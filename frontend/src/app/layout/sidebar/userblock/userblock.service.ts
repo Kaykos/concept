@@ -11,13 +11,4 @@ export class UserblockService {
     getVisibility() {
         return this.userBlockVisible;
     }
-
-    setVisibility(stat = true) {
-        this.userBlockVisible = stat;
-    }
-
-    toggleVisibility() {
-        this.userBlockVisible = !this.userBlockVisible;
-    }
-
 }

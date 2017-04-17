@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UserblockService } from './userblock.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -7,23 +8,26 @@ import { User } from 'app/shared/models/user.model';
 
 @Component({
     selector: 'app-userblock',
-    templateUrl: './userblock.component.html',
-    styleUrls: ['./userblock.component.scss']
+    templateUrl: './userblock.component.html'
 })
 export class UserblockComponent implements OnInit, OnDestroy {
     private user: User;
     private subscription: any;
 
-    constructor(private userblockService: UserblockService, private authService: AuthService) {
+    /*
+      Set default user
+
+     */
+    constructor(private userblockService: UserblockService, private authService: AuthService, private router: Router) {
         this.user = new User();
 
         this.user = {
           id: 0,
-          name: 'Guest',
-          lastName: ' ',
-          email: ' ',
-          username: 'guest',
-          role: 'guest'
+          name: 'Invitado',
+          lastName: '',
+          email: '',
+          username: '',
+          role: 'invitado'
         };
     }
 
@@ -32,7 +36,7 @@ export class UserblockComponent implements OnInit, OnDestroy {
 
      */
     ngOnInit() {
-        this.subscription = this.authService.getUserSubject().subscribe(user => this.updateUser(user));
+      this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); });
     }
 
     /*
@@ -44,12 +48,12 @@ export class UserblockComponent implements OnInit, OnDestroy {
     }
 
     userBlockIsVisible() {
-        return this.userblockService.getVisibility();
+      return this.userblockService.getVisibility();
     }
 
     /*
       Update user information
-      If there is no user logged, set guest information
+      If there is no user logged, set user as guest
 
      */
     updateUser(user: User) {
@@ -57,12 +61,21 @@ export class UserblockComponent implements OnInit, OnDestroy {
       if (this.user == null) {
         this.user = {
           id: 0,
-          name: 'Guest',
-          lastName: ' ',
-          email: ' ',
-          username: 'guest',
-          role: 'guest'
+          name: 'Invitado',
+          lastName: '',
+          email: '',
+          username: '',
+          role: 'invitado'
         };
+      }
+    }
+
+    imageClick() {
+      if (this.user.role == 'invitado') {
+        this.router.navigate(['/logIn']);
+      }
+      else {
+        this.router.navigate(['/users']);
       }
     }
 }

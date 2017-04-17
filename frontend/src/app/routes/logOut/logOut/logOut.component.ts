@@ -1,22 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {User} from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user.model';
 
-import {AuthService} from '../../../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
     selector: 'app-logOut',
     template: ''
 })
 export class LogOutComponent implements OnInit {
-  private user: User;
-
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   /*
     Close session by restoring user's data as null
+    Redirect to log in page
 
    */
   ngOnInit() {

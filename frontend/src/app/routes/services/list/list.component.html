@@ -1,11 +1,11 @@
 <!--If user is a guest or client-->
-<div *ngIf="user.role == 'guest' || user.role == 'client'"class="content-heading">
-  Locations
+<div *ngIf="user.role == 'invitado' || user.role == 'cliente'"class="content-heading">
+  Ubicaciones
 </div>
 
 <!--If user is a provider or admin-->
-<div *ngIf="user.role == 'provider' || user.role == 'admin'" class="content-heading">
-  Services
+<div *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="content-heading">
+  Servicios
 </div>
 
 <div class="panel panel-default">

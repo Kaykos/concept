@@ -1,20 +1,20 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
-import {LogOutComponent} from './logOut/logOut.component';
+import { LogOutComponent } from './logOut/logOut.component';
 
-import {SharedModule} from '../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 const routes: Routes = [
-  {path: '', component: LogOutComponent},
+  { path: '', component: LogOutComponent }
 ];
 
 @NgModule({
   imports: [
-    SharedModule,
+    RouterModule.forChild(routes),
     CommonModule,
-    RouterModule.forChild(routes)
+    SharedModule
   ],
   declarations: [
     LogOutComponent
