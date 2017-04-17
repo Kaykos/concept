@@ -1,0 +1,81 @@
+<div _ngcontent-iou-53="" class="panel panel-default">
+  <div _ngcontent-iou-53="" class="panel-body">
+    <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
+
+      <!--Start User information management fields-->
+
+      <!--Start Password management-->
+      <fieldset _ngcontent-iou-53="">
+        <div _ngcontent-iou-53="" class="form-group">
+          <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Nueva contraseña</label>
+          <div _ngcontent-iou-53="" class="col-sm-10">
+            <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="password" type="password" #password>
+            <span *ngIf="passwordsError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset _ngcontent-iou-53="">
+        <div _ngcontent-iou-53="" class="form-group">
+          <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-2">Confirmar contraseña</label>
+          <div _ngcontent-iou-53="" class="col-sm-10">
+            <input _ngcontent-iou-53="" class="form-control" id="input-id-2" name="password" type="password" #confirmPassword (keyup)="onKeyConfirmPassword(password.value, confirmPassword.value)">
+            <span *ngIf="passwordError" _ngcontent-uqm-53="" class="text-danger">Las contraseñas no coinciden</span>
+          </div>
+        </div>
+      </fieldset>
+      <div _ngcontent-tpe-53="" class="form-group">
+        <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
+          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updatePassword(password.value)">Cambiar contraseña</button>
+          <span *ngIf="errorPassword" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
+          <span *ngIf="passwordChanged" _ngcontent-uqm-67="" class="text-success">La contraseña ha sido cambiada</span>
+        </div>
+      </div>
+      <!--End Password management-->
+
+    </form>
+  </div>
+</div>
+
+<br>
+
+<div _ngcontent-iou-53="" class="panel panel-default">
+  <div _ngcontent-iou-53="" class="panel-body">
+    <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
+
+      <!--Start Email management-->
+      <fieldset _ngcontent-iou-69="">
+        <div _ngcontent-iou-69="" class="form-group">
+          <label _ngcontent-iou-69="" class="col-sm-2 control-label" for="input-id-3">Correo</label>
+          <div _ngcontent-iou-69="" class="col-sm-10">
+            <input _ngcontent-iou-69="" class="form-control ng-untouched ng-pristine ng-valid" id="input-id-3" formcontrolname="email" placeholder="correo@ejemplo.com" type="email" #email>
+            <span *ngIf="emailError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <div _ngcontent-tpe-53="" class="form-group">
+        <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
+          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateEmail(email.value)">Cambiar correo</button>
+          <span *ngIf="errorEmail" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
+          <span *ngIf="emailChanged" _ngcontent-uqm-67="" class="text-success">El correo ha sido cambiado</span>
+        </div>
+      </div>
+
+      <!--End Email management-->
+
+      <!--End User information management fields-->
+
+    </form>
+  </div>
+</div>
+
+<br>
+
+<div _ngcontent-iou-53="" class="panel panel-default">
+  <div _ngcontent-iou-53="" class="panel-body">
+    <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
+      <button _ngcontent-tiv-101="" class="btn btn-primary" type="button" (click)="deleteUser()">Borrar usuario</button>
+      <span *ngIf="errorDelete" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
+    </form>
+  </div>
+</div>
