@@ -12,10 +12,10 @@ from resources import APIError
 
 errors = {
   'IncompleteInformation': {
-    'message': u'Incomplete information'
+    'message': u'Datos incompletos'
   },
   'ServiceDoesNotExist': {
-    'message': u'Service does not exist'
+    'message': u'El servicio no existe'
   }
 }
 
@@ -64,6 +64,8 @@ class Services(Resource):
       services = session.query(Service).order_by(Service.id).all()
 
     session.close()
+
+    logging.info(u'Returned services')
     return services
 
 class ServicesByUser(Resource):

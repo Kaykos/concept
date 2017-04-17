@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from wtforms import Form, StringField, PasswordField, IntegerField
-from wtforms.validators import InputRequired, Email
+from wtforms.validators import InputRequired, Email, Optional
 
 from db_manager import DbManager
 
@@ -86,8 +86,8 @@ class UserUpdateForm(Form):
   Formulario para la actualización de los datos de un usuario
   """
   id = IntegerField(check_user_id)
-  email = StringField(validators=[Email(), check_email])
-  password = PasswordField()
+  email = StringField(validators=[Optional(), Email(), check_email])
+  password = PasswordField(Optional())
 
 class UserDeleteForm(Form):
   """

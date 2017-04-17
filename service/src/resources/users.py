@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+import logging
 import wtforms_json
 from flask import Blueprint, request
 from flask_restful import Api, Resource, fields, marshal_with
@@ -12,16 +13,16 @@ from resources import APIError
 
 errors = {
   'IncompleteInformation': {
-    'message': u'Incomplete information'
+    'message': u'Datos incompletos'
   },
   'UserNameExists': {
-    'message': u'Username not available'
+    'message': u'Usuario no disponible'
   },
   'EmailExists': {
-    'message': u'Email is already registered'
+    'message': u'El correo ya está registrado'
   },
   'UserDoesNotExist': {
-    'message': u'User does not exist',
+    'message': u'El usuario no existe',
   }
 }
 
@@ -125,6 +126,7 @@ class Users(Resource):
     session.commit()
     session.close()
 
+    logging.info(u'Registered user: {}'.format(form.user_name.data))
     return user
 
   @marshal_with(user_fields)
@@ -147,6 +149,7 @@ class Users(Resource):
     session.commit()
     session.close()
 
+    logging.info(u'Updated user: {}'.format(user.user_name))
     return user
 
   def delete(self, user_id):
@@ -167,6 +170,8 @@ class Users(Resource):
     user = session.query(User).filter_by(id=user_id).first()
     session.delete(user)
     session.commit()
+
+    logging.info(u'Deleted user: {}'.format(user.user_name))
     return
 
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import wtforms_json
 from models import User
 from db_manager import DbManager
@@ -10,16 +11,16 @@ from utilities import Utilities
 
 errors = {
   'IncompleteInformation': {
-    'message': u'Incomplete information',
+    'message': u'Datos incompletos',
   },
   'IncorrectPassword': {
-    'message': u'Incorrect password',
+    'message': u'Contraseña incorrecta',
   },
   'UserDoesNotExist': {
-    'message': u'User does not exist',
+    'message': u'El usuario no está registrado',
   },
   'EmailDoesNotExist': {
-    'message': u'Email is not registered'
+    'message': u'Correo no registrado'
   }
 }
 
@@ -87,6 +88,7 @@ class Authentication(Resource):
         user = session.query(User).filter_by(user_name=user_id).first()
       session.close()
 
+      logging.info(u'Logged user:{}'.format(user_id))
       return user
 
 api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_id>')
