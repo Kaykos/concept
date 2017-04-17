@@ -15,7 +15,6 @@ libraries:
 handlers:
 - url: /api/.*
   script: main.app
-  secure: always
 
 - url: /(.*\.(css|js|jpg|png|ico|json|ttf|woff|woff2|map))$
   static_files: dist/\1
