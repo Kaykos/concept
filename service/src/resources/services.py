@@ -39,7 +39,9 @@ service_fields = {
   'description': fields.String,
   'type': fields.String,
   'name': fields.String,
-  'rating': fields.Integer
+  'rating': fields.Integer,
+  'latitude': fields.Float,
+  'latitude': fields.Float
 }
 
 
@@ -109,6 +111,10 @@ class ServicesByUser(Resource):
       name=form.name.data,
       rating=0
     )
+
+    if form.type.data == 'locacion':
+      service.latitude = form.latitude.data
+      service.longitude = form.longitude.data
 
     # Actualizar en la base de datos
     session = DbManager.get_database_session()

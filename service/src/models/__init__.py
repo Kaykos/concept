@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -46,6 +46,8 @@ class Service(Base):
   type = Column(String(20), nullable=False)
   name = Column(String(45), nullable=False)
   rating = Column(Integer, nullable=False)
+  latitude = Column(Numeric())
+  longitude = Column(Numeric())
 
   provider = relationship("User", foreign_keys=[provider_id])
 

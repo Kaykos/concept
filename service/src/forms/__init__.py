@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from wtforms import Form, StringField, PasswordField, IntegerField
+from wtforms import Form, StringField, PasswordField, IntegerField, DecimalField
 from wtforms.validators import InputRequired, Email, Optional
 
 from db_manager import DbManager
@@ -104,6 +104,8 @@ class ServiceCreateForm(Form):
   description = StringField(InputRequired())
   type = StringField(InputRequired())
   name = StringField(InputRequired())
+  latitude = DecimalField(Optional())
+  longitude = DecimalField(Optional())
 
 class ServiceUpdateForm(Form):
   """
