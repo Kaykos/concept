@@ -4,7 +4,7 @@ import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Injectable()
 export class TranslatorService {
-  defaultLanguage: string = 'en';
+  defaultLanguage: string = 'es';
   availablelangs: any;
 
   constructor(private translate: TranslateService) {
@@ -12,7 +12,7 @@ export class TranslatorService {
     translate.setDefaultLang(this.defaultLanguage);
 
     this.availablelangs = [
-        { code: 'en', text: 'English' }
+        { code: 'es', text: 'Español' }
     ];
 
     this.useLanguage();

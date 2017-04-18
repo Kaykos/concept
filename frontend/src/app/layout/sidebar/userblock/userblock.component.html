@@ -3,9 +3,10 @@
     <!-- User picture-->
     <div class="user-block-picture">
         <div class="user-block-status">
-            <img class="img-thumbnail img-circle" [src]="'../../../assets/img/user/' + user.id + '.jpg'" alt="Profile" (click)="imageClick()"/>
+            <img class="img-thumbnail img-circle" [src]="picturePath" alt="Profile" (click)="imageClick()"/>
         </div>
     </div>
+
     <!-- Name-->
     <div class="user-block-info">
         <span class="user-block-name">{{user.name}}</span>

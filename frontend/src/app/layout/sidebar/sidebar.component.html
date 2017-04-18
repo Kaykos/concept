@@ -28,25 +28,6 @@
                         <em class="{{item.icon}}" *ngIf="item.icon"></em>
                         <span>{{(item.translate | translate) || item.text}}</span>
                 </a>
-                <!-- SUBLEVEL -->
-                <ul *ngIf="item.submenu" class="nav sidebar-subnav" [routerLinkActive]="['opening']">
-                    <li class="sidebar-subnav-header">{{(item.translate | translate) || item.text}}</li>
-                    <li *ngFor='let subitem of item.submenu' [routerLinkActive]="['active']">
-                        <!-- sublevel: single menu item  -->
-                        <a *ngIf="!subitem.submenu" [routerLink]="subitem.link" [attr.route]="subitem.link" title="{{subitem.text}}">
-                            <span class="pull-right" *ngIf="subitem.alert" [ngClass]="subitem.label || 'label label-success'">{{subitem.alert}}</span>
-                            <em class="{{subitem.icon}}" *ngIf="subitem.icon"></em>
-                            <span>{{(subitem.translate | translate) || subitem.text}}</span>
-                        </a>
-                        <!-- sublevel: has submenu -->
-                        <a *ngIf="subitem.submenu" title="{{subitem.text}}"
-                            (click)="toggleSubmenuClick($event)" (mouseenter)="toggleSubmenuHover($event)">
-                                <span class="pull-right" *ngIf="subitem.alert" [ngClass]="subitem.label || 'label label-success'">{{subitem.alert}}</span>
-                                <em class="{{subitem.icon}}" *ngIf="subitem.icon"></em>
-                                <span>{{(subitem.translate | translate) || subitem.text}}</span>
-                        </a>
-                    <li>
-                </ul>
             </li>
 
         </ul>

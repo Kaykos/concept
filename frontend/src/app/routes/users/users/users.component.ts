@@ -60,6 +60,7 @@ export class UsersComponent implements OnInit {
    */
   updatePassword(password: string) {
     this.errorPassword = false;
+    this.errorEmail = false;
     this.passwordsError = false;
     this.passwordChanged = false;
     if (password === '') {
@@ -95,6 +96,7 @@ export class UsersComponent implements OnInit {
 
    */
   updateEmail(email: string) {
+    this.errorPassword = false;
     this.errorEmail = false;
     this.emailError = false;
     this.emailChanged = false;

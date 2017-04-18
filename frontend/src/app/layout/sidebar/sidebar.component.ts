@@ -12,8 +12,8 @@ import { AuthService } from 'app/shared/services/auth.service';
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  private user: User;
   private subscription: any;
+  private user: User;
   menuItems: Array<any>;
   router: Router;
 
@@ -23,6 +23,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   /*
    Suscribe to subject
+   Ask if there is a user logged in
+   If it's true, retrieve information
+   If it's false, set default user
 
    */
   ngOnInit() {
@@ -36,6 +39,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
 
     this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.user = user; } );
+    this.user = this.authService.getCurrentUser();
+    if (this.user == null) {
+      this.user = {
+        id: 0,
+        name: 'Invitado',
+        lastName: '',
+        email: '',
+        username: '',
+        role: 'invitado'
+      };
+    }
   }
 
   /*
@@ -176,18 +190,33 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   /*
     Checks if the user has a current session
-      - If it's false: Do not show Log In and Register menu items
-      - If it's true: Do not show Log Out menu item
+      - If it's false: Show Log In and Register menu items
+      - If it's true: Show Log Out menu item
 
    */
   validateUser(text: string): boolean {
     switch (text) {
       case 'Iniciar sesión':
-        return this.user == null ? true : false;
+        if (this.user == null) {
+          return true;
+        }
+        else {
+          return this.user.role == 'invitado' ? true : false;
+        }
       case 'Registro':
-        return this.user == null ? true : false;
+        if (this.user == null) {
+          return true;
+        }
+        else {
+          return this.user.role == 'invitado' ? true : false;
+        }
       case 'Cerrar sesión':
-        return this.user == null ? false : true;
+        if (this.user == null) {
+          return false;
+        }
+        else {
+          return this.user.role == 'invitado' ? false : true;
+        }
       default:
         return true;
     }

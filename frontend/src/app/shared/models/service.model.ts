@@ -7,7 +7,9 @@ const propsMapping: PropsMapping = {
   description: 'description',
   type: 'type',
   name: 'name',
-  rating: 'rating'
+  rating: 'rating',
+  latitude: 'latitude',
+  longitude: 'longitude'
 };
 
 export class Service {
@@ -18,6 +20,8 @@ export class Service {
   type: string;
   name: string;
   rating: number;
+  latitude: number;
+  longitude: number;
 
   static getInstance(data: {[prop: string]: any}): Service {
     const service = new Service();

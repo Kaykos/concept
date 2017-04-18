@@ -1,31 +1,42 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {DataTableModule} from 'angular2-datatable';
-import {Ng2TableModule} from 'ng2-table/ng2-table';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
 
-import {ListComponent} from './list/list.component';
-import {GridServicesComponent} from './list/grid-services/grid-services.component';
-import {ServiceComponent} from './service/service.component';
+import { PaginationModule } from 'ng2-bootstrap';
+import { TabsModule } from 'ng2-bootstrap';
+import { Ng2TableModule } from 'ng2-table';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
-import {SharedModule} from '../../shared/shared.module';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+
+
+import { SharedModule } from '../../shared/shared.module';
+
+import { ListServicesComponent } from './listServices/listServices.component';
 
 const routes: Routes = [
-  {path: '', component: ListComponent}
+  { path: '', component: ListServicesComponent }
 ];
 
 @NgModule({
   imports: [
-    SharedModule,
+    FormsModule,
     CommonModule,
     RouterModule.forChild(routes),
-    DataTableModule,
-    Ng2TableModule
+    PaginationModule,
+    TabsModule,
+    Ng2TableModule,
+    Ng2Bs3ModalModule,
+    CurrencyMaskModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCz07i-n1MX1iYJTht9fJ82J8n-d1Kneuc'
+    }),
+    SharedModule
   ],
   declarations: [
-    ListComponent,
-    GridServicesComponent,
-    ServiceComponent
+    ListServicesComponent
   ],
   exports: [
     RouterModule

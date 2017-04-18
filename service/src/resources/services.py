@@ -41,7 +41,7 @@ service_fields = {
   'name': fields.String,
   'rating': fields.Integer,
   'latitude': fields.Float,
-  'latitude': fields.Float
+  'longitude': fields.Float
 }
 
 

@@ -11,71 +11,86 @@ import { User } from 'app/shared/models/user.model';
     templateUrl: './userblock.component.html'
 })
 export class UserblockComponent implements OnInit, OnDestroy {
-    private user: User;
-    private subscription: any;
+  private subscription: any;
+  private user: User;
+  private picturePath: string;
 
-    /*
-      Set default user
+  constructor(private userblockService: UserblockService, private authService: AuthService, private router: Router) {
+  }
 
-     */
-    constructor(private userblockService: UserblockService, private authService: AuthService, private router: Router) {
-        this.user = new User();
+  /*
+    Suscribe to subject
+    Ask if there is a user logged in
+    If it's true, retrieve information
+    If it's false, set default user
 
-        this.user = {
-          id: 0,
-          name: 'Invitado',
-          lastName: '',
-          email: '',
-          username: '',
-          role: 'invitado'
-        };
+   */
+  ngOnInit() {
+    this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); });
+    this.user = this.authService.getCurrentUser();
+    if (this.user == null) {
+      this.user = {
+        id: 0,
+        name: 'Invitado',
+        lastName: '',
+        email: '',
+        username: '',
+        role: 'invitado'
+      };
+      this.picturePath = '../../../assets/img/user/0.jpg'
     }
-
-    /*
-      Suscribe to subject
-
-     */
-    ngOnInit() {
-      this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); });
+    else {
+      this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
     }
+  }
 
-    /*
-      Destroy subscription
+  /*
+    Destroy subscription
 
-     */
-    ngOnDestroy() {
-      this.subscription.unsubscribe();
+   */
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  userBlockIsVisible() {
+    return this.userblockService.getVisibility();
+  }
+
+  /*
+   Update user information
+   If there is no user logged, set user as guest
+
+   */
+  updateUser(user: User) {
+    this.user = user;
+    if (this.user == null) {
+      this.user = {
+        id: 0,
+        name: 'Invitado',
+        lastName: '',
+        email: '',
+        username: '',
+        role: 'invitado'
+      };
+      this.picturePath = '../../../assets/img/user/0.jpg'
     }
-
-    userBlockIsVisible() {
-      return this.userblockService.getVisibility();
+    else {
+      this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
     }
+  }
 
-    /*
-      Update user information
-      If there is no user logged, set user as guest
+  /*
+    Route deppending on role
+    Guest -> /logIn
+    User -> /users
 
-     */
-    updateUser(user: User) {
-      this.user = user;
-      if (this.user == null) {
-        this.user = {
-          id: 0,
-          name: 'Invitado',
-          lastName: '',
-          email: '',
-          username: '',
-          role: 'invitado'
-        };
-      }
+   */
+  imageClick() {
+    if (this.user.role == 'invitado') {
+      this.router.navigate(['/logIn']);
     }
-
-    imageClick() {
-      if (this.user.role == 'invitado') {
-        this.router.navigate(['/logIn']);
-      }
-      else {
-        this.router.navigate(['/users']);
-      }
+    else {
+      this.router.navigate(['/users']);
     }
+  }
 }

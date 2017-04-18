@@ -11,25 +11,36 @@ import {User} from '../../../shared/models/user.model';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private user: User;
-  private error: boolean;
-  private errorMessage: string;
   private nameError: boolean;
   private emailError: boolean;
   private usernameError: boolean;
   private passwordsError: boolean;
   private passwordError: boolean;
+  private error: boolean;
+  private errorMessage: string;
 
   constructor(private registerService: RegisterService, private authService: AuthService, private router: Router) {
     this.user = new User();
-    this.error = false;
-    this.errorMessage = '';
-    this.nameError = false;
-    this.emailError = false;
-    this.usernameError= false;
-    this.passwordsError = false;
-    this.passwordError = false;
+  }
+
+  ngOnInit() {
+    this.initFlags();
+  }
+
+  /*
+   Initialize error flags
+
+   */
+  initFlags() {
+      this.nameError = false;
+      this.emailError = false;
+      this.usernameError= false;
+      this.passwordsError = false;
+      this.passwordError = false;
+      this.error = false;
+      this.errorMessage = '';
   }
 
   /*
@@ -37,7 +48,7 @@ export class RegisterComponent {
 
    */
   onKeyConfirmPassword(password: string, confirmPassword: string) {
-    this.passwordError = false;
+    this.initFlags();
     if (password !== confirmPassword) {
       this.passwordError = true;
     }
@@ -45,27 +56,21 @@ export class RegisterComponent {
 
   /*
     Push new user account
-    Validates if the fields email and username are uniques
     Validates if all necessary fields are filled
 
    */
   register(name: string, lastName: string, email: string, username: string, password: string, role: string) {
-    this.error = false;
-    this.errorMessage = '';
-    this.nameError = false;
-    this.emailError = false;
-    this.usernameError= false;
-    this.passwordsError = false;
-    if (name === '') {
+    this.initFlags();
+    if (name == '') {
       this.nameError = true;
     }
-    if (email === '') {
+    if (email == '') {
       this.emailError = true;
     }
-    if (username === '') {
+    if (username == '') {
       this.usernameError= true;
     }
-    if (password === '') {
+    if (password == '') {
       this.passwordsError = true;
     }
     if (name === '' || email === '' || username === '' || password === '') {
@@ -86,7 +91,7 @@ export class RegisterComponent {
   updateUser(user: User) {
     this.user = user;
     this.authService.setCurrentUser(this.user);
-    this.router.navigate(['/services']);
+    this.router.navigate(['/events']);
   }
 
   /*

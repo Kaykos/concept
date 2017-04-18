@@ -3,8 +3,6 @@
     <form _ngcontent-tpe-53="" class="form-horizontal ng-untouched ng-pristine ng-valid">
 
       <!--Start of Log In fields-->
-      <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
-
       <fieldset _ngcontent-iou-53="">
         <div _ngcontent-tpe-53="" class="form-group">
           <label _ngcontent-tpe-53="" class="col-lg-2 control-label" for="input-id-1">Usuario</label>
@@ -28,6 +26,7 @@
       <div _ngcontent-tpe-53="" class="form-group">
         <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
           <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="logIn(username.value, password.value)">Iniciar sesión</button>
+          <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
         </div>
       </div>
     </form>
