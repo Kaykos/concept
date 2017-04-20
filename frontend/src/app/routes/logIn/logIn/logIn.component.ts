@@ -6,6 +6,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 
 import { User } from '../../../shared/models/user.model';
 
+import { Md5 } from "ts-md5/dist/md5";
+
 @Component({
     selector: 'app-logIn',
     templateUrl: './logIn.component.html',
@@ -53,7 +55,7 @@ export class LogInComponent implements OnInit {
     if (username == '' || password == '') {
       return;
     }
-    this.logInService.logIn(username, {'password': password})
+    this.logInService.logIn(username, {'password': Md5.hashStr(password)})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
         error => this.handleError(error));

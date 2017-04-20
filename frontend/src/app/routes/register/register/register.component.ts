@@ -6,6 +6,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 
 import {User} from '../../../shared/models/user.model';
 
+import { Md5 } from "ts-md5/dist/md5";
+
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -77,7 +79,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username,
-      'password': password, 'role': role})
+      'password': Md5.hashStr(password), 'role': role})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
         error => this.handleError(error));

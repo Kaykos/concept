@@ -16,7 +16,7 @@ class User(Base):
   last_name = Column(String(30), nullable=True)
   user_name = Column(String(30), nullable=False, unique=True)
   email = Column(String(50), nullable=False, unique=True)
-  password = Column(String(20), nullable=False)
+  password = Column(String(50), nullable=False)
   role = Column(String(20), nullable=False)
   registered_at = Column(DateTime(), nullable=False)
 

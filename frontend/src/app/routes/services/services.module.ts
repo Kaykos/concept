@@ -11,7 +11,6 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
-
 import { SharedModule } from '../../shared/shared.module';
 
 import { ListServicesComponent } from './listServices/listServices.component';

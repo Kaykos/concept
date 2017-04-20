@@ -21,6 +21,8 @@ export class ListServicesComponent implements OnInit {
   private param: string;
   private showMap1: boolean;
   private showMap2: boolean;
+  private picturePath: string;
+  private stars: Array<string>;
 
   private nameError: boolean;
   private costError: boolean;
@@ -39,6 +41,8 @@ export class ListServicesComponent implements OnInit {
 
   @ViewChild('modal1') modal1;
   @ViewChild('modal2') modal2;
+  @ViewChild('map1') map1;
+  @ViewChild('map2') map2;
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
@@ -113,6 +117,7 @@ export class ListServicesComponent implements OnInit {
     this.servicesService.search(this.param)
       .subscribe(
         service  => { this.handleServices(service); });
+    this.stars = new Array<string>();
   }
 
   /*
@@ -122,6 +127,7 @@ export class ListServicesComponent implements OnInit {
   initFlags() {
     this.showMap1 = false;
     this.showMap2 = false;
+    this.picturePath = '';
     this.nameError = false;
     this.costError = false;
     this.descriptionError = false;
@@ -239,6 +245,12 @@ export class ListServicesComponent implements OnInit {
   public onCellClick(data: any): any {
     if (data.column == "viewButton") {
       this.service = Service.getInstance(data.row);
+      if (this.service.id > 0 && this.service.id < 6) {
+        this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
+      }
+      else {
+        this.picturePath = '../../../assets/img/service/0.png';
+      }
       this.modal2.open();
       this.showMap2 = true;
     }
@@ -294,7 +306,7 @@ export class ListServicesComponent implements OnInit {
     if (name == '' || cost <= 0 || description == '') {
       return;
     }
-    if (type != 'location') {
+    if (type != 'locacion') {
       this.servicesService.add(this.user.id, {
         'name': name, 'type': type, 'cost': cost, 'description': description
       })
@@ -304,7 +316,7 @@ export class ListServicesComponent implements OnInit {
     }
     else {
       this.servicesService.add(this.user.id, {
-        'name': name, 'type': type, 'cost': cost, 'description': description, 'latitude': 4.6289460000, 'longitude': -74.0628040000
+        'name': name, 'type': type, 'cost': cost, 'description': description, 'latitude': this.latitude, 'longitude': this.longitude
       })
         .subscribe(
           success => { this.manageAdd(); },
@@ -353,7 +365,8 @@ export class ListServicesComponent implements OnInit {
    */
   updateFields(cost: number, description: string, name: string) {
     let content: any;
-    this.initFlags();
+    this.errorUpdate = false;
+    this.errorMessage = '';
     if (cost > 0) {
       content['cost'] = cost;
     }
@@ -381,6 +394,7 @@ export class ListServicesComponent implements OnInit {
   manageUpdate(service: Service) {
     this.service = service;
     this.init();
+    this.fieldsChanged = true;
   }
 
   /*
@@ -419,5 +433,14 @@ export class ListServicesComponent implements OnInit {
   handleErrorDelete(error: any) {
     this.errorDelete = true;
     this.errorMessage = error.json().message;
+  }
+
+  /*
+    Update marker latitude and longitude on click
+
+   */
+  handleClickMap($event) {
+    this.latitude = $event.coords.lat;
+    this.longitude = $event.coords.lng;
   }
 }
