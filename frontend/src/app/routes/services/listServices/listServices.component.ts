@@ -10,8 +10,6 @@ import { Service } from '../../../shared/models/service.model';
 import 'jquery';
 import 'bootstrap';
 
-import { number } from "ng2-validation/dist/number";
-
 @Component({
   selector: 'app-listServices',
   templateUrl: './listServices.component.html',
