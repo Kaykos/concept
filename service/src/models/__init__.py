@@ -20,7 +20,7 @@ class User(Base):
   role = Column(String(20), nullable=False)
   registered_at = Column(DateTime(), nullable=False)
 
-  
+
   created_services = relationship("Service")
 
   def update(self, body):

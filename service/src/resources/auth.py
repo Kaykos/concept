@@ -89,7 +89,7 @@ class Authentication(Resource):
       session.close()
 
       logging.info(u'Logged user:{}'.format(user_id))
-      #return user
-      return jsonify(user.to_dict())
+      return user
+      #return jsonify(user.to_dict())
 
 api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_id>')
