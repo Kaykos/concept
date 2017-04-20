@@ -6,6 +6,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 
 import { User } from '../../../shared/models/user.model';
 
+import { Md5 } from "ts-md5/dist/md5";
+
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
@@ -76,7 +78,7 @@ export class UsersComponent implements OnInit {
       this.passwordsError = true;
       return;
     }
-    this.usersService.update(this.user.id, {'password': password})
+    this.usersService.update(this.user.id, {'password': Md5.hashStr(password)})
       .subscribe(
         (user: User)  => { this.managePassword(user) },
         error => this.handleErrorPassword(error));

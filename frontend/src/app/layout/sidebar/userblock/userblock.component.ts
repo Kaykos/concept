@@ -40,7 +40,12 @@ export class UserblockComponent implements OnInit, OnDestroy {
       this.picturePath = '../../../assets/img/user/0.jpg';
     }
     else {
-      this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg';
+      if (this.user.id > 5) {
+        this.picturePath = '../../../assets/img/user/0.jpg';
+      }
+      else {
+        this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
+      }
     }
   }
 
@@ -78,7 +83,9 @@ export class UserblockComponent implements OnInit, OnDestroy {
       if (this.user.id > 5) {
         this.picturePath = '../../../assets/img/user/0.jpg';
       }
-      this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
+      else {
+        this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
+      }
     }
   }
 

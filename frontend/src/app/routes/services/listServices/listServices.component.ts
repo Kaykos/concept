@@ -251,11 +251,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
   public onCellClick(data: any): any {
     if (data.column == "viewButton") {
       this.service = Service.getInstance(data.row);
-      if (this.service.id > 0 && this.service.id < 6) {
-        this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
+      if (this.service.id > 5) {
+        this.picturePath = '../../../assets/img/service/0.png';
       }
       else {
-        this.picturePath = '../../../assets/img/service/0.png';
+        this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
       }
       this.updateService = false;
       this.modal2.open();
