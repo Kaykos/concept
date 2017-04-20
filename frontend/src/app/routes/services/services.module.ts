@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PaginationModule } from 'ng2-bootstrap';
+import {PaginationModule, RatingModule} from 'ng2-bootstrap';
 import { TabsModule } from 'ng2-bootstrap';
 import { Ng2TableModule } from 'ng2-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';

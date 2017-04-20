@@ -6,7 +6,7 @@
   <!--Filter-->
   <div class="filter-wrapper">
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-6">
         <input *ngIf="config.filtering"
                [ngTableFiltering]="config.filtering"
                class="form-control"
@@ -137,8 +137,7 @@
         <img [src]="picturePath" [alt]="service.name" style="width: 100%" />
         <br>
         <br>
-        <span>Valoración: </span>
-        <span [innerHTML]="service.rating"></span>
+        <span>Valoración: {{service.rating}}</span>
         <br>
         <span>Costo: {{service.cost | currency:'COP':true:'1.0-3'}}</span>
         <br>
