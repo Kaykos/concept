@@ -83,10 +83,15 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.init();
   }
 
+  /*
+    Recalculate table when data is changed
+
+   */
   ngOnChanges() {
     if (this.services != null) {
-      this.extendData();
       this.data = this.services;
+      this.extendData();
+      this.length = this.data.length;
     }
   }
 
@@ -375,6 +380,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   updateFields(name: string, description: string, cost: number) {
     this.errorUpdate = false;
+    this.fieldsChanged = false;
     this.errorMessage = '';
     if (this.service.name == name && this.service.description == description && this.service.cost == cost) {
       this.errorUpdate = true;
@@ -392,7 +398,8 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   manageUpdate(service: Service) {
-    let index = this.services.indexOf(this.service);
+    let instance =  this.services.find(item => item.id == this.service.id);
+    let index = this.services.indexOf(instance);
     console.log(index);
     this.service = service;
     this.services[index] = this.service;
