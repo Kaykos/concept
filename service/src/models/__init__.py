@@ -20,6 +20,7 @@ class User(Base):
   role = Column(String(20), nullable=False)
   registered_at = Column(DateTime(), nullable=False)
 
+  
   created_services = relationship("Service")
 
   def update(self, body):
@@ -32,6 +33,16 @@ class User(Base):
       self.email = body['email']
     if 'password' in body:
       self.password = body['password']
+
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'last_name': self.last_name,
+      'email': self.email,
+      'user_name': self.user_name,
+      'role': self.role
+    }
 
 
 class Service(Base):
@@ -49,6 +60,7 @@ class Service(Base):
   latitude = Column(Numeric())
   longitude = Column(Numeric())
 
+  #Referencia al proveedor que crea el servicio
   provider = relationship("User", foreign_keys=[provider_id])
 
   def update(self, body):
@@ -63,3 +75,16 @@ class Service(Base):
       self.description = body['description']
     if 'name' in body:
       self.name = body['name']
+
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'provider_id': self.provider_id,
+      'cost': self.cost,
+      'description': self.description,
+      'type': self.type,
+      'name': self.name,
+      'rating': self.rating,
+      'latitude': self.latitude,
+      'longitude': self.longitude
+    }
