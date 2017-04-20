@@ -10,6 +10,8 @@ import { Service } from '../../../shared/models/service.model';
 import 'jquery';
 import 'bootstrap';
 
+import { number } from "ng2-validation/dist/number";
+
 @Component({
   selector: 'app-listServices',
   templateUrl: './listServices.component.html',
@@ -69,6 +71,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
   public constructor(private servicesService: ServicesService, private authService: AuthService, private router: Router) {
     this.user = new User();
     this.service = new Service();
+    this.services = [];
     this.stars = new Array<string>();
   }
 
@@ -81,7 +84,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   ngOnChanges() {
-    this.data = this.services;
+    this.data = this.services.slice(0, this.services.length);
     this.length = this.data.length;
     this.extendData();
     this.onChangeTable(this.config);
@@ -95,7 +98,6 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   init() {
     this.initFlags();
-    this.defaultService();
     this.latitude = 4.710989;
     this.longitude = -74.072092;
     this.user = this.authService.getCurrentUser();
@@ -146,30 +148,12 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-    Set a default service
-
-   */
-  defaultService() {
-    this.service['id'] = 0;
-    this.service['providerId'] = 0;
-    this.service['name'] = '';
-    this.service['cost'] = 0;
-    this.service['type'] = '';
-    this.service['description'] = '';
-    this.service['rating'] = 0;
-    this.service['latitude'] = 0;
-    this.service['longitude'] = 0;
-    this.latitude = 4.710989;
-    this.longitude = -74.072092;
-  }
-
-  /*
    Asign table data as requested services
 
    */
   handleServices(services) {
     this.services = services;
-    this.data = this.services;
+    this.data = this.services.slice(0, this.services.length);
     this.length = this.data.length;
     this.extendData();
     this.onChangeTable(this.config);
@@ -270,7 +254,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
   public onCellClick(data: any): any {
     if (data.column == "viewButton") {
       this.service = Service.getInstance(data.row);
-      if (this.service.id > 5) {
+      if (this.service.id > 6) {
         this.picturePath = '../../../assets/img/service/0.jpg';
       }
       else {
@@ -287,22 +271,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.data.length; i++) {
       this.data[i].viewButton = this.viewButton(this.data[i].viewButton);
     }
-    for (let i = 0; i < this.data.length; i++) {
-      this.data[i].rating = this.rating(this.data[i].rating);
-    }
   }
 
-  private viewButton(viewButton: string) {
+  private viewButton(viewButton: any) {
     viewButton = '<span class=\"fa fa-search\"></span>';
     return viewButton;
-  }
-
-  private rating(value: string) {
-    let template = '';
-    for (let i = 0; i < +value; i++) {
-      template += '<span class="fa fa-star"></span>';
-    }
-    return template;
   }
 
   /*
@@ -360,7 +333,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     }
     else {
       this.servicesService.add(this.user.id, {
-        'name': name, 'description': description, 'cost': cost, 'type': type, 'latitude': this.latitude, 'longitude': this.longitude
+        'name': name, 'description': description, 'cost': cost, 'type': type.toLowerCase(), 'latitude': this.latitude, 'longitude': this.longitude
       })
         .subscribe(
           (service: Service) => { this.manageAdd(service); },
@@ -376,7 +349,6 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.services.push(service);
     this.modal1.close();
     this.ngOnChanges();
-    this.defaultService();
   }
 
   /*

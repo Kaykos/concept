@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   private usernameError: boolean;
   private passwordsError: boolean;
   private passwordError: boolean;
+  private confirmPasswordError: boolean;
   private error: boolean;
   private errorMessage: string;
 
@@ -41,6 +42,7 @@ export class RegisterComponent implements OnInit {
       this.usernameError= false;
       this.passwordsError = false;
       this.passwordError = false;
+      this.confirmPasswordError = false;
       this.error = false;
       this.errorMessage = '';
   }
@@ -51,7 +53,7 @@ export class RegisterComponent implements OnInit {
    */
   onKeyConfirmPassword(password: string, confirmPassword: string) {
     this.initFlags();
-    if (password !== confirmPassword) {
+    if (password != confirmPassword) {
       this.passwordError = true;
     }
   }
@@ -61,7 +63,7 @@ export class RegisterComponent implements OnInit {
     Validates if all necessary fields are filled
 
    */
-  register(name: string, lastName: string, email: string, username: string, password: string, role: string) {
+  register(name: string, lastName: string, email: string, username: string, password: string, confirmPassword: string, role: string) {
     this.initFlags();
     if (name == '') {
       this.nameError = true;
@@ -75,11 +77,14 @@ export class RegisterComponent implements OnInit {
     if (password == '') {
       this.passwordsError = true;
     }
-    if (name === '' || email === '' || username === '' || password === '') {
+    if (confirmPassword == '') {
+      this.confirmPasswordError = true;
+    }
+    if (name == '' || email == '' || username == '' || password == '' || confirmPassword == '') {
       return;
     }
     this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username,
-      'password': Md5.hashStr(password), 'role': role})
+      'password': Md5.hashStr(password), 'role': role.toLowerCase()})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
         error => this.handleError(error));

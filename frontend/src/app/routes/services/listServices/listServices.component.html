@@ -96,9 +96,9 @@
                 <label _ngcontent-iou-53="" class="col-sm-2 control-label">Tipo</label>
                 <div _ngcontent-iou-53="" class="col-sm-10">
                   <select _ngcontent-iou-53="" class="form-control" name="typeAdd" #typeAdd>
-                    <option _ngcontent-iou-53="">locacion</option>
-                    <option _ngcontent-iou-53="">comida</option>
-                    <option _ngcontent-iou-53="">musica</option>
+                    <option _ngcontent-iou-53="">Locacion</option>
+                    <option _ngcontent-iou-53="">Comida</option>
+                    <option _ngcontent-iou-53="">Musica</option>
                   </select>
                 </div>
               </div>
@@ -109,7 +109,7 @@
         </div>
       </div>
 
-      <div *ngIf="showMap1 && typeAdd.value == 'locacion'">
+      <div *ngIf="showMap1 && typeAdd.value == 'Locacion'">
         <span>Fijar locación:</span>
         <br>
         <sebm-google-map (mapClick)="handleClickMap($event)" [zoom]="13" [latitude]="latitude" [longitude]="longitude" #map1>
@@ -158,8 +158,6 @@
         </div>
 
         <br>
-
-        {{service.providerId}}
 
         <!--Change condition-->
         <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="update()">Editar</button>

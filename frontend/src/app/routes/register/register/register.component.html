@@ -54,6 +54,7 @@
           <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-6">Confirmar contraseña</label>
           <div _ngcontent-iou-53="" class="col-sm-10">
             <input _ngcontent-iou-53="" class="form-control" id="input-id-6" name="password" type="password" #confirmPassword (keyup)="onKeyConfirmPassword(password.value, confirmPassword.value)">
+            <span *ngIf="confirmPasswordError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
             <span *ngIf="passwordError" _ngcontent-uqm-53="" class="text-danger">Las contraseñas no coinciden</span>
           </div>
         </div>
@@ -63,15 +64,15 @@
           <label _ngcontent-iou-53="" class="col-sm-2 control-label">Quiero ser</label>
           <div _ngcontent-iou-53="" class="col-sm-10">
             <select _ngcontent-iou-53="" class="form-control" name="account" #role>
-              <option _ngcontent-iou-53="">cliente</option>
-              <option _ngcontent-iou-53="">proveedor</option>
+              <option _ngcontent-iou-53="">Cliente</option>
+              <option _ngcontent-iou-53="">Proveedor</option>
             </select>
           </div>
         </div>
       </fieldset>
       <div _ngcontent-tpe-53="" class="form-group">
         <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
-          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="register(name.value, lastName.value, email.value, username.value, password.value, role.value)">Registrarse</button>
+          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="register(name.value, lastName.value, email.value, username.value, password.value, confirmPassword.value, role.value)">Registrarse</button>
           <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
         </div>
       </div>
