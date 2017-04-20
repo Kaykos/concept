@@ -18,3 +18,12 @@
 .panel-body {
   text-align: center;
 }
+
+/*
+  Define link attributes
+
+ */
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

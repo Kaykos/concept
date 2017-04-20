@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, OnChanges, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../shared/services/auth.service';
@@ -15,9 +15,10 @@ import 'bootstrap';
   templateUrl: './listServices.component.html',
   styleUrls: ['./listServices.component.scss']
 })
-export class ListServicesComponent implements OnInit {
+export class ListServicesComponent implements OnInit, OnChanges {
   private user: User;
   private service: Service;
+  private services: Service[];
   private param: string;
   private showMap1: boolean;
   private showMap2: boolean;
@@ -82,6 +83,13 @@ export class ListServicesComponent implements OnInit {
     this.init();
   }
 
+  ngOnChanges() {
+    if (this.services != null) {
+      this.extendData();
+      this.data = this.services;
+    }
+  }
+
   /*
     Set initial variables
     Require path to ask for services
@@ -118,6 +126,11 @@ export class ListServicesComponent implements OnInit {
       .subscribe(
         service  => { this.handleServices(service); });
     this.stars = new Array<string>();
+    this.showMap1 = false;
+    this.showMap2 = false;
+    this.picturePath = '';
+    this.updateService = false;
+    this.fieldsChanged = false;
   }
 
   /*
@@ -125,9 +138,6 @@ export class ListServicesComponent implements OnInit {
 
    */
   initFlags() {
-    this.showMap1 = false;
-    this.showMap2 = false;
-    this.picturePath = '';
     this.nameError = false;
     this.costError = false;
     this.descriptionError = false;
@@ -135,8 +145,6 @@ export class ListServicesComponent implements OnInit {
     this.errorDelete = false;
     this.errorUpdate = false;
     this.errorMessage = '';
-    this.updateService = false;
-    this.fieldsChanged = false;
   }
 
   /*
@@ -144,7 +152,8 @@ export class ListServicesComponent implements OnInit {
 
    */
   handleServices(service) {
-    this.data = service;
+    this.services = service;
+    this.data = this.services;
     this.length = this.data.length;
     this.extendData();
     this.onChangeTable(this.config);
@@ -292,16 +301,16 @@ export class ListServicesComponent implements OnInit {
     Validate required fields
 
    */
-  add(name: string, type: string, cost: number, description: string) {
+  add(name: string, description: string, cost: number, type: string) {
     this.initFlags();
     if (name == '') {
       this.nameError = true;
     }
-    if (cost <= 0) {
-      this.costError = true;
-    }
     if (description == '') {
       this.descriptionError = true;
+    }
+    if (cost <= 0) {
+      this.costError = true;
     }
     if (name == '' || cost <= 0 || description == '') {
       return;
@@ -329,7 +338,8 @@ export class ListServicesComponent implements OnInit {
 
    */
   manageAdd() {
-    window.location.reload();
+    this.services.push(this.service);
+    this.ngOnChanges();
   }
 
   /*
@@ -363,24 +373,14 @@ export class ListServicesComponent implements OnInit {
    Check if all fields are empty
 
    */
-  updateFields(cost: number, description: string, name: string) {
-    let content: any;
+  updateFields(name: string, description: string, cost: number) {
     this.errorUpdate = false;
     this.errorMessage = '';
-    if (cost > 0) {
-      content['cost'] = cost;
-    }
-    if (description == '') {
-      content['description'] = description;
-    }
-    if (name == '') {
-      content['name'] = name;
-    }
-    if (cost <= 0 && description == '' && name == '') {
+    if (this.service.name == name && this.service.description == description && this.service.cost == cost) {
       this.errorUpdate = true;
-      this.errorMessage = 'No hay campos para actualizar';
       return;
     }
+    let content = {'name': name, 'description': description, 'cost': cost};
     this.servicesService.update(this.user.id, this.service.id, content)
       .subscribe(
         (service: Service)  => { this.manageUpdate(service) },
@@ -392,9 +392,12 @@ export class ListServicesComponent implements OnInit {
 
    */
   manageUpdate(service: Service) {
+    let index = this.services.indexOf(this.service);
+    console.log(index);
     this.service = service;
-    this.init();
+    this.services[index] = this.service;
     this.fieldsChanged = true;
+    this.ngOnChanges();
   }
 
   /*
@@ -423,7 +426,10 @@ export class ListServicesComponent implements OnInit {
 
    */
   manageDelete() {
-    window.location.reload();
+    let index = this.services.indexOf(this.service);
+    this.services.splice(index, 1);
+    this.ngOnChanges();
+
   }
 
   /*

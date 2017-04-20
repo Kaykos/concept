@@ -80,4 +80,12 @@ export class LogInComponent implements OnInit {
     this.error = true;
     this.errorMessage = error.json().message;
   }
+
+  /*
+    Redirect to register page
+
+   */
+  redirectToRegister() {
+    this.router.navigate(['/register']);
+  }
 }

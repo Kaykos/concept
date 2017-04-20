@@ -72,9 +72,12 @@ export class UserblockComponent implements OnInit, OnDestroy {
         username: '',
         role: 'invitado'
       };
-      this.picturePath = '../../../assets/img/user/0.jpg'
+      this.picturePath = '../../../assets/img/user/0.jpg';
     }
     else {
+      if (this.user.id > 5) {
+        this.picturePath = '../../../assets/img/user/0.jpg';
+      }
       this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
     }
   }

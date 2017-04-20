@@ -54,43 +54,43 @@
               <div _ngcontent-iou-53="" class="form-group">
                 <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Nombre</label>
                 <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="name" type="text" #nameAdd>
+                  <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="nameAdd" type="text" #nameAdd>
                   <span *ngIf="nameError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Name management-->
 
-            <!--Start Cost management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-2">Costo</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-2" name="cost" type="text" #costAdd>
-                  <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
-                </div>
-              </div>
-            </fieldset>
-            <!--End Cost management-->
-
             <!--Start Description management-->
             <fieldset _ngcontent-iou-53="">
               <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-3">Descripción</label>
+                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-2">Descripción</label>
                 <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-3" name="description" type="text" #descriptionAdd>
+                  <input _ngcontent-iou-53="" class="form-control" id="input-id-2" name="descriptionAdd" type="text" #descriptionAdd>
                   <span *ngIf="descriptionError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Description management-->
 
+            <!--Start Cost management-->
+            <fieldset _ngcontent-iou-53="">
+              <div _ngcontent-iou-53="" class="form-group">
+                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-3">Costo</label>
+                <div _ngcontent-iou-53="" class="col-sm-10">
+                  <input _ngcontent-iou-53="" class="form-control" id="input-id-3" name="costAdd" type="text" #costAdd>
+                  <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+                </div>
+              </div>
+            </fieldset>
+            <!--End Cost management-->
+
             <!--Start Type management-->
             <fieldset _ngcontent-iou-53="" class="last-child">
               <div _ngcontent-iou-53="" class="form-group">
                 <label _ngcontent-iou-53="" class="col-sm-2 control-label">Tipo</label>
                 <div _ngcontent-iou-53="" class="col-sm-10">
-                  <select _ngcontent-iou-53="" class="form-control" name="account" #type>
+                  <select _ngcontent-iou-53="" class="form-control" name="typeAdd" #typeAdd>
                     <option _ngcontent-iou-53="">locacion</option>
                     <option _ngcontent-iou-53="">comida</option>
                     <option _ngcontent-iou-53="">musica</option>
@@ -114,7 +114,7 @@
 
       <br>
 
-      <button class="btn btn-primary btn-lg" (click)="add(nameAdd.value, type.value, +costAdd.value, descriptionAdd.value)">Agregar</button>
+      <button class="btn btn-primary btn-lg" (click)="add(nameAdd.value, descriptionAdd.value, +costAdd.value, typeAdd.value)">Agregar</button>
       <span *ngIf="errorAdd" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
 
     </modal-body>
@@ -132,8 +132,8 @@
         <img [src]="picturePath" [alt]="service.name" style="width: 100%" />
         <br>
         <br>
-        <span>Valoración: {{service.rating}}</span>
-
+        <span>Valoración: </span>
+        <span [innerHTML]="service.rating"></span>
         <br>
         <span>Costo: {{service.cost | currency:'COP':true:'1.0-3'}}</span>
         <br>
@@ -168,47 +168,46 @@
 
               <!--Start Service information management fields-->
 
-              <!--Start Cost management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-4">Costo</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-4" name="cost" type="text" value="0" #costUpdate>
-                    <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
-                  </div>
-                </div>
-              </fieldset>
-              <!--End Cost management-->
-
-              <!--Start Description management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-5">Descripción</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-5" name="description" type="text" #descriptionUpdate>
-                    <span *ngIf="descriptionError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
-                  </div>
-                </div>
-              </fieldset>
-              <!--End Description management-->
-
               <!--Start Name management-->
               <fieldset _ngcontent-iou-53="">
                 <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-6">Nombre</label>
+                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-4">Nombre</label>
                   <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-6" name="name" type="text" #nameUpdate>
+                    <input _ngcontent-iou-53="" class="form-control" id="input-id-4" name="nameUpdate" type="text" [ngModel]="service.name" #nameUpdate>
                     <span *ngIf="nameError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                   </div>
                 </div>
               </fieldset>
               <!--End Name management-->
 
+              <!--Start Description management-->
+              <fieldset _ngcontent-iou-53="">
+                <div _ngcontent-iou-53="" class="form-group">
+                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-5">Descripción</label>
+                  <div _ngcontent-iou-53="" class="col-sm-10">
+                    <input _ngcontent-iou-53="" class="form-control" id="input-id-5" name="descriptionUpdate" type="text" [ngModel]="service.description" #descriptionUpdate>
+                    <span *ngIf="descriptionError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+                  </div>
+                </div>
+              </fieldset>
+              <!--End Description management-->
+
+              <!--Start Cost management-->
+              <fieldset _ngcontent-iou-53="">
+                <div _ngcontent-iou-53="" class="form-group">
+                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-6">Costo</label>
+                  <div _ngcontent-iou-53="" class="col-sm-10">
+                    <input _ngcontent-iou-53="" class="form-control" id="input-id-6" name="costUpdate" type="text" value="0" [ngModel]="service.cost" #costUpdate>
+                    <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+                  </div>
+                </div>
+              </fieldset>
+              <!--End Cost management-->
 
               <div _ngcontent-tpe-53="" class="form-group">
                 <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
-                  <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateFields(+costUpdate.value, descriptionUpdate.value, nameUpdate.value)">Cambiar</button>
-                  <span *ngIf="errorUpdate" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
+                  <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateFields(nameUpdate.value, descriptionUpdate.value, +costUpdate.value)">Cambiar</button>
+                  <span *ngIf="errorUpdate" _ngcontent-uqm-67="" class="text-danger">Ningun campo ha sido actualizado</span>
                   <span *ngIf="fieldsChanged" _ngcontent-uqm-67="" class="text-success">Los campos han sido actualizados</span>
                 </div>
               </div>
