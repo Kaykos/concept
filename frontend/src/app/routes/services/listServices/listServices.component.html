@@ -4,23 +4,27 @@
 <div class="panel panel-default">
 
   <!--Filter-->
-  <div class="row">
-    <div class="col-md-9">
-      <input *ngIf="config.filtering"
-             [ngTableFiltering]="config.filtering"
-             class="form-control"
-             (tableChanged)="onChangeTable(config)"/>
+  <div class="filter-wrapper">
+    <div class="row">
+      <div class="col-md-9">
+        <input *ngIf="config.filtering"
+               [ngTableFiltering]="config.filtering"
+               class="form-control"
+               (tableChanged)="onChangeTable(config)"/>
+      </div>
     </div>
   </div>
 
   <br>
 
-  <!--Display table-->
-  <ng-table [config]="config"
-            (tableChanged)="onChangeTable(config)"
-            (cellClicked)="onCellClick($event)"
-            [rows]="rows" [columns]="columns">
-  </ng-table>
+  <div class="table-wrapper">
+    <!--Display table-->
+    <ng-table [config]="config"
+              (tableChanged)="onChangeTable(config)"
+              (cellClicked)="onCellClick($event)"
+              [rows]="rows" [columns]="columns">
+    </ng-table>
+  </div>
 
   <!--Display pagination-->
   <div class="page-container">
@@ -104,8 +108,8 @@
         </div>
       </div>
 
-      <div *ngIf="showMap1 && type.value == 'locacion'">
-        <span>Fijar ubicación:</span>
+      <div *ngIf="showMap1 && typeAdd.value == 'locacion'">
+        <span>Fijar locación:</span>
         <br>
         <sebm-google-map (mapClick)="handleClickMap($event)" [zoom]="13" [latitude]="latitude" [longitude]="longitude" #map1>
           <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude"></sebm-google-map-marker>
@@ -155,8 +159,8 @@
         <br>
 
         <!--Change condition-->
-        <button *ngIf="user.role == 'proveedor'" class="btn btn-primary btn-lg" (click)="update()">Editar</button>
-        <button *ngIf="user.role == 'proveedor'" class="btn btn-primary btn-lg" (click)="delete()">Eliminar</button>
+        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="update()">Editar</button>
+        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="delete()">Eliminar</button>
         <span *ngIf="errorDelete" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
       </div>
 
@@ -174,7 +178,6 @@
                   <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-4">Nombre</label>
                   <div _ngcontent-iou-53="" class="col-sm-10">
                     <input _ngcontent-iou-53="" class="form-control" id="input-id-4" name="nameUpdate" type="text" [ngModel]="service.name" #nameUpdate>
-                    <span *ngIf="nameError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                   </div>
                 </div>
               </fieldset>
@@ -186,7 +189,6 @@
                   <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-5">Descripción</label>
                   <div _ngcontent-iou-53="" class="col-sm-10">
                     <input _ngcontent-iou-53="" class="form-control" id="input-id-5" name="descriptionUpdate" type="text" [ngModel]="service.description" #descriptionUpdate>
-                    <span *ngIf="descriptionError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                   </div>
                 </div>
               </fieldset>
@@ -198,7 +200,6 @@
                   <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-6">Costo</label>
                   <div _ngcontent-iou-53="" class="col-sm-10">
                     <input _ngcontent-iou-53="" class="form-control" id="input-id-6" name="costUpdate" type="text" value="0" [ngModel]="service.cost" #costUpdate>
-                    <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
                   </div>
                 </div>
               </fieldset>

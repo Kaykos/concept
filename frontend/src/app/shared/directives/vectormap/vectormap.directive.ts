@@ -25,48 +25,48 @@ export class VectormapDirective implements OnInit {
     }
 
     this.$element.vectorMap({
-        map: this.mapName,
-        backgroundColor: this.mapOptions.bgColor,
-        zoomMin: 1,
-        zoomMax: 8,
-        zoomOnScroll: false,
-        regionStyle: {
-            initial: {
-                'fill': this.mapOptions.regionFill,
-                'fill-opacity': 1,
-                'stroke': 'none',
-                'stroke-width': 1.5,
-                'stroke-opacity': 1
-            },
-            hover: {
-                'fill-opacity': 0.8
-            },
-            selected: {
-                fill: 'blue'
-            },
-            selectedHover: {
-            }
+      map: this.mapName,
+      backgroundColor: this.mapOptions.bgColor,
+      zoomMin: 1,
+      zoomMax: 8,
+      zoomOnScroll: false,
+      regionStyle: {
+        initial: {
+          'fill': this.mapOptions.regionFill,
+          'fill-opacity': 1,
+          'stroke': 'none',
+          'stroke-width': 1.5,
+          'stroke-opacity': 1
         },
-        focusOn: { x: 0.4, y: 0.6, scale: this.mapOptions.scale },
-        markerStyle: {
-            initial: {
-                fill: this.mapOptions.markerColor,
-                stroke: this.mapOptions.markerColor
-            }
+        hover: {
+          'fill-opacity': 0.8
         },
-        onRegionLabelShow: (e, el, code) => {
-            if (this.seriesData && this.seriesData[code]) {
-                el.html(el.html() + ': ' + this.seriesData[code] + ' visitors');
-            }
+        selected: {
+          fill: 'blue'
         },
-        markers: this.markersData,
-        series: {
-            regions: [{
-                values: this.seriesData,
-                scale: this.mapOptions.scaleColors,
-                normalizeFunction: 'polynomial'
-            }]
-        },
+        selectedHover: {
+        }
+      },
+      focusOn: { x: 0.4, y: 0.6, scale: this.mapOptions.scale },
+      markerStyle: {
+        initial: {
+          fill: this.mapOptions.markerColor,
+          stroke: this.mapOptions.markerColor
+        }
+      },
+      onRegionLabelShow: (e, el, code) => {
+        if (this.seriesData && this.seriesData[code]) {
+          el.html(el.html() + ': ' + this.seriesData[code] + ' visitors');
+        }
+      },
+      markers: this.markersData,
+      series: {
+        regions: [{
+          values: this.seriesData,
+          scale: this.mapOptions.scaleColors,
+          normalizeFunction: 'polynomial'
+        }]
+      },
     });
   }
 }

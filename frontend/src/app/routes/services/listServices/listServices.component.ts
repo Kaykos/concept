@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, ViewChild} from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../shared/services/auth.service';
@@ -43,7 +43,6 @@ export class ListServicesComponent implements OnInit, OnChanges {
   @ViewChild('modal1') modal1;
   @ViewChild('modal2') modal2;
   @ViewChild('map1') map1;
-  @ViewChild('map2') map2;
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
@@ -70,15 +69,9 @@ export class ListServicesComponent implements OnInit, OnChanges {
   public constructor(private servicesService: ServicesService, private authService: AuthService, private router: Router) {
     this.user = new User();
     this.service = new Service();
+    this.stars = new Array<string>();
   }
 
-  /*
-   Get current user and ask for services depending on role.
-   Guest, client -> Location services
-   Provider -> Own services
-   Admin -> All services
-
-   */
   public ngOnInit(): void {
     this.init();
   }
@@ -88,16 +81,16 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   ngOnChanges() {
-    if (this.services != null) {
-      this.data = this.services;
-      this.extendData();
-      this.length = this.data.length;
-    }
+    this.data = this.services;
+    this.length = this.data.length;
+    this.extendData();
+    this.onChangeTable(this.config);
   }
 
   /*
     Set initial variables
     Require path to ask for services
+    Set initial flag values as false
 
    */
   init() {
@@ -130,16 +123,14 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.servicesService.search(this.param)
       .subscribe(
         service  => { this.handleServices(service); });
-    this.stars = new Array<string>();
     this.showMap1 = false;
     this.showMap2 = false;
     this.picturePath = '';
     this.updateService = false;
-    this.fieldsChanged = false;
   }
 
   /*
-   Initialize error flags
+   Initialize error and update flags
 
    */
   initFlags() {
@@ -150,14 +141,15 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.errorDelete = false;
     this.errorUpdate = false;
     this.errorMessage = '';
+    this.fieldsChanged = false;
   }
 
   /*
    Asign table data as requested services
 
    */
-  handleServices(service) {
-    this.services = service;
+  handleServices(services) {
+    this.services = services;
     this.data = this.services;
     this.length = this.data.length;
     this.extendData();
@@ -265,7 +257,9 @@ export class ListServicesComponent implements OnInit, OnChanges {
       else {
         this.picturePath = '../../../assets/img/service/0.png';
       }
+      this.updateService = false;
       this.modal2.open();
+      this.showMap1 = false;
       this.showMap2 = true;
     }
   }
@@ -298,7 +292,24 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   newService() {
     this.modal1.open();
+    this.showMap2 = false;
     this.showMap1 = true;
+  }
+
+  /*
+   Set modal as updater
+
+   */
+  update() {
+    this.updateService = true;
+  }
+
+  /*
+   Cancel modal as updater
+
+   */
+  back() {
+    this.updateService = false;
   }
 
   /*
@@ -317,23 +328,23 @@ export class ListServicesComponent implements OnInit, OnChanges {
     if (cost <= 0) {
       this.costError = true;
     }
-    if (name == '' || cost <= 0 || description == '') {
+    if (name == '' ||  description == '' || cost <= 0) {
       return;
     }
     if (type != 'locacion') {
       this.servicesService.add(this.user.id, {
-        'name': name, 'type': type, 'cost': cost, 'description': description
+        'name': name, 'description': description, 'cost': cost, 'type': type
       })
         .subscribe(
-          success => { this.manageAdd(); },
+          (service: Service) => { this.manageAdd(service); },
           error => { this.handleErrorAdd(error); });
     }
     else {
       this.servicesService.add(this.user.id, {
-        'name': name, 'type': type, 'cost': cost, 'description': description, 'latitude': this.latitude, 'longitude': this.longitude
+        'name': name, 'description': description, 'cost': cost, 'type': type, 'latitude': this.latitude, 'longitude': this.longitude
       })
         .subscribe(
-          success => { this.manageAdd(); },
+          (service: Service) => { this.manageAdd(service); },
           error => { this.handleErrorAdd(error); });
     }
   }
@@ -342,8 +353,9 @@ export class ListServicesComponent implements OnInit, OnChanges {
    Handle event when service is added
 
    */
-  manageAdd() {
-    this.services.push(this.service);
+  manageAdd(service) {
+    this.services.push(service);
+    this.modal1.close();
     this.ngOnChanges();
   }
 
@@ -358,30 +370,12 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-    Set modal as updater
-
-   */
-  update() {
-    this.updateService = true;
-  }
-
-  /*
-    Cancel modal as updater
-
-   */
-  back() {
-    this.updateService = false;
-  }
-
-  /*
    Send request to update service
-   Check if all fields are empty
+   Check if any field has been changed
 
    */
   updateFields(name: string, description: string, cost: number) {
-    this.errorUpdate = false;
-    this.fieldsChanged = false;
-    this.errorMessage = '';
+    this.initFlags();
     if (this.service.name == name && this.service.description == description && this.service.cost == cost) {
       this.errorUpdate = true;
       return;
@@ -400,7 +394,6 @@ export class ListServicesComponent implements OnInit, OnChanges {
   manageUpdate(service: Service) {
     let instance =  this.services.find(item => item.id == this.service.id);
     let index = this.services.indexOf(instance);
-    console.log(index);
     this.service = service;
     this.services[index] = this.service;
     this.fieldsChanged = true;
@@ -412,6 +405,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   handleErrorUpdate(error: any) {
+    this.initFlags();
     this.errorUpdate = true;
     this.errorMessage = error.json().message;
   }
@@ -433,10 +427,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   manageDelete() {
-    let index = this.services.indexOf(this.service);
+    let instance =  this.services.find(item => item.id == this.service.id);
+    let index = this.services.indexOf(instance);
     this.services.splice(index, 1);
+    this.modal2.close();
     this.ngOnChanges();
-
   }
 
   /*
@@ -444,6 +439,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   handleErrorDelete(error: any) {
+    this.initFlags();
     this.errorDelete = true;
     this.errorMessage = error.json().message;
   }

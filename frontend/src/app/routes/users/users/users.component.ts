@@ -13,26 +13,38 @@ import { User } from '../../../shared/models/user.model';
 })
 export class UsersComponent implements OnInit {
   private user: User;
+
+  private emailError: boolean;
+  private passwordError: boolean;
+  private passwordsError: boolean;
+
   private errorPassword: boolean;
   private errorEmail: boolean;
   private errorDelete: boolean;
   private errorMessage: string;
-  private emailError: boolean;
-  private passwordsError: boolean;
-  private passwordError: boolean;
+
   private passwordChanged: boolean;
   private emailChanged: boolean;
 
   constructor(private usersService: UsersService, private authService: AuthService, private router: Router) {
+    this.initFlags();
+  }
+
+  /*
+    Initializa error and update flags
+
+   */
+  initFlags() {
     this.errorPassword = false;
     this.errorEmail = false;
     this.errorDelete = false;
     this.errorMessage = '';
     this.emailError = false;
-    this.passwordsError = false;
     this.passwordError = false;
+    this.passwordsError = false;
     this.passwordChanged = false;
     this.emailChanged = false;
+    this.errorMessage = '';
   }
 
   /*
@@ -59,11 +71,8 @@ export class UsersComponent implements OnInit {
 
    */
   updatePassword(password: string) {
-    this.errorPassword = false;
-    this.errorEmail = false;
-    this.passwordsError = false;
-    this.passwordChanged = false;
-    if (password === '') {
+    this.initFlags();
+    if (password == '') {
       this.passwordsError = true;
       return;
     }
@@ -87,6 +96,7 @@ export class UsersComponent implements OnInit {
 
    */
   handleErrorPassword(error: any) {
+    this.initFlags();
     this.errorPassword = true;
     this.errorMessage = error.json().message;
   }
@@ -96,11 +106,8 @@ export class UsersComponent implements OnInit {
 
    */
   updateEmail(email: string) {
-    this.errorPassword = false;
-    this.errorEmail = false;
-    this.emailError = false;
-    this.emailChanged = false;
-    if (email === '') {
+    this.initFlags();
+    if (email == '') {
       this.emailError = true;
       return;
     }
@@ -124,6 +131,7 @@ export class UsersComponent implements OnInit {
 
    */
   handleErrorEmail(error: any) {
+    this.initFlags();
     this.errorEmail = true;
     this.errorMessage = error.json().message;
   }
@@ -133,7 +141,7 @@ export class UsersComponent implements OnInit {
 
    */
   deleteUser() {
-    this.errorDelete = false;
+    this.initFlags();
     this.usersService.delete(this.user.id)
       .subscribe(
         success  => { this.manageDelete() },
@@ -154,6 +162,7 @@ export class UsersComponent implements OnInit {
 
    */
   handleErrorDelete(error: any) {
+    this.initFlags();
     this.errorDelete = true;
     this.errorMessage = error.json().message;
   }

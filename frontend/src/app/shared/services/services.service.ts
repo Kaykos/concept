@@ -44,15 +44,7 @@ export class ServicesService {
       headers: new Headers({'Content-Type': 'application/json'})
     });
     return this.http.post(`${environment.apiBase}/users/` + userId.toString() + '/services', bodyString, options)
-      .map((response: Response) => ServicesService.fromResponseAdd(response));
-  }
-
-  /*
-   Handle response by mapping data
-
-   */
-  private static fromResponseAdd(response: Response): Service {
-    return Service.getInstance(response.json());
+      .map((response: Response) => ServicesService.fromResponseAddUpdate(response));
   }
 
   /*
@@ -65,14 +57,14 @@ export class ServicesService {
       headers: new Headers({'Content-Type': 'application/json'})
     });
     return this.http.put(`${environment.apiBase}/users/` + userId.toString() + '/services/' + serviceId.toString(), bodyString, options)
-      .map((response: Response) => ServicesService.fromResponseUpdate(response));
+      .map((response: Response) => ServicesService.fromResponseAddUpdate(response));
   }
 
   /*
    Handle response by mapping data
 
    */
-  private static fromResponseUpdate(response: Response): Service {
+  private static fromResponseAddUpdate(response: Response): Service {
     return Service.getInstance(response.json());
   }
 

@@ -1,4 +1,4 @@
-import {PropsMapping} from '../services/model.service';
+import { PropsMapping } from '../services/model.service';
 
 const propsMapping: PropsMapping = {
   id: 'id',
