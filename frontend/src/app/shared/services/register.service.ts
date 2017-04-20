@@ -20,7 +20,7 @@ export class RegisterService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.post(`${environment.apiBase}/users`, bodyString, options)
+    return this.http.post(`${environment.apiBase}` + '/users', bodyString, options)
       .map((response: Response) => RegisterService.fromResponse(response));
   }
 

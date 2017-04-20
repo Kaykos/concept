@@ -43,7 +43,7 @@ export class ServicesService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.post(`${environment.apiBase}/users/` + userId.toString() + '/services', bodyString, options)
+    return this.http.post(`${environment.apiBase}` + '/users/' + userId.toString() + '/services', bodyString, options)
       .map((response: Response) => ServicesService.fromResponseAddUpdate(response));
   }
 
@@ -56,7 +56,7 @@ export class ServicesService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.put(`${environment.apiBase}/users/` + userId.toString() + '/services/' + serviceId.toString(), bodyString, options)
+    return this.http.put(`${environment.apiBase}` + '/users/' + userId.toString() + '/services/' + serviceId.toString(), bodyString, options)
       .map((response: Response) => ServicesService.fromResponseAddUpdate(response));
   }
 
@@ -76,7 +76,7 @@ export class ServicesService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.delete(`${environment.apiBase}/users/` + userId.toString() + '/services/' + serviceId.toString(), options)
+    return this.http.delete(`${environment.apiBase}` + '/users/' + userId.toString() + '/services/' + serviceId.toString(), options)
       .map((response: Response) => { return response; });
   }
 }

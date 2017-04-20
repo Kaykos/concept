@@ -10,7 +10,8 @@
         <input *ngIf="config.filtering"
                [ngTableFiltering]="config.filtering"
                class="form-control"
-               (tableChanged)="onChangeTable(config)"/>
+               (tableChanged)="onChangeTable(config)"
+               placeholder="Filtra tu búsqueda..."/>
       </div>
     </div>
   </div>
@@ -157,6 +158,8 @@
         </div>
 
         <br>
+
+        {{service.providerId}}
 
         <!--Change condition-->
         <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="update()">Editar</button>

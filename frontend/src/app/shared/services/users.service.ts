@@ -19,7 +19,7 @@ export class UsersService {
   const options = new RequestOptions({
     headers: new Headers({'Content-Type': 'application/json'})
   });
-  return this.http.put(`${environment.apiBase}/users/` + id.toString(), bodyString, options)
+  return this.http.put(`${environment.apiBase}` + '/users/' + id.toString(), bodyString, options)
     .map((response: Response) => UsersService.fromResponse(response));
   }
 
@@ -39,7 +39,7 @@ export class UsersService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.delete(`${environment.apiBase}/users/` + id.toString(), options)
+    return this.http.delete(`${environment.apiBase}` + '/users/' + id.toString(), options)
       .map((response: Response) => { return response; });
   }
 }

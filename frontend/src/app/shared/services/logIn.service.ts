@@ -19,7 +19,7 @@ export class LogInService {
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
-    return this.http.post(`${environment.apiBase}/auth/` + username, bodyString, options)
+    return this.http.post(`${environment.apiBase}` + '/auth/' + username, bodyString, options)
       .map((response: Response) => LogInService.fromResponse(response));
   }
 
