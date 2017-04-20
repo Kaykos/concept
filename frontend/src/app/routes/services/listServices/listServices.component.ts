@@ -95,6 +95,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   init() {
     this.initFlags();
+    this.defaultService();
     this.latitude = 4.710989;
     this.longitude = -74.072092;
     this.user = this.authService.getCurrentUser();
@@ -142,6 +143,24 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.errorUpdate = false;
     this.errorMessage = '';
     this.fieldsChanged = false;
+  }
+
+  /*
+    Set a default service
+
+   */
+  defaultService() {
+    this.service['id'] = 0;
+    this.service['providerId'] = 0;
+    this.service['name'] = '';
+    this.service['cost'] = 0;
+    this.service['type'] = '';
+    this.service['description'] = '';
+    this.service['rating'] = 0;
+    this.service['latitude'] = 0;
+    this.service['longitude'] = 0;
+    this.latitude = 4.710989;
+    this.longitude = -74.072092;
   }
 
   /*
@@ -252,7 +271,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     if (data.column == "viewButton") {
       this.service = Service.getInstance(data.row);
       if (this.service.id > 5) {
-        this.picturePath = '../../../assets/img/service/0.png';
+        this.picturePath = '../../../assets/img/service/0.jpg';
       }
       else {
         this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
@@ -357,6 +376,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.services.push(service);
     this.modal1.close();
     this.ngOnChanges();
+    this.defaultService();
   }
 
   /*

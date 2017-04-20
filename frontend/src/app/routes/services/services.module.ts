@@ -29,9 +29,7 @@ const routes: Routes = [
     Ng2TableModule,
     Ng2Bs3ModalModule,
     CurrencyMaskModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCz07i-n1MX1iYJTht9fJ82J8n-d1Kneuc'
-    }),
+    AgmCoreModule,
     SharedModule
   ],
   declarations: [

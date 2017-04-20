@@ -8,6 +8,8 @@ import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 
+import { AgmCoreModule } from "angular2-google-maps/core";
+
 import { AppComponent } from './app.component';
 
 import { AuthService } from './shared/services/auth.service';
@@ -31,7 +33,10 @@ export function createTranslateLoader(http: Http) {
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
       deps: [Http]
-    })
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCz07i-n1MX1iYJTht9fJ82J8n-d1Kneuc'
+    }),
   ],
   providers: [
     AuthService,
