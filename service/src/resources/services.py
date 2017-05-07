@@ -2,7 +2,7 @@
 import logging
 
 import wtforms_json
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource, fields, marshal_with
 
 from db_manager import DbManager
@@ -41,7 +41,9 @@ service_fields = {
   'name': fields.String,
   'rating': fields.Integer,
   'latitude': fields.Float,
-  'longitude': fields.Float
+  'longitude': fields.Float,
+  'phone': fields.String,
+  'address': fields.String
 }
 
 
@@ -51,7 +53,6 @@ class Services(Resource):
   Servicios de servicios
   """
 
-  @marshal_with(service_fields)
   def get(self, type=None):
     """
     Obtener servicios. Si se recibe type se retornan los servicios de ese tipo
@@ -67,14 +68,17 @@ class Services(Resource):
 
     session.close()
 
-    logging.info(u'Returned services')
-    return services
+    services_list = list()
+    for service in services:
+      services_list.append(service.to_dict())
+
+    logging.info(u'Returned all services')
+    return jsonify(services_list)
 
 class ServicesByUser(Resource):
   """
   Servicios de servicios por usuario
   """
-  @marshal_with(service_fields)
   def get(self, user_id):
     """
     Obtener los servicios creados por un usuario
@@ -84,9 +88,14 @@ class ServicesByUser(Resource):
     session = DbManager.get_database_session()
     services = session.query(Service).filter_by(provider_id=user_id).all()
     session.close()
-    return services
 
-  @marshal_with(service_fields)
+    services_list = list()
+    for service in services:
+      services_list.append(service.to_dict())
+
+    logging.info(u'Returned services of user: {}'.format(user_id))
+    return jsonify(services_list)
+
   def post(self, user_id):
     """
     Crear un servicio
@@ -109,7 +118,9 @@ class ServicesByUser(Resource):
       description=form.description.data,
       type=form.type.data,
       name=form.name.data,
-      rating=0
+      rating=0,
+      phone=form.phone.data,
+      address=form.address.data
     )
 
     if form.type.data == 'locacion':
@@ -122,9 +133,9 @@ class ServicesByUser(Resource):
     session.commit()
     session.close()
 
-    return service
+    logging.info(u'Created service for user: {}'.format(user_id))
+    return jsonify(service.to_dict())
 
-  @marshal_with(service_fields)
   def put(self, user_id, service_id):
     """
     Actualizar la información de un servicio
@@ -146,7 +157,8 @@ class ServicesByUser(Resource):
     session.commit()
     session.close()
 
-    return service
+    logging.info(u'Updated service: {}'.format(service_id))
+    return jsonify(service.to_dict())
 
   def delete(self, user_id, service_id):
     """
@@ -166,6 +178,7 @@ class ServicesByUser(Resource):
     service = session.query(Service).filter_by(id=service_id).first()
     session.delete(service)
     session.commit()
+    logging.info(u'Deleted service: {}'.format(service_id))
     return
 
 api.add_resource(Services, '/api/services', '/api/services/<string:type>')

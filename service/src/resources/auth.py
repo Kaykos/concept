@@ -59,7 +59,6 @@ class Authentication(Resource):
   Servicios de autenticación
   """
 
-  @marshal_with(response_fields)
   def post(self, user_id=None):
     """
     Obtener un user identificado por user_name, validadndo los datos
@@ -74,8 +73,8 @@ class Authentication(Resource):
 
       wtforms_json.init()
       form = UserAuthenticateForm.from_json(request.json)
-      form.id.data = user_id
-      form.id_is_email = Utilities.is_email(user_id)
+      form.id.data = user_id.lower()
+      form.id_is_email = Utilities.is_email(form.id.data)
       form.session = session
 
       if not form.validate():
@@ -83,13 +82,12 @@ class Authentication(Resource):
         raise IncompleteInformation
 
       if form.id_is_email:
-        user = session.query(User).filter_by(email=user_id).first()
+        user = session.query(User).filter_by(email=form.id.data).first()
       else:
-        user = session.query(User).filter_by(user_name=user_id).first()
+        user = session.query(User).filter_by(user_name=form.id.data).first()
       session.close()
 
-      logging.info(u'Logged user:{}'.format(user_id))
-      return user
-      #return jsonify(user.to_dict())
+      logging.info(u'Logged user: {}'.format(user_id))
+      return jsonify(user.to_dict())
 
 api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_id>')

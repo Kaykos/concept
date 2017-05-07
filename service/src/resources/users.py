@@ -3,7 +3,7 @@ import datetime
 
 import logging
 import wtforms_json
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource, fields, marshal_with
 
 from db_manager import DbManager
@@ -68,7 +68,6 @@ class Users(Resource):
   Servicios de usuarios
   """
 
-  @marshal_with(user_fields)
   def get(self, user_id=None):
     """
     Obtener un user identificado por user_name, validadndo los datos
@@ -82,16 +81,19 @@ class Users(Resource):
       user = session.query(User).filter_by(id=user_id).first()
       session.close()
 
-      return user
+      return jsonify(user.to_dict())
 
     else:
       session = DbManager.get_database_session()
       users = session.query(User).order_by(User.id).all()
       session.close()
 
-      return users
+      users_list = list()
+      for user in users:
+        users_list.append(user.to_dict())
 
-  @marshal_with(user_fields)
+      return jsonify(users_list)
+
   def post(self):
     """
     Crear un usuario
@@ -113,8 +115,8 @@ class Users(Resource):
     user = User(
       name=form.name.data,
       last_name=form.last_name.data,
-      user_name=form.user_name.data,
-      email=form.email.data,
+      user_name=form.user_name.data.lower(),
+      email=form.email.data.lower(),
       password=form.password.data,
       role=form.role.data,
       registered_at=datetime.datetime.now()
@@ -127,9 +129,9 @@ class Users(Resource):
     session.close()
 
     logging.info(u'Registered user: {}'.format(form.user_name.data))
-    return user
 
-  @marshal_with(user_fields)
+    return jsonify(user.to_dict())
+
   def put(self, user_id):
     """
     Actualizar la información de un usuario
@@ -150,7 +152,7 @@ class Users(Resource):
     session.close()
 
     logging.info(u'Updated user: {}'.format(user.user_name))
-    return user
+    return jsonify(user.to_dict())
 
   def delete(self, user_id):
     """

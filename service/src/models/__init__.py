@@ -30,7 +30,7 @@ class User(Base):
     :return: 
     """
     if 'email' in body:
-      self.email = body['email']
+      self.email = body['email'].lower()
     if 'password' in body:
       self.password = body['password']
 
@@ -59,6 +59,8 @@ class Service(Base):
   rating = Column(Integer, nullable=False)
   latitude = Column(Numeric())
   longitude = Column(Numeric())
+  phone = Column(String(20), nullable=False)
+  address = Column(String(50), nullable=False)
 
   #Referencia al proveedor que crea el servicio
   provider = relationship("User", foreign_keys=[provider_id])
@@ -75,6 +77,10 @@ class Service(Base):
       self.description = body['description']
     if 'name' in body:
       self.name = body['name']
+    if 'phone' in body:
+      self.phone = body['phone']
+    if 'address' in body:
+      self.address = body['address']
 
   def to_dict(self):
     return {
@@ -86,5 +92,7 @@ class Service(Base):
       'name': self.name,
       'rating': self.rating,
       'latitude': self.latitude,
-      'longitude': self.longitude
+      'longitude': self.longitude,
+      'phone': self.phone,
+      'address': self.address
     }

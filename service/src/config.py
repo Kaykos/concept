@@ -32,6 +32,7 @@ class Config(object):
   CLOUDSQL_PASSWORD = 'root-password'
   CLOUDSQL_DATABASE = 'concept-db'
   CLOUDSQL_CONNECTION_NAME = 'events-concept:us-central1:concept-db'
+  CLOUD_STORAGE_BUCKET = 'events-concept.appspot.com'
 
 
 class DevelopmentConfig(Config):

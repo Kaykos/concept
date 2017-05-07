@@ -6,6 +6,9 @@ from flask import Blueprint, jsonify
 from flask_restful import Api, Resource
 
 #Creación del blueprint
+from flask import request
+from file_manager import FileManager
+
 utils_bp = Blueprint('utils_api', __name__)
 api = Api(utils_bp, catch_all_404s=True)
 
@@ -28,5 +31,9 @@ class Utils(Resource):
       except:
         pass
       return jsonify({'sys:': sys_platform, 'os':os_name, 'plat': platform_plat})
+
+  def post(self):
+    img_string = request.json['img_data']
+    FileManager.create_file(img_string, 'test_file', 'png')
 
 api.add_resource(Utils, '/api/utils', '/api/utils/<string:type>')
