@@ -10,6 +10,7 @@ from db_manager import DbManager
 from forms import UserCreateForm, UserDeleteForm, UserUpdateForm
 from models import User
 from resources import APIError
+from utilities import Utilities
 
 errors = {
   'IncompleteInformation': {
@@ -52,16 +53,6 @@ class UserDoesNotExist(APIError):
 users_bp = Blueprint('users_api', __name__)
 api = Api(users_bp, errors=errors, catch_all_404s=True)
 
-# Campos para retornar
-user_fields = {
-  'id': fields.Integer,
-  'name': fields.String,
-  'last_name': fields.String,
-  'email': fields.String,
-  'user_name': fields.String,
-  'role': fields.String
-}
-
 
 class Users(Resource):
   """
@@ -81,18 +72,14 @@ class Users(Resource):
       user = session.query(User).filter_by(id=user_id).first()
       session.close()
 
-      return jsonify(user.to_dict())
+      return Utilities.object_to_json(user)
 
     else:
       session = DbManager.get_database_session()
       users = session.query(User).order_by(User.id).all()
       session.close()
 
-      users_list = list()
-      for user in users:
-        users_list.append(user.to_dict())
-
-      return jsonify(users_list)
+      return Utilities.list_to_json(users)
 
   def post(self):
     """
@@ -112,25 +99,16 @@ class Users(Resource):
       raise IncompleteInformation
 
     # Crear un nuevo user
-    user = User(
-      name=form.name.data,
-      last_name=form.last_name.data,
-      user_name=form.user_name.data.lower(),
-      email=form.email.data.lower(),
-      password=form.password.data,
-      role=form.role.data,
-      registered_at=datetime.datetime.now()
-    )
+    user = User(form)
 
     # Actualizar en la base de datos
-
     session.add(user)
     session.commit()
     session.close()
 
     logging.info(u'Registered user: {}'.format(form.user_name.data))
 
-    return jsonify(user.to_dict())
+    return Utilities.object_to_json(user)
 
   def put(self, user_id):
     """
@@ -152,7 +130,8 @@ class Users(Resource):
     session.close()
 
     logging.info(u'Updated user: {}'.format(user.user_name))
-    return jsonify(user.to_dict())
+
+    return Utilities.object_to_json(user)
 
   def delete(self, user_id):
     """
@@ -174,6 +153,7 @@ class Users(Resource):
     session.commit()
 
     logging.info(u'Deleted user: {}'.format(user.user_name))
+
     return
 
 

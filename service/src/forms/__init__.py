@@ -106,6 +106,8 @@ class ServiceCreateForm(Form):
   name = StringField(InputRequired())
   latitude = DecimalField(Optional())
   longitude = DecimalField(Optional())
+  phone = StringField(Optional())
+  address = StringField(Optional())
 
 class ServiceUpdateForm(Form):
   """

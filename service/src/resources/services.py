@@ -3,7 +3,7 @@ import logging
 
 import wtforms_json
 from flask import Blueprint, request, jsonify
-from flask_restful import Api, Resource, fields, marshal_with
+from flask_restful import Api, Resource
 
 from db_manager import DbManager
 from forms import ServiceCreateForm, ServiceDeleteForm
@@ -19,32 +19,21 @@ errors = {
   }
 }
 
+
 # Excepciones
 class IncompleteInformation(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
 
+
 class ServiceDoesNotExist(APIError):
   def __init__(self, *args, **kwargs):
     super(self.__class__, self).__init__(*args, **kwargs)
+
+
 # Creación del blueprint
 services_bp = Blueprint('services_api', __name__)
 api = Api(services_bp, errors=errors, catch_all_404s=True)
-
-# Campos para retornar
-service_fields = {
-  'id': fields.Integer,
-  'provider_id': fields.Integer,
-  'cost': fields.Integer,
-  'description': fields.String,
-  'type': fields.String,
-  'name': fields.String,
-  'rating': fields.Integer,
-  'latitude': fields.Float,
-  'longitude': fields.Float,
-  'phone': fields.String,
-  'address': fields.String
-}
 
 
 # Servicios de servicios
@@ -75,10 +64,12 @@ class Services(Resource):
     logging.info(u'Returned all services')
     return jsonify(services_list)
 
+
 class ServicesByUser(Resource):
   """
   Servicios de servicios por usuario
   """
+
   def get(self, user_id):
     """
     Obtener los servicios creados por un usuario
@@ -112,16 +103,7 @@ class ServicesByUser(Resource):
     """
 
     # Crear un nuevo servicio
-    service = Service(
-      provider_id=user_id,
-      cost=form.cost.data,
-      description=form.description.data,
-      type=form.type.data,
-      name=form.name.data,
-      rating=0,
-      phone=form.phone.data,
-      address=form.address.data
-    )
+    service =  Service(user_id, form)
 
     if form.type.data == 'locacion':
       service.latitude = form.latitude.data
@@ -130,6 +112,11 @@ class ServicesByUser(Resource):
     # Actualizar en la base de datos
     session = DbManager.get_database_session()
     session.add(service)
+    session.flush()
+
+    if 'image_data' in request.json:
+      service.update_image_url(request.json)
+
     session.commit()
     session.close()
 
@@ -181,5 +168,7 @@ class ServicesByUser(Resource):
     logging.info(u'Deleted service: {}'.format(service_id))
     return
 
+
 api.add_resource(Services, '/api/services', '/api/services/<string:type>')
-api.add_resource(ServicesByUser, '/api/users/<int:user_id>/services', '/api/users/<int:user_id>/services/<int:service_id>')
+api.add_resource(ServicesByUser, '/api/users/<int:user_id>/services',
+                 '/api/users/<int:user_id>/services/<int:service_id>')

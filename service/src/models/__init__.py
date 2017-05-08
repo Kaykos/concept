@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Numeric
-from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
+from file_manager import FileManager
 
 Base = declarative_base()
+
+default_user_image_url = 'https://storage.googleapis.com/events-concept.appspot.com/img/users/default.png'
+default_service_image_url = 'https://storage.googleapis.com/events-concept.appspot.com/img/services/default.png'
 
 
 class User(Base):
@@ -19,20 +26,35 @@ class User(Base):
   password = Column(String(50), nullable=False)
   role = Column(String(20), nullable=False)
   registered_at = Column(DateTime(), nullable=False)
-
+  user_image = Column(String(100), nullable=False)
 
   created_services = relationship("Service")
 
-  def update(self, body):
+  def __init__(self, form):
+    self.name = form.name.data
+    self.last_name = form.last_name.data
+    self.user_name = form.user_name.data.lower()
+    self.email = form.email.data.lower()
+    self.password = form.password.data
+    self.role = form.role.data
+    self.registered_at = datetime.datetime.now()
+    self.user_image = default_user_image_url
+
+  def update(self, json_body):
     """
     Actualizar los atributos del usuario
-    :param body: 
+    :param json_body: 
     :return: 
     """
-    if 'email' in body:
-      self.email = body['email'].lower()
-    if 'password' in body:
-      self.password = body['password']
+    if 'email' in json_body:
+      self.email = json_body['email'].lower()
+    if 'password' in json_body:
+      self.password = json_body['password']
+    if 'image_data' in json_body:
+      file_data = json_body['image_data']
+      file_extension = json_body['extension']
+      file_path = 'img/users/{}'.format(self.id)
+      self.user_image = FileManager.upload_image(file_data, file_path, file_extension)
 
   def to_dict(self):
     return {
@@ -41,7 +63,8 @@ class User(Base):
       'last_name': self.last_name,
       'email': self.email,
       'user_name': self.user_name,
-      'role': self.role
+      'role': self.role,
+      'user_image': self.user_image
     }
 
 
@@ -61,26 +84,46 @@ class Service(Base):
   longitude = Column(Numeric())
   phone = Column(String(20), nullable=False)
   address = Column(String(50), nullable=False)
+  service_image = Column(String(100), nullable=False)
 
-  #Referencia al proveedor que crea el servicio
+  # Referencia al proveedor que crea el servicio
   provider = relationship("User", foreign_keys=[provider_id])
 
-  def update(self, body):
+  def __init__(self, user_id, form):
+    self.provider_id = user_id
+    self.cost = form.cost.data
+    self.description = form.description.data
+    self.type = form.type.data
+    self.name = form.name.data
+    self.rating = 0
+    self.phone = form.phone.data
+    self.address = form.address.data
+    self.service_image = default_service_image_url
+
+  def update_image_url(self, json_body):
+    file_data = json_body['image_data']
+    file_path = 'img/services/{}'.format(self.id)
+    file_extension = json_body['extension']
+    self.service_image = FileManager.upload_image(file_data, file_path, file_extension)
+
+  def update(self, json_body):
     """
     Actualizar los atributos del servicio
-    :param body: 
+    :param json_body: 
     :return: 
     """
-    if 'cost' in body:
-      self.cost = body['cost']
-    if 'description' in body:
-      self.description = body['description']
-    if 'name' in body:
-      self.name = body['name']
-    if 'phone' in body:
-      self.phone = body['phone']
-    if 'address' in body:
-      self.address = body['address']
+    if 'cost' in json_body:
+      self.cost = json_body['cost']
+    if 'description' in json_body:
+      self.description = json_body['description']
+    if 'name' in json_body:
+      self.name = json_body['name']
+    if 'phone' in json_body:
+      self.phone = json_body['phone']
+    if 'address' in json_body:
+      self.address = json_body['address']
+    if 'image_data' in json_body:
+      self.update_image_url(json_body)
 
   def to_dict(self):
     return {
@@ -94,5 +137,6 @@ class Service(Base):
       'latitude': self.latitude,
       'longitude': self.longitude,
       'phone': self.phone,
-      'address': self.address
+      'address': self.address,
+      'service_image': self.service_image
     }

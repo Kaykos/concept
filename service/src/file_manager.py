@@ -5,14 +5,25 @@ from google.appengine.api import app_identity
 
 class FileManager:
   bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+  base_url = 'https://storage.googleapis.com'
 
   @staticmethod
-  def create_file(base64_string, filename, extension):
-
-    print(FileManager.bucket_name)
+  def upload_image(base64_string, file_path, extension):
+    """
+    Cargar una imagen al sistema, codificada como una cadena base64
+    :param base64_string: 
+    :param file_path: 
+    :param extension: 
+    :return: 
+    """
 
     image_data = base64_string.decode('base64')
-    image_path = '/{}/{}.{}'.format(FileManager.bucket_name, filename, extension)
-    with gcs.open(image_path, 'w', content_type='image/'+extension) as f:
-      f.write(image_data)
-      f.close()
+    image_path = '/{}/{}.{}'.format(FileManager.bucket_name, file_path, extension)
+
+    with gcs.open(image_path, 'w', content_type='image/' + extension) as f_out:
+      f_out.write(image_data)
+      f_out.close()
+
+    image_url = FileManager.base_url + image_path
+
+    return image_url

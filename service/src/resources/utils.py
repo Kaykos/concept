@@ -33,7 +33,7 @@ class Utils(Resource):
       return jsonify({'sys:': sys_platform, 'os':os_name, 'plat': platform_plat})
 
   def post(self):
-    img_string = request.json['img_data']
-    FileManager.create_file(img_string, 'test_file', 'png')
+    img_string = request.json['image_data']
+    FileManager.upload_image(img_string, 'test_file', 'png')
 
 api.add_resource(Utils, '/api/utils', '/api/utils/<string:type>')
