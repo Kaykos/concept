@@ -126,7 +126,7 @@ class Service(Base):
       self.update_image_url(json_body)
 
   def to_dict(self):
-    return {
+    service_dict = {
       'id': self.id,
       'provider_id': self.provider_id,
       'cost': self.cost,
@@ -134,9 +134,12 @@ class Service(Base):
       'type': self.type,
       'name': self.name,
       'rating': self.rating,
-      'latitude': self.latitude,
-      'longitude': self.longitude,
       'phone': self.phone,
       'address': self.address,
       'service_image': self.service_image
     }
+    if self.type == 'locacion':
+      service_dict['latitude'] = float(str(self.latitude))
+      service_dict['longitude'] = float(str(self.longitude))
+
+    return service_dict
