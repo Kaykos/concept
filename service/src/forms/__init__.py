@@ -5,7 +5,7 @@ from wtforms.validators import InputRequired, Email, Optional
 from db_manager import DbManager
 
 # Usuarios
-from forms.validators import check_email, check_user_id, check_service_id
+from forms.validators import check_email, check_user_id, check_service_id, check_user_is_client
 
 class UserCreateForm(Form):
   """
@@ -122,3 +122,13 @@ class ServiceDeleteForm(Form):
   """
   provider_id = IntegerField(check_user_id)
   id = IntegerField(check_service_id)
+
+class EventCreateForm(Form):
+  """
+  Formulario para la creación de un evento
+  """
+  date = StringField(InputRequired())
+  client_id = IntegerField(validators=[InputRequired(), check_user_is_client])
+  # TODO Revisar costo
+  cost = IntegerField(Optional())
+  length = IntegerField(InputRequired())

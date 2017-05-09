@@ -45,3 +45,19 @@ def check_service_id(form, field):
   session.close()
   if not service:
     raise ServiceDoesNotExist
+
+def check_user_is_client(form, field):
+  """
+  Validar que el id recibido corresponda a un cliente
+  :param form: 
+  :param field: 
+  :return: 
+  """
+  from models import User
+  from resources.events import UserIsNotClient
+
+  session = DbManager.get_database_session()
+  user = session.query(User).filter_by(id=field.data).first()
+  session.close()
+  if user.role == 'proveedor':
+    raise UserIsNotClient

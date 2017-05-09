@@ -9,6 +9,7 @@ from db_manager import DbManager
 from forms import ServiceCreateForm, ServiceDeleteForm
 from models import Service
 from resources import APIError
+from utilities import Utilities
 
 errors = {
   'IncompleteInformation': {
@@ -57,12 +58,9 @@ class Services(Resource):
 
     session.close()
 
-    services_list = list()
-    for service in services:
-      services_list.append(service.to_dict())
-
     logging.info(u'Returned all services')
-    return jsonify(services_list)
+
+    return Utilities.list_to_json(services)
 
 
 class ServicesByUser(Resource):
@@ -80,12 +78,9 @@ class ServicesByUser(Resource):
     services = session.query(Service).filter_by(provider_id=user_id).all()
     session.close()
 
-    services_list = list()
-    for service in services:
-      services_list.append(service.to_dict())
-
     logging.info(u'Returned services of user: {}'.format(user_id))
-    return jsonify(services_list)
+
+    return Utilities.list_to_json(services)
 
   def post(self, user_id):
     """
@@ -103,7 +98,7 @@ class ServicesByUser(Resource):
     """
 
     # Crear un nuevo servicio
-    service =  Service(user_id, form)
+    service =  Service(form)
 
     if form.type.data == 'locacion':
       service.latitude = form.latitude.data
@@ -121,7 +116,8 @@ class ServicesByUser(Resource):
     session.close()
 
     logging.info(u'Created service for user: {}'.format(user_id))
-    return jsonify(service.to_dict())
+
+    return Utilities.object_to_json(service)
 
   def put(self, user_id, service_id):
     """
@@ -145,7 +141,8 @@ class ServicesByUser(Resource):
     session.close()
 
     logging.info(u'Updated service: {}'.format(service_id))
-    return jsonify(service.to_dict())
+
+    return Utilities.object_to_json(service)
 
   def delete(self, user_id, service_id):
     """

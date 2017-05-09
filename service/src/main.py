@@ -5,6 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from resources.auth import auth_bp
+from resources.events import events_bp
 from resources.services import services_bp
 from resources.users import users_bp
 from resources.utils import utils_bp
@@ -25,6 +26,7 @@ app.config.from_object('config.{}'.format(config_class))
 app.register_blueprint(users_bp)
 app.register_blueprint(services_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(events_bp)
 app.register_blueprint(utils_bp)
 
 # @app.errorhandler(500)
