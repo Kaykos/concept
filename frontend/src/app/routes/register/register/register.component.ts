@@ -84,7 +84,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username,
-      'password': Md5.hashStr(password), 'role': role.toLowerCase()})
+      'password': Md5.hashStr(password), 'role': role})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
         error => this.handleError(error));

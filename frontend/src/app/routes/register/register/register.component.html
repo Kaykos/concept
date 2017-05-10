@@ -72,7 +72,7 @@
       </fieldset>
       <div _ngcontent-tpe-53="" class="form-group">
         <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
-          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="register(name.value, lastName.value, email.value, username.value, password.value, confirmPassword.value, role.value)">Registrarse</button>
+          <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="register(name.value, lastName.value, email.value, username.value, password.value, confirmPassword.value, role.value.toLowerCase())">Registrarse</button>
           <span *ngIf="error" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
         </div>
       </div>

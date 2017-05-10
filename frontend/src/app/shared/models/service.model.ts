@@ -5,8 +5,10 @@ const propsMapping: PropsMapping = {
   providerId: 'provider_id',
   name: 'name',
   cost: 'cost',
-  type: 'type',
   description: 'description',
+  address: 'address',
+  phone: 'phone',
+  type: 'type',
   rating: 'rating',
   latitude: 'latitude',
   longitude: 'longitude'
@@ -16,8 +18,10 @@ export class Service {
   id?: number;
   providerId: number;
   name: string;
-  description: string;
   cost: number;
+  description: string;
+  address: string;
+  phone: string;
   type: string;
   rating: number;
   latitude: number;

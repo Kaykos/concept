@@ -146,7 +146,7 @@ class Service(Base):
       'address': self.address,
       'service_image': self.service_image
     }
-    if self.type == 'locacion':
+    if self.type == u'ubicación':
       service_dict['latitude'] = float(str(self.latitude))
       service_dict['longitude'] = float(str(self.longitude))
 

@@ -20,14 +20,13 @@ export class ListServicesComponent implements OnInit, OnChanges {
   private service: Service;
   private services: Service[];
   private param: string;
-  private showMap1: boolean;
-  private showMap2: boolean;
   private picturePath: string;
-  private stars: Array<string>;
 
   private nameError: boolean;
   private costError: boolean;
   private descriptionError: boolean;
+  private addressError: boolean;
+  private phoneError: boolean;
 
   private errorAdd: boolean;
   private errorDelete: boolean;
@@ -37,19 +36,22 @@ export class ListServicesComponent implements OnInit, OnChanges {
   private updateService: boolean;
   private fieldsChanged: boolean;
 
-  private latitude: number;
-  private longitude: number;
+  private latitude1: number;
+  private longitude1: number;
+  private latitude2: number;
+  private longitude2: number;
 
   @ViewChild('modal1') modal1;
   @ViewChild('modal2') modal2;
   @ViewChild('map1') map1;
+  @ViewChild('map2') map2;
 
   public rows: Array<any> = [];
   public columns: Array<any> = [
-    {title: 'Nombre', name: 'name'},
-    {title: 'Costo ($)', name: 'cost'},
-    {title: 'Valoración', name: 'rating'},
-    {title: '', name: 'viewButton'}
+    {title: 'Nombre', name: 'name', className: 'col-md-6'},
+    {title: 'Costo ($)', name: 'cost', className: 'col-md-8'},
+    {title: 'Valoración', name: 'rating', className: 'col-md-10'},
+    {title: '', name: 'viewButton', className: 'col-md-1'}
   ];
   public page = 1;
   public itemsPerPage = 5;
@@ -70,7 +72,6 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.user = new User();
     this.service = new Service();
     this.services = [];
-    this.stars = new Array<string>();
   }
 
   public ngOnInit(): void {
@@ -78,26 +79,25 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-    Recalculate table when data is changed
+   Recalculate table when data is changed
 
    */
   ngOnChanges() {
     this.data = this.services.slice(0, this.services.length);
     this.length = this.data.length;
     this.extendData();
+    this.changePage(1, this.data);
     this.onChangeTable(this.config);
   }
 
   /*
-    Set initial variables
-    Require path to ask for services
-    Set initial flag values as false
+   Set initial variables
+   Require path to ask for services
+   Set initial flag values as false
 
    */
   init() {
     this.initFlags();
-    this.latitude = 4.710989;
-    this.longitude = -74.072092;
     this.user = this.authService.getCurrentUser();
     if (this.user == null) {
       this.user = {
@@ -110,22 +110,16 @@ export class ListServicesComponent implements OnInit, OnChanges {
       };
     }
     switch (this.user.role) {
-      case 'invitado':
-      case 'cliente':
-        this.param = '/services/locacion';
-        break;
       case 'proveedor':
         this.param = '/users/' + this.user.id.toString() + '/services';
         break;
-      case 'admin':
+      default:
         this.param = '/services';
         break;
     }
     this.servicesService.search(this.param)
       .subscribe(
-        service  => { this.handleServices(service); });
-    this.showMap1 = false;
-    this.showMap2 = false;
+        services  => { this.handleServices(services); });
     this.picturePath = '';
     this.updateService = false;
   }
@@ -138,6 +132,8 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.nameError = false;
     this.costError = false;
     this.descriptionError = false;
+    this.addressError = false;
+    this.phoneError = false;
     this.errorAdd = false;
     this.errorDelete = false;
     this.errorUpdate = false;
@@ -259,9 +255,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
         this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
       }
       this.updateService = false;
-      this.modal2.open();
-      this.showMap1 = false;
-      this.showMap2 = true;
+      this.modal2.open().then(done => {
+        if(this.map2) {
+          this.map2.triggerResize().then( done => { this.latitude2 = this.service.latitude; this.longitude2 = this.service.longitude;} )
+        }
+      });
     }
   }
 
@@ -281,9 +279,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   newService() {
-    this.modal1.open();
-    this.showMap2 = false;
-    this.showMap1 = true;
+    this.modal1.open().then(done => {
+      if(this.map1) {
+        this.map1.triggerResize().then( done => { this.latitude1 = 4.710989; this.longitude1 = -74.072092; } )
+      }
+    });
   }
 
   /*
@@ -303,27 +303,33 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-    Request server to add a service
-    Validate required fields
+   Request server to add a service
+   Validate required fields
 
    */
-  add(name: string, description: string, cost: number, type: string) {
+  add(name, description, cost, address, phone, type: string) {
     this.initFlags();
-    if (name == '') {
+    if (name.value == '') {
       this.nameError = true;
     }
-    if (description == '') {
+    if (description.value == '') {
       this.descriptionError = true;
     }
-    if (cost <= 0) {
+    if (cost.value <= 0) {
       this.costError = true;
     }
-    if (name == '' ||  description == '' || cost <= 0) {
+    if (address.value == '') {
+      this.addressError = true;
+    }
+    if (phone.value == '') {
+      this.phoneError = true;
+    }
+    if (name.value == '' ||  description.value == '' || cost.value <= 0 || address.value == '' || phone.value == '') {
       return;
     }
-    if (type != 'locacion') {
+    if (type != 'ubicación') {
       this.servicesService.add(this.user.id, {
-        'name': name, 'description': description, 'cost': cost, 'type': type
+        'name': name.value, 'description': description.value, 'cost': cost.value, 'type': type, 'address': address.value, 'phone': phone.value
       })
         .subscribe(
           (service: Service) => { this.manageAdd(service); },
@@ -331,12 +337,17 @@ export class ListServicesComponent implements OnInit, OnChanges {
     }
     else {
       this.servicesService.add(this.user.id, {
-        'name': name, 'description': description, 'cost': cost, 'type': type.toLowerCase(), 'latitude': this.latitude, 'longitude': this.longitude
+        'name': name.value, 'description': description.value, 'cost': cost.value, 'type': type, 'address': address.value, 'phone': phone.value, 'latitude': this.latitude1, 'longitude': this.longitude1
       })
         .subscribe(
           (service: Service) => { this.manageAdd(service); },
           error => { this.handleErrorAdd(error); });
     }
+    name.value = null;
+    description.value = null;
+    cost.value = null;
+    address.value = null;
+    phone.value = null;
   }
 
   /*
@@ -364,13 +375,13 @@ export class ListServicesComponent implements OnInit, OnChanges {
    Check if any field has been changed
 
    */
-  updateFields(name: string, description: string, cost: number) {
+  updateFields(name: string, description: string, cost: number, address: string, phone: string) {
     this.initFlags();
-    if (this.service.name == name && this.service.description == description && this.service.cost == cost) {
+    if (this.service.name == name && this.service.description == description && this.service.cost == cost && this.service.address == address && this.service.phone == phone) {
       this.errorUpdate = true;
       return;
     }
-    let content = {'name': name, 'description': description, 'cost': cost};
+    let content = {'name': name, 'description': description, 'cost': cost, 'address': address, 'phone': phone};
     this.servicesService.update(this.user.id, this.service.id, content)
       .subscribe(
         (service: Service)  => { this.manageUpdate(service) },
@@ -417,7 +428,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   manageDelete() {
-    let instance =  this.services.find(item => item.id == this.service.id);
+    let instance = this.services.find(item => item.id == this.service.id);
     let index = this.services.indexOf(instance);
     this.services.splice(index, 1);
     this.modal2.close();
@@ -435,11 +446,11 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-    Update marker latitude and longitude on click
+   Update marker latitude and longitude on click
 
    */
   handleClickMap($event) {
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
+    this.latitude1 = $event.coords.lat;
+    this.longitude1 = $event.coords.lng;
   }
 }

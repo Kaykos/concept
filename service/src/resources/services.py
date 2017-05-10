@@ -100,7 +100,7 @@ class ServicesByUser(Resource):
     # Crear un nuevo servicio
     service =  Service(form)
 
-    if form.type.data == 'locacion':
+    if form.type.data == u'ubicación':
       service.latitude = form.latitude.data
       service.longitude = form.longitude.data
 

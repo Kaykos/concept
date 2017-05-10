@@ -3,9 +3,9 @@ import { PropsMapping } from '../services/model.service';
 const propsMapping: PropsMapping = {
   id: 'id',
   name: 'name',
-  lastName: 'lastName',
+  lastName: 'last_name',
   email: 'email',
-  username: 'username',
+  username: 'user_name',
   role: 'role'
 };
 
