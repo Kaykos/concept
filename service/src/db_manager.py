@@ -20,7 +20,7 @@ class DbManager:
     if DbManager.connection_string == None:
       if current_app.config.get('DEBUG'):
         # Desarrollo
-        DbManager.connection_string = 'mysql+mysqldb://{user}:{password}@{host}/{database}?charset=utf8'.format(
+        DbManager.connection_string = 'mysql+mysqldb://{user}:{password}@{host}/{database}'.format(
           user=current_app.config.get('CLOUDSQL_USER'),
           password=current_app.config.get('CLOUDSQL_PASSWORD'),
           host=current_app.config.get('DB_HOST'),
@@ -28,7 +28,7 @@ class DbManager:
         )
       else:
         # Produccion
-        DbManager.connection_string = 'mysql+mysqldb://{user}:{password}@/{database}?unix_socket=/cloudsql/{instance_connection_name}?charset=utf8'.format(
+        DbManager.connection_string = 'mysql+mysqldb://{user}:{password}@/{database}?unix_socket=/cloudsql/{instance_connection_name}'.format(
           user=current_app.config.get('CLOUDSQL_USER'),
           password=current_app.config.get('CLOUDSQL_PASSWORD'),
           database=current_app.config.get('CLOUDSQL_DATABASE'),
@@ -48,5 +48,10 @@ class DbManager:
 
     Session = sessionmaker(bind=DbManager.engine, expire_on_commit=False)
     session = Session()
-    session.execute(text('SET NAMES utf8'))
+    session.execute("SET NAMES utf8mb4")
+    session.execute("SET CHARACTER SET utf8mb4")
+    session.execute("SET character_set_connection=utf8mb4")
+    session.commit()
+
+    #session.execute(text('SET NAMES utf8'))
     return session

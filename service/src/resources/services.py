@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
 
 from db_manager import DbManager
-from forms import ServiceCreateForm, ServiceDeleteForm
+from forms import ServiceCreateForm, ServiceDeleteForm, ServiceUpdateForm
 from models import Service
 from resources import APIError
 from utilities import Utilities
@@ -132,7 +132,7 @@ class ServicesByUser(Resource):
     """
 
     wtforms_json.init()
-    form = ServiceDeleteForm.from_json(request.json)
+    form = ServiceUpdateForm.from_json(request.json)
     form.provider_id.data = user_id
     form.id.data = service_id
     if not form.validate():
@@ -141,7 +141,7 @@ class ServicesByUser(Resource):
     session = DbManager.get_database_session()
     service = session.query(Service).filter_by(id=service_id).first()
 
-    service.update(request.json)
+    service.update(request.json, form)
     session.commit()
 
     logging.info(u'Updated service: {}'.format(service_id))

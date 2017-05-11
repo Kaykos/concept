@@ -44,3 +44,7 @@ class DevelopmentConfig(Config):
   DOMAIN = 'localhost:8080'
 
   DB_HOST = '104.197.194.145:3306'
+
+  #Base de datos local
+  #DB_HOST = 'localhost:3306'
+  #CLOUDSQL_PASSWORD = 'root'

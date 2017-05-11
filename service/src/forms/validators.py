@@ -31,6 +31,22 @@ def check_email(form, field):
   if user:
     raise EmailExists
 
+def check_user_name(form, field):
+  """
+  Validar la existencia de un usuario
+  :param form: 
+  :param field: 
+  :return: 
+  """
+  from models import User
+  from resources.users import UserNameExists
+
+  session = DbManager.get_database_session()
+  user = session.query(User).filter_by(user_name=field.data).first()
+  session.close()
+  if user:
+    raise UserNameExists
+
 def check_service_id(form, field):
   """
   Validar la existencia de un servicio identificado por el id

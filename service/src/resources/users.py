@@ -124,7 +124,7 @@ class Users(Resource):
     session = DbManager.get_database_session()
     user = session.query(User).filter_by(id=user_id).first()
 
-    user.update(request.json)
+    user.update(request.json, form)
     session.commit()
 
     logging.info(u'Updated user: {}'.format(user.user_name))
