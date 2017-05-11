@@ -61,6 +61,12 @@ class User(Base):
       file_path = 'img/users/{}'.format(self.id)
       self.user_image = FileManager.upload_image(file_data, file_path, file_extension)
 
+  def get_associated_events_to_services(self):
+    events = list()
+    for service in self.created_services:
+      events.extend(service.in_events)
+    return events
+
   def to_dict(self):
     return {
       'id': self.id,

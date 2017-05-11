@@ -5,7 +5,7 @@ from flask_restful import Api, Resource
 
 from db_manager import DbManager
 from forms import EventCreateForm
-from models import Event
+from models import Event, User
 from resources import APIError
 from utilities import Utilities
 
@@ -37,14 +37,30 @@ class Events(Resource):
 
     session = DbManager.get_database_session()
     events = session.query(Event).order_by(Event.id).all()
+    response = Utilities.list_to_json(events)
     session.close()
-
-    return Utilities.list_to_json(events)
+    return response
 
 class EventsByUser(Resource):
 
   def get(self, user_id):
-    return
+    """
+    Obtener los eventos de un usuario
+    :param user_id: 
+    :return: 
+    """
+    session = DbManager.get_database_session()
+
+    user = session.query(User).filter_by(id=user_id).first()
+
+    if user.role == 'cliente':
+      events = user.created_events
+    elif user.role == 'proveedor':
+      events = user.get_associated_events_to_services()
+
+    response = Utilities.list_to_json(events)
+    session.close()
+    return response
 
   def post(self, user_id):
     wtforms_json.init()
@@ -60,9 +76,10 @@ class EventsByUser(Resource):
     event.associate_services(request.json['services'], session)
 
     session.commit()
-    session.commit()
 
-    return Utilities.object_to_json(event)
+    response = Utilities.object_to_json(event)
+    session.close()
+    return response
 
 api.add_resource(Events, '/api/events')
 api.add_resource(EventsByUser, '/api/users/<int:user_id>/events',

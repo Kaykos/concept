@@ -65,21 +65,18 @@ class Users(Resource):
     :param user_id:
     :return:
     """
-
+    session = DbManager.get_database_session()
     # Validar los campos de la solicitud
     if user_id:
-      session = DbManager.get_database_session()
       user = session.query(User).filter_by(id=user_id).first()
-      session.close()
-
-      return Utilities.object_to_json(user)
+      response = Utilities.object_to_json(user)
 
     else:
-      session = DbManager.get_database_session()
       users = session.query(User).order_by(User.id).all()
-      session.close()
+      response = Utilities.list_to_json(users)
 
-      return Utilities.list_to_json(users)
+    session.close()
+    return response
 
   def post(self):
     """
@@ -104,11 +101,13 @@ class Users(Resource):
     # Actualizar en la base de datos
     session.add(user)
     session.commit()
-    session.close()
 
     logging.info(u'Registered user: {}'.format(form.user_name.data))
 
-    return Utilities.object_to_json(user)
+    response = Utilities.object_to_json(user)
+
+    session.close()
+    return response
 
   def put(self, user_id):
     """
@@ -127,11 +126,13 @@ class Users(Resource):
 
     user.update(request.json)
     session.commit()
-    session.close()
 
     logging.info(u'Updated user: {}'.format(user.user_name))
 
-    return Utilities.object_to_json(user)
+    response = Utilities.object_to_json(user)
+    session.close()
+
+    return response
 
   def delete(self, user_id):
     """
@@ -151,6 +152,7 @@ class Users(Resource):
     user = session.query(User).filter_by(id=user_id).first()
     session.delete(user)
     session.commit()
+    session.close()
 
     logging.info(u'Deleted user: {}'.format(user.user_name))
 

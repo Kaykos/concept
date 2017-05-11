@@ -76,9 +76,13 @@ class Authentication(Resource):
         user = session.query(User).filter_by(email=form.id.data).first()
       else:
         user = session.query(User).filter_by(user_name=form.id.data).first()
-      session.close()
 
       logging.info(u'Logged user: {}'.format(user_id))
-      return jsonify(user.to_dict())
+
+      response = Utilities.object_to_json(user)
+
+      session.close()
+
+      return response
 
 api.add_resource(Authentication, '/api/auth', '/api/auth/<string:user_id>')

@@ -56,11 +56,12 @@ class Services(Resource):
     else:
       services = session.query(Service).order_by(Service.id).all()
 
-    session.close()
-
     logging.info(u'Returned all services')
 
-    return Utilities.list_to_json(services)
+    response = Utilities.list_to_json(services)
+    session.close()
+
+    return response
 
 
 class ServicesByUser(Resource):
@@ -76,11 +77,13 @@ class ServicesByUser(Resource):
     """
     session = DbManager.get_database_session()
     services = session.query(Service).filter_by(provider_id=user_id).all()
-    session.close()
 
     logging.info(u'Returned services of user: {}'.format(user_id))
 
-    return Utilities.list_to_json(services)
+    response = Utilities.list_to_json(services)
+    session.close()
+
+    return response
 
   def post(self, user_id):
     """
@@ -113,11 +116,13 @@ class ServicesByUser(Resource):
       service.update_image_url(request.json)
 
     session.commit()
-    session.close()
 
     logging.info(u'Created service for user: {}'.format(user_id))
 
-    return Utilities.object_to_json(service)
+    response = Utilities.object_to_json(service)
+    session.close()
+
+    return response
 
   def put(self, user_id, service_id):
     """
@@ -138,11 +143,13 @@ class ServicesByUser(Resource):
 
     service.update(request.json)
     session.commit()
-    session.close()
 
     logging.info(u'Updated service: {}'.format(service_id))
 
-    return Utilities.object_to_json(service)
+    response = Utilities.object_to_json(service)
+    session.close()
+
+    return response
 
   def delete(self, user_id, service_id):
     """
@@ -162,6 +169,7 @@ class ServicesByUser(Resource):
     service = session.query(Service).filter_by(id=service_id).first()
     session.delete(service)
     session.commit()
+    session.close()
     logging.info(u'Deleted service: {}'.format(service_id))
     return
 
