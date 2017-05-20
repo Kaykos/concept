@@ -100,7 +100,7 @@ class Service(Base):
   provider_id = Column(Integer, ForeignKey(User.id), nullable=False)
   cost = Column(Integer, nullable=False)
   description = Column(String(), nullable=False)
-  type = Column(String(), nullable=False)
+  type = Column(String(), nullable=False,)
   name = Column(String(), nullable=False)
   rating = Column(Integer, nullable=False)
   latitude = Column(Numeric())
@@ -177,7 +177,7 @@ class Service(Base):
       'address': self.address,
       'service_image': self.service_image
     }
-    if self.type == u'ubicación':
+    if self.type == 'ubicación':
       service_dict['latitude'] = float(str(self.latitude))
       service_dict['longitude'] = float(str(self.longitude))
 
