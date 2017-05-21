@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UserblockService } from './userblock.service';
@@ -13,7 +13,6 @@ import { User } from 'app/shared/models/user.model';
 export class UserblockComponent implements OnInit, OnDestroy {
   private subscription: any;
   private user: User;
-  private picturePath: string;
 
   constructor(private userblockService: UserblockService, private authService: AuthService, private router: Router) {
   }
@@ -28,25 +27,6 @@ export class UserblockComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.updateUser(user); });
     this.user = this.authService.getCurrentUser();
-    if (this.user == null) {
-      this.user = {
-        id: 0,
-        name: 'Invitado',
-        lastName: '',
-        email: '',
-        username: '',
-        role: 'invitado'
-      };
-      this.picturePath = '../../../assets/img/user/0.jpg';
-    }
-    else {
-      if (this.user.id > 5) {
-        this.picturePath = '../../../assets/img/user/0.jpg';
-      }
-      else {
-        this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
-      }
-    }
   }
 
   /*
@@ -68,25 +48,6 @@ export class UserblockComponent implements OnInit, OnDestroy {
    */
   updateUser(user: User) {
     this.user = user;
-    if (this.user == null) {
-      this.user = {
-        id: 0,
-        name: 'Invitado',
-        lastName: '',
-        email: '',
-        username: '',
-        role: 'invitado'
-      };
-      this.picturePath = '../../../assets/img/user/0.jpg';
-    }
-    else {
-      if (this.user.id > 5) {
-        this.picturePath = '../../../assets/img/user/0.jpg';
-      }
-      else {
-        this.picturePath = '../../../assets/img/user/' + this.user.id + '.jpg'
-      }
-    }
   }
 
   /*

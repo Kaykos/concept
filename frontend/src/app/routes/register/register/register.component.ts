@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
     Validates if all necessary fields are filled
 
    */
-  register(name: string, lastName: string, email: string, username: string, password: string, confirmPassword: string, role: string) {
+  register(name: string, last_name: string, email: string, username: string, password: string, confirmPassword: string, role: string) {
     this.initFlags();
     if (name == '') {
       this.nameError = true;
@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
     if (name == '' || email == '' || username == '' || password == '' || confirmPassword == '') {
       return;
     }
-    this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username,
+    this.registerService.register({'name': name, 'last_name': last_name, 'email': email, 'user_name': username,
       'password': Md5.hashStr(password), 'role': role})
       .subscribe(
         (user: User)  => { this.updateUser(user); },

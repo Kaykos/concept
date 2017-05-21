@@ -60,6 +60,7 @@ class User(Base):
     if 'password' in json_body:
       self.password = form.password.data.encode('utf-8')
     if 'image_data' in json_body:
+      print(json_body['image_data'])
       file_data = json_body['image_data']
       file_extension = json_body['extension']
       file_path = 'img/users/{}'.format(self.id)
