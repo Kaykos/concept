@@ -10,8 +10,6 @@ from resources.services import services_bp
 from resources.users import users_bp
 from resources.utils import utils_bp
 
-
-
 #Aplicación principal
 app = Flask(__name__)
 CORS(app)
