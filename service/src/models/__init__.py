@@ -60,11 +60,10 @@ class User(Base):
     if 'password' in json_body:
       self.password = form.password.data.encode('utf-8')
     if 'image_data' in json_body:
-      print(json_body['image_data'])
       file_data = json_body['image_data']
       file_extension = json_body['extension']
       file_path = 'img/users/{}'.format(self.id)
-      self.user_image = FileManager.upload_image(file_data, file_path, file_extension)
+      self.user_image = FileManager.upload_image(file_data, file_path, file_extension, self.user_image)
 
   def get_associated_events_to_services(self):
     """
@@ -140,7 +139,7 @@ class Service(Base):
     file_data = json_body['image_data']
     file_path = 'img/services/{}'.format(self.id)
     file_extension = json_body['extension']
-    self.service_image = FileManager.upload_image(file_data, file_path, file_extension)
+    self.service_image = FileManager.upload_image(file_data, file_path, file_extension, self.service_image)
 
   def update(self, json_body, form):
     """
