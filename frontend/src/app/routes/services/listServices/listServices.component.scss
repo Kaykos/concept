@@ -49,3 +49,19 @@
   margin-left: 15px;
   margin-bottom: 15px;
 }
+
+/*
+  Do not display field
+
+ */
+#file {
+  display: none;
+}
+
+/*
+  Label design for file upload
+
+ */
+#fileLabel {
+  cursor: pointer;
+}

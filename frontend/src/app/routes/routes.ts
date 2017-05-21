@@ -21,7 +21,15 @@ export const routes = [
       {path: 'logOut', loadChildren: './logOut/logOut.module#LogOutModule'},
       {path: 'register', loadChildren: './register/register.module#RegisterModule'},
       {path: 'services', loadChildren: './services/services.module#ServicesModule'},
-      {path: 'users', loadChildren: './users/users.module#UsersModule'}
+      /*
+       Check if user is logged in
+
+       */
+      {
+        path: 'users',
+        canActivate: [CanActivateRouteService],
+        loadChildren: './users/users.module#UsersModule'
+      }
     ]
   },
 

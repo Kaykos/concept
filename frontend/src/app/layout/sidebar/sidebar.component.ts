@@ -40,16 +40,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.subscription = this.authService.getUserSubject().subscribe((user: User) => { this.user = user; } );
     this.user = this.authService.getCurrentUser();
-    if (this.user == null) {
-      this.user = {
-        id: 0,
-        name: 'Invitado',
-        lastName: '',
-        email: '',
-        username: '',
-        role: 'invitado'
-      };
-    }
   }
 
   /*

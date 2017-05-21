@@ -11,7 +11,10 @@ const propsMapping: PropsMapping = {
   type: 'type',
   rating: 'rating',
   latitude: 'latitude',
-  longitude: 'longitude'
+  longitude: 'longitude',
+  serviceImage: 'service_image',
+  imageData: 'image_data',
+  extension: 'extension'
 };
 
 export class Service {
@@ -26,6 +29,9 @@ export class Service {
   rating: number;
   latitude: number;
   longitude: number;
+  serviceImage: string;
+  imageData: string;
+  extension: string;
 
   static getInstance(data: {[prop: string]: any}): Service {
     const service = new Service();

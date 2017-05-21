@@ -19,6 +19,7 @@ class FileManager:
 
     if base64_string.find('base64,') != -1:
       base64_string = base64_string[base64_string.find('base64,')+len(('base64,')):]
+
     image_data = base64_string.decode('base64')
     image_path = '/{}/{}.{}'.format(FileManager.bucket_name, file_path, extension)
 

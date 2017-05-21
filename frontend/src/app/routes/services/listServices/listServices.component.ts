@@ -1,5 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { ServicesService } from 'app/shared/services/services.service';
@@ -15,18 +14,18 @@ import 'bootstrap';
   templateUrl: './listServices.component.html',
   styleUrls: ['./listServices.component.scss']
 })
-export class ListServicesComponent implements OnInit, OnChanges {
+export class ListServicesComponent implements OnInit {
   private user: User;
   private service: Service;
   private services: Service[];
   private param: string;
-  private picturePath: string;
 
   private nameError: boolean;
   private costError: boolean;
   private descriptionError: boolean;
   private addressError: boolean;
   private phoneError: boolean;
+  private formatError: boolean;
 
   private errorAdd: boolean;
   private errorDelete: boolean;
@@ -41,6 +40,9 @@ export class ListServicesComponent implements OnInit, OnChanges {
   private latitude2: number;
   private longitude2: number;
 
+  private imageData: string;
+  private extension: string;
+
   @ViewChild('modal1') modal1;
   @ViewChild('modal2') modal2;
   @ViewChild('map1') map1;
@@ -54,7 +56,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     {title: '', name: 'viewButton', className: 'col-md-1'}
   ];
   public page = 1;
-  public itemsPerPage = 5;
+  public itemsPerPage = 10;
   public maxSize = 5;
   public numPages = 1;
   public length = 0;
@@ -68,7 +70,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
   private data: Array<any>;
 
-  public constructor(private servicesService: ServicesService, private authService: AuthService, private router: Router) {
+  public constructor(private servicesService: ServicesService, private authService: AuthService, private element: ElementRef) {
     this.user = new User();
     this.service = new Service();
     this.services = [];
@@ -79,48 +81,20 @@ export class ListServicesComponent implements OnInit, OnChanges {
   }
 
   /*
-   Recalculate table when data is changed
-
-   */
-  ngOnChanges() {
-    this.data = this.services.slice(0, this.services.length);
-    this.length = this.data.length;
-    this.extendData();
-    this.changePage(1, this.data);
-    this.onChangeTable(this.config);
-  }
-
-  /*
-   Set initial variables
-   Require path to ask for services
    Set initial flag values as false
+   Require path to ask for services
 
    */
   init() {
     this.initFlags();
     this.user = this.authService.getCurrentUser();
-    if (this.user == null) {
-      this.user = {
-        id: 0,
-        name: 'Invitado',
-        lastName: '',
-        email: '',
-        username: '',
-        role: 'invitado'
-      };
-    }
-    switch (this.user.role) {
-      case 'proveedor':
-        this.param = '/users/' + this.user.id.toString() + '/services';
-        break;
-      default:
-        this.param = '/services';
-        break;
+    this.param = '/services';
+    if(this.user.role == 'proveedor') {
+      this.param = '/users/' + this.user.id.toString() + '/services';
     }
     this.servicesService.search(this.param)
       .subscribe(
         services  => { this.handleServices(services); });
-    this.picturePath = '';
     this.updateService = false;
   }
 
@@ -134,6 +108,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.descriptionError = false;
     this.addressError = false;
     this.phoneError = false;
+    this.formatError = false;
     this.errorAdd = false;
     this.errorDelete = false;
     this.errorUpdate = false;
@@ -229,11 +204,9 @@ export class ListServicesComponent implements OnInit, OnChanges {
     if (config.filtering) {
       Object.assign(this.config.filtering, config.filtering);
     }
-
     if (config.sorting) {
       Object.assign(this.config.sorting, config.sorting);
     }
-
     const filteredData = this.changeFilter(this.data, this.config);
     const sortedData = this.changeSort(filteredData, this.config);
     this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
@@ -247,15 +220,10 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   public onCellClick(data: any): any {
     if (data.column == "viewButton") {
-      this.service = Service.getInstance(data.row);
-      if (this.service.id > 6) {
-        this.picturePath = '../../../assets/img/service/0.jpg';
-      }
-      else {
-        this.picturePath = '../../../assets/img/service/' + this.service.id + '.jpg';
-      }
+      this.service = this.services[this.services.indexOf(this.services.find(item => item.id == Service.getInstance(data.row).id))];
       this.updateService = false;
-      this.modal2.open().then(done => {
+      this.fieldsChanged = false;
+      this.modal2.open().then( done => {
         if(this.map2) {
           this.map2.triggerResize().then( done => { this.latitude2 = this.service.latitude; this.longitude2 = this.service.longitude;} )
         }
@@ -300,6 +268,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
    */
   back() {
     this.updateService = false;
+    this.fieldsChanged = false;
   }
 
   /*
@@ -307,7 +276,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
    Validate required fields
 
    */
-  add(name, description, cost, address, phone, type: string) {
+  add(name, description, cost, address, phone, type) {
     this.initFlags();
     if (name.value == '') {
       this.nameError = true;
@@ -327,27 +296,31 @@ export class ListServicesComponent implements OnInit, OnChanges {
     if (name.value == '' ||  description.value == '' || cost.value <= 0 || address.value == '' || phone.value == '') {
       return;
     }
-    if (type != 'ubicación') {
-      this.servicesService.add(this.user.id, {
-        'name': name.value, 'description': description.value, 'cost': cost.value, 'type': type, 'address': address.value, 'phone': phone.value
-      })
-        .subscribe(
-          (service: Service) => { this.manageAdd(service); },
-          error => { this.handleErrorAdd(error); });
+    var dictionary = {};
+    dictionary['name'] = name.value;
+    dictionary['description'] = description.value;
+    dictionary['cost'] = cost.value;
+    dictionary['type'] = type.value.toLowerCase();
+    dictionary['address'] = address.value;
+    dictionary['phone'] = phone.value;
+    if(type.value == 'Ubicación') {
+      dictionary['latitude'] = this.latitude1;
+      dictionary['longitude'] = this.longitude1;
     }
-    else {
-      this.servicesService.add(this.user.id, {
-        'name': name.value, 'description': description.value, 'cost': cost.value, 'type': type, 'address': address.value, 'phone': phone.value, 'latitude': this.latitude1, 'longitude': this.longitude1
-      })
-        .subscribe(
-          (service: Service) => { this.manageAdd(service); },
-          error => { this.handleErrorAdd(error); });
+    if(this.imageData != '' && this.extension != '') {
+      dictionary['image_data'] = this.imageData;
+      dictionary['extension'] = this.extension;
     }
+    this.servicesService.add(this.user.id, dictionary)
+      .subscribe(
+        (service: Service) => { this.manageAdd(service); },
+        error => { this.handleErrorAdd(error); });
     name.value = null;
     description.value = null;
     cost.value = null;
     address.value = null;
     phone.value = null;
+    type.value = 'Ubicación';
   }
 
   /*
@@ -355,9 +328,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   manageAdd(service) {
-    this.services.push(service);
-    this.modal1.close();
-    this.ngOnChanges();
+    location.reload();
   }
 
   /*
@@ -381,7 +352,22 @@ export class ListServicesComponent implements OnInit, OnChanges {
       this.errorUpdate = true;
       return;
     }
-    let content = {'name': name, 'description': description, 'cost': cost, 'address': address, 'phone': phone};
+    let content = {};
+    if(this.service.name != name) {
+      content['name'] = name;
+    }
+    if(this.service.description != description) {
+      content['description'] = description;
+    }
+    if(this.service.cost != cost) {
+      content['cost'] = cost;
+    }
+    if(this.service.address != address) {
+      content['address'] = address;
+    }
+    if(this.service.phone != phone) {
+      content['phone'] = phone;
+    }
     this.servicesService.update(this.user.id, this.service.id, content)
       .subscribe(
         (service: Service)  => { this.manageUpdate(service) },
@@ -398,7 +384,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
     this.service = service;
     this.services[index] = this.service;
     this.fieldsChanged = true;
-    this.ngOnChanges();
+    this.handleServices(this.services);
   }
 
   /*
@@ -428,11 +414,7 @@ export class ListServicesComponent implements OnInit, OnChanges {
 
    */
   manageDelete() {
-    let instance = this.services.find(item => item.id == this.service.id);
-    let index = this.services.indexOf(instance);
-    this.services.splice(index, 1);
-    this.modal2.close();
-    this.ngOnChanges();
+    location.reload();
   }
 
   /*
@@ -452,5 +434,33 @@ export class ListServicesComponent implements OnInit, OnChanges {
   handleClickMap($event) {
     this.latitude1 = $event.coords.lat;
     this.longitude1 = $event.coords.lng;
+  }
+
+  /*
+    Listen to file uploader event
+
+   */
+  changeListener(event) {
+    var files = event.target.files;
+    var file = files[0];
+    var extension;
+    this.extension = '';
+    this.imageData = '';
+    this.formatError = false;
+    if(files && file) {
+      extension = file.name.match(/\.(.+)$/)[1];
+      if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+        this.extension = extension;
+        var reader = new FileReader();
+        reader.onloadend = (e) => {
+          this.imageData = reader.result;
+        }
+        reader.readAsDataURL(file);
+      }
+      else {
+        this.imageData = '';
+        this.formatError = true;
+      }
+    }
   }
 }

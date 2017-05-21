@@ -13,16 +13,28 @@ export class AuthService {
   /*
     Checks if user information is stored in local storage
     If it's true, return user information
-    If it's false, return null
+    If it's false, return default user
 
    */
   getCurrentUser() {
     if (!this.user) {
-      const obj: any = window.localStorage.getItem('User');
-      if (!obj) {
-        return null;
+      const object = window.localStorage.getItem('User');
+      if (!object) {
+        this.user = {
+          id: 0,
+          name: 'Invitado',
+          lastName: '',
+          email: '',
+          username: '',
+          role: 'invitado',
+          userImage: 'https://storage.googleapis.com/events-concept.appspot.com/img/users/default.png',
+          imageData: '',
+          extension: ''
+        };
       }
-      this.user = User.getInstance(JSON.parse(obj));
+      else {
+        this.user = JSON.parse(object);
+      }
     }
     return this.user;
   }
@@ -38,7 +50,7 @@ export class AuthService {
    */
   setCurrentUser(user: User) {
     this.user = user;
-    window.localStorage.setItem('User', JSON.stringify(user));
+    window.localStorage.setItem('User', JSON.stringify(this.user));
     this.userSubject.next(this.user);
   }
 
@@ -48,7 +60,17 @@ export class AuthService {
 
    */
   clear() {
-    this.user = null;
+    this.user = {
+      id: 0,
+      name: 'Invitado',
+      lastName: '',
+      email: '',
+      username: '',
+      role: 'invitado',
+      userImage: 'https://storage.googleapis.com/events-concept.appspot.com/img/users/default.png',
+      imageData: '',
+      extension: ''
+    };
     window.localStorage.clear();
     this.userSubject.next(this.user);
   }

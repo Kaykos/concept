@@ -130,6 +130,12 @@
             </fieldset>
             <!--End Type management-->
 
+            <!--Start Image management-->
+            <label _ngcontent-iou-53="" for="file" id="fileLabel">Cargar imagen</label>
+            <input id="file" type="file" (change)="changeListener($event)" />
+            <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+            <!--End Image management-->
+
           </form>
         </div>
       </div>
@@ -144,7 +150,7 @@
 
       <br>
 
-      <button class="btn btn-primary btn-lg" (click)="add(nameAdd, descriptionAdd, +costAdd, addressAdd, phoneAdd, typeAdd.value.toLowerCase())">Agregar</button>
+      <button class="btn btn-primary btn-lg" (click)="add(nameAdd, descriptionAdd, +costAdd, addressAdd, phoneAdd, typeAdd)">Agregar</button>
       <span *ngIf="errorAdd" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
 
     </modal-body>
@@ -161,28 +167,31 @@
     <modal-body>
 
       <div *ngIf="!updateService">
-        <img [src]="picturePath" [alt]="service.name" style="width: 100%" />
+        <img [src]="service.serviceImage" [alt]="service.name" style="width: 100%" />
         <br>
         <br>
         <span>
           Valoración: {{service.rating}}
         </span>
         <br>
+        <br>
         <span>Costo: {{service.cost | currency:'COP':true:'1.0-3'}}</span>
+        <br>
         <br>
         <span>Descripción: {{service.description}}</span>
         <br>
+        <br>
         <span>Dirección: {{service.address}}</span>
+        <br>
         <br>
         <span>Teléfono: {{service.phone}}</span>
         <br>
 
         <div>
+          <br>
           <div *ngIf="service.type == 'ubicación'">
-            <br>
             <span>Ubicación:</span>
             <br>
-
             <sebm-google-map [zoom]="13" [latitude]="latitude2" [longitude]="longitude2" #map2>
               <sebm-google-map-marker [latitude]="latitude2" [longitude]="longitude2"></sebm-google-map-marker>
             </sebm-google-map>
@@ -276,7 +285,7 @@
       </div>
 
     </modal-body>
-    <modal-footer></modal-footer>
+    <modal-footer [show-default-buttons]="true"></modal-footer>
   </modal>
 
   <div *ngIf="user.role == 'admin' || user.role == 'proveedor'" class="button-wrapper">

@@ -18,3 +18,19 @@
 .panel-body {
   text-align: center;
 }
+
+/*
+  Do not display field
+
+ */
+#file {
+  display: none;
+}
+
+/*
+  Label design for file upload
+
+ */
+#fileLabel {
+  cursor: pointer;
+}

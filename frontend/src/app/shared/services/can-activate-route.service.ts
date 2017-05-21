@@ -11,7 +11,7 @@ export class CanActivateRouteService implements CanActivate {
 
   canActivate() {
     const user: User = this.authService.getCurrentUser();
-    if (user) {
+    if (user.role != 'invitado') {
       return true;
     }
     this.router.navigate(['/logIn']);
