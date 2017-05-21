@@ -194,7 +194,7 @@ class Event(Base):
   comment = Column(String(), nullable=True)
   client_id = Column(Integer, ForeignKey(User.id), nullable=False)
   cost = Column(Integer, nullable=True)
-  length = Column(Integer, nullable=False)
+  title = Column(String(), nullable=False)
 
   client = relationship("User", back_populates="created_events")
   services = relationship("Service", secondary=events_services_association_table,
@@ -205,12 +205,12 @@ class Event(Base):
     Inicializar los campos con los datos del formulario
     :param form: 
     """
-    self.date = datetime.datetime.strptime(form.date.data, '%d %m %Y %H:%M')
+    self.date = datetime.datetime.strptime(form.date.data, '%Y-%m-%d')
     self.rating = 0;
     self.client_id = form.client_id
     #TODO Revisar costo
     self.cost = form.cost.data
-    self.length = form.length.data
+    self.title = form.title.data
 
   def associate_services(self, services, session):
     """
@@ -233,10 +233,10 @@ class Event(Base):
       services_ids.append(service.id)
     return {
       'id': self.id,
-      'date': self.date.strftime('%d %m %Y %H:%M'),
+      'date': self.date.strftime('%Y-%m-%d'),
       'comment': self.comment,
       'client_id': self.client_id,
       'cost': self.cost,
-      'length': self.length,
+      'title': self.title,
       'services': services_ids
     }
