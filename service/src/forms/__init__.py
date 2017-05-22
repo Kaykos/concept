@@ -121,4 +121,4 @@ class EventCreateForm(Form):
   client_id = IntegerField(validators=[InputRequired(), check_user_is_client])
   # TODO Revisar costo
   cost = IntegerField(Optional())
-  title = StringField(InputRequired())
+  title = StringField (InputRequired())

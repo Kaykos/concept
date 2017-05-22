@@ -7,7 +7,7 @@ from flask_restful import Api, Resource
 
 from db_manager import DbManager
 from forms import ServiceCreateForm, ServiceDeleteForm, ServiceUpdateForm
-from models import Service
+from models import Service, Event
 from resources import APIError
 from utilities import Utilities
 
@@ -173,7 +173,25 @@ class ServicesByUser(Resource):
     logging.info(u'Deleted service: {}'.format(service_id))
     return
 
+class ServicesByEvent(Resource):
+  """
+  Servicios de eventos por eventos
+  """
+
+  def get(self, event_id):
+    """
+    Obtener los servicios de un evento
+    :param event_id: 
+    :return: 
+    """
+    session = DbManager.get_database_session()
+    event = session.query(Event).filter_by(id=event_id).first()
+    response = Utilities.list_to_json(event.services)
+    session.close()
+
+    return response
 
 api.add_resource(Services, '/api/services', '/api/services/<string:type>')
 api.add_resource(ServicesByUser, '/api/users/<int:user_id>/services',
                  '/api/users/<int:user_id>/services/<int:service_id>')
+api.add_resource(ServicesByEvent, '/api/events/<int:event_id>/services')
