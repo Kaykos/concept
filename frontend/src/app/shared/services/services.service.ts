@@ -11,7 +11,7 @@ export class ServicesService {
   constructor(private http: Http) {}
 
   /*
-    Get service to obtain service data
+    Get service to obtain services
 
    */
   search(route: string): Observable<Service[]>{
@@ -48,7 +48,7 @@ export class ServicesService {
   }
 
   /*
-   Put service to update user information
+   Put service to update service information
 
    */
   update(userId: number, serviceId: number, body: Object): Observable<Service> {

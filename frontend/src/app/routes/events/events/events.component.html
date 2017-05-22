@@ -1,3 +1,32 @@
+<div id="calendar">
+  <angular2-fullcalendar [options]="calendarOptions" #myCalendar></angular2-fullcalendar>
+</div>
+
+<modal #modal1>
+  <modal-header [show-close]="true">
+  </modal-header>
+
+  <modal-body>
+
+  </modal-body>
+  <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
+
+<modal #modal2>
+  <modal-header [show-close]="true">
+    <div *ngIf="event">
+      <h4 class="modal-title">{{event.title}}</h4>
+    </div>
+  </modal-header>
+
+  <modal-body>
+    <div *ngIf="event">
+    </div>
+  </modal-body>
+  <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
+
+<!--Maintance
 <div _ngcontent-rok-41="" class="wrapper">
   <div _ngcontent-rok-41="" class="abs-center">
     <div _ngcontent-rok-41="" class="text-center mv-lg">
@@ -10,3 +39,4 @@
     </div>
   </div>
 </div>
+Maintance-->

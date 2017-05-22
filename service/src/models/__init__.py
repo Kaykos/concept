@@ -12,7 +12,7 @@ Base = declarative_base()
 default_user_image_url = u'https://storage.googleapis.com/events-concept.appspot.com/img/users/default.png'
 default_service_image_url = u'https://storage.googleapis.com/events-concept.appspot.com/img/services/default.png'
 
-events_services_association_table = Table('events-services', Base.metadata,
+events_services_association_table = Table('events_has_services', Base.metadata,
                                           Column('event_id', Integer, ForeignKey('events.id')),
                                           Column('service_id', Integer, ForeignKey('services.id')))
 

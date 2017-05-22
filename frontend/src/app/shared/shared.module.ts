@@ -33,6 +33,7 @@ import { ScrollableDirective } from './directives/scrollable/scrollable.directiv
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
 
 import { CanActivateRouteService } from './services/can-activate-route.service';
+import { EventsService } from './services/events.service';
 import { LogInService } from './services/logIn.service';
 import { RegisterService } from './services/register.service';
 import { ServicesService } from './services/services.service';
@@ -66,6 +67,7 @@ import { UsersService } from 'app/shared/services/users.service';
   providers: [
     ColorsService,
     CanActivateRouteService,
+    EventsService,
     LogInService,
     RegisterService,
     ServicesService,

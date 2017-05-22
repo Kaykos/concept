@@ -6,6 +6,8 @@ import { EventsComponent } from './events/events.component';
 
 import { SharedModule } from '../../shared/shared.module';
 
+import { CalendarComponent } from "ap-angular2-fullcalendar";
+
 const routes: Routes = [
   { path: '', component: EventsComponent }
 ];
@@ -17,7 +19,8 @@ const routes: Routes = [
     SharedModule,
   ],
   declarations: [
-    EventsComponent
+    EventsComponent,
+    CalendarComponent
   ],
   exports: [
     RouterModule

@@ -43,7 +43,6 @@
 
   <!--Modal of specific service-->
   <modal #modal1>
-
     <modal-header [show-close]="true">
     </modal-header>
 
@@ -131,8 +130,8 @@
             <!--End Type management-->
 
             <!--Start Image management-->
-            <label _ngcontent-iou-53="" for="file" id="fileLabel">Cargar imagen</label>
-            <input id="file" type="file" (change)="changeListener($event)" />
+            <label _ngcontent-iou-53="" for="file1" class="fileLabel">Cargar imagen</label>
+            <input class="file" id="file1" type="file" (change)="changeListener($event)" />
             <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
             <!--End Image management-->
 
@@ -158,8 +157,7 @@
   </modal>
 
   <!--Modal of specific service-->
-  <modal [size]="Large" #modal2>
-
+  <modal #modal2>
     <modal-header [show-close]="true">
       <h4 class="modal-title">{{service.name}}</h4>
     </modal-header>
@@ -268,6 +266,15 @@
                 </div>
               </fieldset>
               <!--End Phone management-->
+
+              <!--Start Image management-->
+              <fieldset _ngcontent-iou-53="">
+                <label _ngcontent-iou-53="" for="file2" class="fileLabel">Actualizar imagen</label>
+                {{imageName}}
+                <input class="file" id="file2" type="file" (change)="changeListener($event)" />
+                <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+              </fieldset>
+              <!--End Image management-->
 
               <div _ngcontent-tpe-53="" class="form-group">
                 <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">

@@ -37,6 +37,7 @@
     "angular2-text-mask": "5.0.0",
     "angular2-toaster": "2.0.0",
     "angular2-tree-component": "2.8.2",
+    "ap-angular2-fullcalendar": "^1.2.8",
     "autosize": "^3.0.20",
     "bootstrap": "3.3.7",
     "browser-debug": "^1.0.0",

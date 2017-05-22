@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { ServicesService } from 'app/shared/services/services.service';
@@ -42,6 +42,7 @@ export class ListServicesComponent implements OnInit {
 
   private imageData: string;
   private extension: string;
+  private imageName: string;
 
   @ViewChild('modal1') modal1;
   @ViewChild('modal2') modal2;
@@ -70,8 +71,7 @@ export class ListServicesComponent implements OnInit {
 
   private data: Array<any>;
 
-  public constructor(private servicesService: ServicesService, private authService: AuthService, private element: ElementRef) {
-    this.user = new User();
+  public constructor(private servicesService: ServicesService, private authService: AuthService) {
     this.service = new Service();
     this.services = [];
   }
@@ -223,6 +223,9 @@ export class ListServicesComponent implements OnInit {
       this.service = this.services[this.services.indexOf(this.services.find(item => item.id == Service.getInstance(data.row).id))];
       this.updateService = false;
       this.fieldsChanged = false;
+      this.imageData = '';
+      this.extension = '';
+      this.imageName = '';
       this.modal2.open().then( done => {
         if(this.map2) {
           this.map2.triggerResize().then( done => { this.latitude2 = this.service.latitude; this.longitude2 = this.service.longitude;} )
@@ -269,6 +272,9 @@ export class ListServicesComponent implements OnInit {
   back() {
     this.updateService = false;
     this.fieldsChanged = false;
+    this.imageData = '';
+    this.extension = '';
+    this.imageName = '';
   }
 
   /*
@@ -348,27 +354,31 @@ export class ListServicesComponent implements OnInit {
    */
   updateFields(name: string, description: string, cost: number, address: string, phone: string) {
     this.initFlags();
-    if (this.service.name == name && this.service.description == description && this.service.cost == cost && this.service.address == address && this.service.phone == phone) {
+    if (this.service.name == name && this.service.description == description && this.service.cost == cost && this.service.address == address && this.service.phone == phone && this.imageData == '' && this.extension == '') {
       this.errorUpdate = true;
       return;
     }
-    let content = {};
+    let dictionary = {};
     if(this.service.name != name) {
-      content['name'] = name;
+      dictionary['name'] = name;
     }
     if(this.service.description != description) {
-      content['description'] = description;
+      dictionary['description'] = description;
     }
     if(this.service.cost != cost) {
-      content['cost'] = cost;
+      dictionary['cost'] = cost;
     }
     if(this.service.address != address) {
-      content['address'] = address;
+      dictionary['address'] = address;
     }
     if(this.service.phone != phone) {
-      content['phone'] = phone;
+      dictionary['phone'] = phone;
     }
-    this.servicesService.update(this.user.id, this.service.id, content)
+    if(this.imageData != '' && this.extension != '') {
+      dictionary['image_data'] = this.imageData;
+      dictionary['extension'] = this.extension;
+    }
+    this.servicesService.update(this.user.id, this.service.id, dictionary)
       .subscribe(
         (service: Service)  => { this.manageUpdate(service) },
         error => this.handleErrorUpdate(error));
@@ -446,6 +456,7 @@ export class ListServicesComponent implements OnInit {
     var extension;
     this.extension = '';
     this.imageData = '';
+    this.imageName = '';
     this.formatError = false;
     if(files && file) {
       extension = file.name.match(/\.(.+)$/)[1];
@@ -454,6 +465,7 @@ export class ListServicesComponent implements OnInit {
         var reader = new FileReader();
         reader.onloadend = (e) => {
           this.imageData = reader.result;
+          this.imageName = file.name;
         }
         reader.readAsDataURL(file);
       }

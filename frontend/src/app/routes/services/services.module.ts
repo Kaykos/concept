@@ -23,9 +23,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    FormsModule,
-    CommonModule,
     RouterModule.forChild(routes),
+    CommonModule,
+    FormsModule,
     PaginationModule,
     TabsModule,
     Ng2TableModule,

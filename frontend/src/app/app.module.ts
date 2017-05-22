@@ -31,7 +31,7 @@ export function createTranslateLoader(http: Http) {
     RoutesModule,
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
+      useFactory: createTranslateLoader,
       deps: [Http]
     }),
     AgmCoreModule.forRoot({
