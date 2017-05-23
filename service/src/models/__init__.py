@@ -210,7 +210,7 @@ class Event(Base):
     self.client_id = form.client_id
     #TODO Revisar costo
     self.cost = form.cost.data
-    self.title = form.title.data
+    self.title = form.title.data.encode('utf-8')
 
   def associate_services(self, services, session):
     """

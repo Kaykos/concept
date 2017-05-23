@@ -31,11 +31,90 @@
           </fieldset>
           <!--End Title management-->
 
+          <!--Start Establishment management-->
+          <fieldset *ngIf="establishmentList && establishmentList.length > 0" _ngcontent-iou-53="">
+            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
+              <table class="table-bordered">
+                <thead>
+                  <th class="col-md-4">Nombre</th>
+                  <th class="col-md-4">Costo</th>
+                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-1"></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let establishment of establishmentList">
+                    <td>{{establishment.name}}</td>
+                    <td>{{establishment.cost | currency:'COP':true:'1.0-3'}}</td>
+                    <td><img [src]="establishment.serviceImage" [alt]="establishment.name" style="width: 100px" /></td>
+                    <td>
+                      <input type="radio" name="establishment" (change)="selectedRadioButton($event, establishment)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+          <!--End Establishment management-->
+
+          <!--Start Food management-->
+          <fieldset *ngIf="foodList && foodList.length > 0" _ngcontent-iou-53="">
+            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
+              <table class="table-bordered">
+                <thead>
+                  <th class="col-md-4">Nombre</th>
+                  <th class="col-md-4">Costo</th>
+                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-1"></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let food of foodList">
+                    <td>{{food.name}}</td>
+                    <td>{{food.cost | currency:'COP':true:'1.0-3'}}</td>
+                    <td><img [src]="food.serviceImage" [alt]="food.name" style="width: 100px" /></td>
+                    <td>
+                      <input type="checkbox" (change)="selectedCheckBoxFood($event, food)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+          <!--End Food management-->
+
+          <!--Start Music management-->
+          <fieldset *ngIf="musicList && musicList.length > 0" _ngcontent-iou-53="">
+            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
+              <table class="table-bordered">
+                <thead>
+                  <th class="col-md-4">Nombre</th>
+                  <th class="col-md-4">Costo</th>
+                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-1"></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let music of musicList">
+                    <td>{{music.name}}</td>
+                    <td>{{music.cost | currency:'COP':true:'1.0-3'}}</td>
+                    <td><img [src]="music.serviceImage" [alt]="music.name" style="width: 100px" /></td>
+                    <td>
+                      <input type="checkbox" (change)="selectedCheckBoxMusic($event, music)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+          <!--End Music management-->
+
+          <h4 class="modal-title">Total: {{totalCost | currency:'COP':true:'1.0-3'}}</h4>
+
           <!--End Event information management fields-->
 
         </form>
       </div>
     </div>
+
+    <button class="btn btn-lg btn-default" (click)="newEvent(titleAdd)">Agregar</button>
 
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
@@ -50,7 +129,7 @@
 
   <modal-body>
     <div *ngIf="event">
-      <ng2-image-gallery [images]="eventImages" [asThumbnail]="eventImages"></ng2-image-gallery>
+      <ng2-image-gallery [images]="eventImages"></ng2-image-gallery>
       <span>Costo: {{event.cost}}</span>
       <br>
       <span>Valoración: {{event.rating}}</span>

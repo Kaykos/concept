@@ -9,6 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { CalendarComponent } from "ap-angular2-fullcalendar";
 
 import { Ng2ImageGalleryModule } from "ng2-image-gallery";
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     SharedModule,
-    Ng2ImageGalleryModule
+    Ng2ImageGalleryModule,
+    CurrencyMaskModule
   ],
   declarations: [
     EventsComponent,
