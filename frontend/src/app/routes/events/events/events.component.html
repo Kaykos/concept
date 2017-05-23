@@ -1,51 +1,47 @@
 <div id="calendar">
-  <div _ngcontent-iou-53="" class="panel panel-default">
-    <div _ngcontent-iou-53="" class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-body">
       <angular2-fullcalendar [options]="calendarOptions" #myCalendar></angular2-fullcalendar>
     </div>
   </div>
 </div>
-
 <modal #modal1>
   <modal-header [show-close]="true">
     <h4 class="modal-title">Crea tu evento</h4>
   </modal-header>
-
   <modal-body>
-
-    <div _ngcontent-iou-53="" class="panel qanel-default">
-      <div _ngcontent-iou-53="" class="panel-body">
-        <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
-
-          <!--Start Event information management fields-->
-
+    <div class="panel qanel-default">
+      <div class="panel-body">
+        <form class="form-horizontal ng-untouched ng-pristine ng-valid">
           <!--Start Title management-->
-          <fieldset _ngcontent-iou-53="">
-            <div _ngcontent-iou-53="" class="form-group">
-              <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Nombre</label>
-              <div _ngcontent-iou-53="" class="col-sm-10">
-                <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="nameAdd" type="text" #titleAdd>
-                <span *ngIf="titleError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+          <fieldset>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-id-1">Nombre</label>
+              <div class="col-sm-10">
+                <input class="form-control" id="input-id-1" name="nameAdd" type="text" #titleAdd>
+                <span *ngIf="titleError" class="text-danger">El campo es requerido</span>
               </div>
             </div>
           </fieldset>
           <!--End Title management-->
-
           <!--Start Establishment management-->
-          <fieldset *ngIf="establishmentList && establishmentList.length > 0" _ngcontent-iou-53="">
-            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
-              <table class="table-bordered">
+          <fieldset *ngIf="establishmentList && establishmentList.length > 0">
+            <div class="form-group table-responsive">
+              <label>Establecimientos</label>
+              <br>
+              <br>
+              <table class="table-bordered ">
                 <thead>
-                  <th class="col-md-4">Nombre</th>
-                  <th class="col-md-4">Costo</th>
-                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-4"><label>Nombre</label></th>
+                  <th class="col-md-4"><label>Costo</label></th>
+                  <th class="col-md-4"><label>Imagen</label></th>
                   <th class="col-md-1"></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let establishment of establishmentList">
-                    <td>{{establishment.name}}</td>
-                    <td>{{establishment.cost | currency:'COP':true:'1.0-3'}}</td>
-                    <td><img [src]="establishment.serviceImage" [alt]="establishment.name" style="width: 100px" /></td>
+                    <td><label>{{establishment.name}}</label></td>
+                    <td><label>{{establishment.cost | currency:'COP':true:'1.0-3'}}</label></td>
+                    <td style="text-align: center"><img [src]="establishment.serviceImage" [alt]="establishment.name" style="width: 100px" /></td>
                     <td>
                       <input type="radio" name="establishment" (change)="selectedRadioButton($event, establishment)">
                     </td>
@@ -55,22 +51,24 @@
             </div>
           </fieldset>
           <!--End Establishment management-->
-
           <!--Start Food management-->
-          <fieldset *ngIf="foodList && foodList.length > 0" _ngcontent-iou-53="">
-            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
+          <fieldset *ngIf="foodList && foodList.length > 0">
+            <div class="form-group table-responsive">
+              <label>Comida</label>
+              <br>
+              <br>
               <table class="table-bordered">
                 <thead>
-                  <th class="col-md-4">Nombre</th>
-                  <th class="col-md-4">Costo</th>
-                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-4"><label>Nombre</label></th>
+                  <th class="col-md-4"><label>Costo</label></th>
+                  <th class="col-md-4"><label>Imagen</label></th>
                   <th class="col-md-1"></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let food of foodList">
-                    <td>{{food.name}}</td>
-                    <td>{{food.cost | currency:'COP':true:'1.0-3'}}</td>
-                    <td><img [src]="food.serviceImage" [alt]="food.name" style="width: 100px" /></td>
+                    <td><label>{{food.name}}</label></td>
+                    <td><label>{{food.cost | currency:'COP':true:'1.0-3'}}</label></td>
+                    <td style="text-align: center"><img [src]="food.serviceImage" [alt]="food.name" style="width: 100px" /></td>
                     <td>
                       <input type="checkbox" (change)="selectedCheckBoxFood($event, food)">
                     </td>
@@ -80,22 +78,24 @@
             </div>
           </fieldset>
           <!--End Food management-->
-
           <!--Start Music management-->
-          <fieldset *ngIf="musicList && musicList.length > 0" _ngcontent-iou-53="">
-            <div _ngcontent-iou-53="" class="form-group table-responsive tableWrapper">
+          <fieldset *ngIf="musicList && musicList.length > 0">
+            <div class="form-group table-responsive">
+              <label>Música</label>
+              <br>
+              <br>
               <table class="table-bordered">
                 <thead>
-                  <th class="col-md-4">Nombre</th>
-                  <th class="col-md-4">Costo</th>
-                  <th class="col-md-4">Imagen</th>
+                  <th class="col-md-4"><label>Nombre</label></th>
+                  <th class="col-md-4"><label>Costo</label></th>
+                  <th class="col-md-4"><label>Imagen</label></th>
                   <th class="col-md-1"></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let music of musicList">
-                    <td>{{music.name}}</td>
-                    <td>{{music.cost | currency:'COP':true:'1.0-3'}}</td>
-                    <td><img [src]="music.serviceImage" [alt]="music.name" style="width: 100px" /></td>
+                    <td><label>{{music.name}}</label></td>
+                    <td><label>{{music.cost | currency:'COP':true:'1.0-3'}}</label></td>
+                    <td style="text-align: center"><img [src]="music.serviceImage" [alt]="music.name" style="width: 100px" /></td>
                     <td>
                       <input type="checkbox" (change)="selectedCheckBoxMusic($event, music)">
                     </td>
@@ -105,52 +105,36 @@
             </div>
           </fieldset>
           <!--End Music management-->
-
-          <h4 class="modal-title">Total: {{totalCost | currency:'COP':true:'1.0-3'}}</h4>
-
-          <!--End Event information management fields-->
-
+          <div id="costWrapper">
+            <h4 class="modal-title">Total: {{totalCost | currency:'COP':true:'1.0-3'}}</h4>
+          </div>
         </form>
       </div>
     </div>
-
-    <button class="btn btn-lg btn-default" (click)="newEvent(titleAdd)">Agregar</button>
-
+    <button class="btn btn-lg btn-default" (click)="newEvent(titleAdd)">Crear</button>
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
 </modal>
-
 <modal #modal2>
   <modal-header [show-close]="true">
     <div *ngIf="event">
       <h4 class="modal-title">{{event.title}}</h4>
     </div>
   </modal-header>
-
   <modal-body>
     <div *ngIf="event">
+      <label>Servicios asociados</label>
+      <br>
       <ng2-image-gallery [images]="eventImages"></ng2-image-gallery>
-      <span>Costo: {{event.cost}}</span>
       <br>
-      <span>Valoración: {{event.rating}}</span>
+      <label>Costo: {{event.cost}}</label>
       <br>
-      <span>Comentario: {{event.comment}}</span>
+      <br>
+      <label>Valoración: {{event.rating}}</label>
+      <br>
+      <br>
+      <label>Comentario: {{event.comment}}</label>
     </div>
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
 </modal>
-
-<!--Maintance
-<div _ngcontent-rok-41="" class="wrapper">
-  <div _ngcontent-rok-41="" class="abs-center">
-    <div _ngcontent-rok-41="" class="text-center mv-lg">
-      <h1 _ngcontent-rok-41="" class="mb-lg"><sup _ngcontent-rok-41=""><em _ngcontent-rok-41="" class="fa fa-cog fa-2x text-muted fa-spin text-info"></em></sup>
-        <em _ngcontent-rok-41="" class="fa fa-cog fa-5x text-muted fa-spin text-purple"></em>
-        <em _ngcontent-rok-41="" class="fa fa-cog fa-lg text-muted fa-spin text-success"></em>
-      </h1>
-      <div _ngcontent-rok-41="" class="text-bold text-lg mb-lg">¡Estamos en mantenimiento!</div>
-      <p _ngcontent-rok-41="" class="lead m0">Volveremos pronto</p>
-    </div>
-  </div>
-</div>
-Maintance-->

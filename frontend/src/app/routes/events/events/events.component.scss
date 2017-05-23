@@ -9,8 +9,21 @@
   width: 66.6%;
 }
 
-.tableWrapper {
+/*
+  Center cost message
+
+ */
+#costWrapper {
+  text-align: center;
   margin: auto;
   left: 0;
   right: 0;
+}
+
+/*
+  Center elements in table
+
+ */
+td, th {
+  text-align: center;
 }

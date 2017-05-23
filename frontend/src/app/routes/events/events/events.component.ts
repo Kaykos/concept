@@ -4,11 +4,11 @@ import { CalendarComponent } from "ap-angular2-fullcalendar";
 
 import { User } from "app/shared/models/user.model";
 import { Event } from "app/shared/models/event.model";
-import { Service } from "../../../shared/models/service.model";
+import { Service } from "app/shared/models/service.model";
 
-import { EventsService } from "../../../shared/services/events.service";
-import { ServicesService } from "../../../shared/services/services.service";
 import { AuthService } from "../../../shared/services/auth.service";
+import { ServicesService } from "../../../shared/services/services.service";
+import { EventsService } from "../../../shared/services/events.service";
 
 import { ImageInterface } from "ng2-image-gallery/dist/src/ng2-image-gallery.component";
 
@@ -40,24 +40,22 @@ export class EventsComponent implements OnInit {
 
   private eventImages: ImageInterface[];
 
-  private establishmentCost: number;
-  private foodCost: number;
-  private musicCost: number;
   private totalCost: number;
 
   constructor(private eventsService: EventsService, private servicesService: ServicesService, private authService: AuthService) {
+    this.titleError = false;
+    this.events = [];
+    this.services = [];
     this.establishmentList = [];
     this.foodList = [];
     this.musicList = [];
-    this.eventImages = [];
-    this.services = [];
     this.selectedServices = [];
+    this.eventImages = [];
     this.totalCost = 0;
-    this.titleError = false;
   }
 
   public ngOnInit() {
-    var parameters;
+    let parameters;
     this.user = this.authService.getCurrentUser();
     parameters = 'users/' + this.user.id + '/events';
     if(this.user.role == 'admin') {
@@ -65,16 +63,16 @@ export class EventsComponent implements OnInit {
     }
     this.eventsService.searchEvents(parameters)
       .subscribe(
-        events  => { this.handleEvents(events); });
+        (events)  => { this.handleEvents(events); });
   }
 
   /*
-   Asign events to calendar
+    Asign events to calendar
 
    */
   handleEvents(events) {
+    let event = {};
     this.events = events;
-    var event = {};
     for(let i = 0; i < events.length; i++) {
       event['id'] = events[i].id;
       event['title'] = events[i].title;
@@ -116,7 +114,7 @@ export class EventsComponent implements OnInit {
     this.services = services;
     for(let i = 0; i < this.services.length; i++) {
       switch(this.services[i].type) {
-        case 'ubicación':
+        case 'establecimiento':
           this.establishmentList.push(this.services[i]);
           break;
         case 'comida':
@@ -134,8 +132,8 @@ export class EventsComponent implements OnInit {
 
    */
   handleDayClickEvent(date) {
+    let parameters: string;
     if(this.user.role != 'proveedor') {
-      var parameters;
       this.titleError = false;
       this.totalCost = 0;
       this.establishmentList = [];
@@ -156,8 +154,8 @@ export class EventsComponent implements OnInit {
 
    */
   handleSearchEvent(services) {
-    this.services = services;
     let image: ImageInterface;
+    this.services = services;
     for(let i = 0; i < this.services.length; i++) {
       image = new Image();
       image.thumbnail = this.services[i].serviceImage;
@@ -169,7 +167,7 @@ export class EventsComponent implements OnInit {
   }
 
   /*
-    Manager, when an event is selected
+    Handle actions when an event is selected
     Ask for services associated to event
 
    */
@@ -185,6 +183,10 @@ export class EventsComponent implements OnInit {
         services  => { this.handleSearchEvent(services); });
   }
 
+  /*
+    Handle actions when an establishment is selected
+
+   */
   selectedRadioButton(event, establishment) {
     if(event.target.checked) {
       this.selectedServices.push(establishment);
@@ -196,6 +198,10 @@ export class EventsComponent implements OnInit {
     this.updateCost();
   }
 
+  /*
+    Handle actions when a food service is selected
+
+   */
   selectedCheckBoxFood(event, food) {
     if(event.target.checked) {
       this.selectedServices.push(food);
@@ -207,6 +213,10 @@ export class EventsComponent implements OnInit {
     this.updateCost();
   }
 
+  /*
+   Handle actions when a music service is selected
+
+   */
   selectedCheckBoxMusic(event, music) {
     if(event.target.checked) {
       this.selectedServices.push(music);
@@ -230,7 +240,7 @@ export class EventsComponent implements OnInit {
   }
 
   /*
-    Add new event to calendar
+    Adds a new event to calendar
 
    */
   manageAdd(newEvent) {
@@ -243,6 +253,10 @@ export class EventsComponent implements OnInit {
     this.myCalendar.fullCalendar('renderEvent', event, 'stick');
   }
 
+  /*
+    Adds a new event
+
+   */
   newEvent(titleAdd) {
     var dictionary = {};
     var servicesId: number[] = [];
