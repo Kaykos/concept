@@ -27,6 +27,10 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(events_bp)
 app.register_blueprint(utils_bp)
 
+if __name__ == "__main__":
+  context = ('cert.crt', 'key.key')
+  app.run(host='0.0.0.0', port=80, ssl_context=context, threaded=True, debug=True)
+
 # @app.errorhandler(500)
 # def server_error(e):
 #   # Log the error and stacktrace.
