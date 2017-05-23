@@ -15,14 +15,13 @@ import { Md5 } from "ts-md5/dist/md5";
 })
 export class LogInComponent implements OnInit {
   private user: User;
+
   private usernameError: boolean;
   private passwordError: boolean;
   private error: boolean;
   private errorMessage: string;
 
-  constructor(private logInService: LogInService, private authService: AuthService, private router: Router) {
-    this.user = new User();
-  }
+  constructor(private logInService: LogInService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.initFlags();
@@ -41,29 +40,32 @@ export class LogInComponent implements OnInit {
 
   /*
     Request if user has an account
-    Validates if the username or password are empty
 
    */
-  logIn(username: string, password: string) {
+  logIn(username: string, password) {
     this.initFlags();
+    let flag = false;
     if (username == '') {
       this.usernameError = true;
+      flag = true;
     }
-    if (password == '') {
+    if (password.value == '') {
       this.passwordError = true;
+      flag = true;
     }
-    if (username == '' || password == '') {
+    if (flag) {
+      password.value = null;
       return;
     }
-    this.logInService.logIn(username, {'password': Md5.hashStr(password)})
+    this.logInService.logIn(username, {'password': Md5.hashStr(password.value)})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
-        error => this.handleError(error));
+        (error) => { this.handleError(error); });
+    password.value = null;
   }
 
   /*
     Update user session and redirects to events page
-    Redirects to events page
 
    */
   updateUser(user: User) {

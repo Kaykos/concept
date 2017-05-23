@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RegisterService } from '../../../shared/services/register.service';
 import { AuthService } from '../../../shared/services/auth.service';
 
-import {User} from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user.model';
 
 import { Md5 } from "ts-md5/dist/md5";
 
@@ -15,18 +15,17 @@ import { Md5 } from "ts-md5/dist/md5";
 })
 export class RegisterComponent implements OnInit {
   private user: User;
+
   private nameError: boolean;
   private emailError: boolean;
   private usernameError: boolean;
   private passwordsError: boolean;
-  private passwordError: boolean;
   private confirmPasswordError: boolean;
+  private passwordError: boolean;
   private error: boolean;
   private errorMessage: string;
 
-  constructor(private registerService: RegisterService, private authService: AuthService, private router: Router) {
-    this.user = new User();
-  }
+  constructor(private registerService: RegisterService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.initFlags();
@@ -37,14 +36,14 @@ export class RegisterComponent implements OnInit {
 
    */
   initFlags() {
-      this.nameError = false;
-      this.emailError = false;
-      this.usernameError= false;
-      this.passwordsError = false;
-      this.passwordError = false;
-      this.confirmPasswordError = false;
-      this.error = false;
-      this.errorMessage = '';
+    this.nameError = false;
+    this.emailError = false;
+    this.usernameError= false;
+    this.passwordsError = false;
+    this.confirmPasswordError = false;
+    this.passwordError = false;
+    this.error = false;
+    this.errorMessage = '';
   }
 
   /*
@@ -52,7 +51,7 @@ export class RegisterComponent implements OnInit {
 
    */
   onKeyConfirmPassword(password: string, confirmPassword: string) {
-    this.initFlags();
+    this.passwordError = false;
     if (password != confirmPassword) {
       this.passwordError = true;
     }
@@ -60,39 +59,47 @@ export class RegisterComponent implements OnInit {
 
   /*
     Push new user account
-    Validates if all necessary fields are filled
 
    */
-  register(name: string, lastName: string, email: string, username: string, password: string, confirmPassword: string, role: string) {
+  register(name: string, lastName: string, email: string, username: string, password, confirmPassword, role: string) {
+    let flag = false;
     this.initFlags();
     if (name == '') {
       this.nameError = true;
+      flag = true;
     }
     if (email == '') {
       this.emailError = true;
+      flag = true;
     }
     if (username == '') {
       this.usernameError= true;
+      flag = true;
     }
-    if (password == '') {
+    if (password.value == '') {
       this.passwordsError = true;
+      flag = true;
     }
-    if (confirmPassword == '') {
+    if (confirmPassword.value == '') {
       this.confirmPasswordError = true;
+      flag = true;
     }
-    if (name == '' || email == '' || username == '' || password == '' || confirmPassword == '') {
+    if (flag) {
+      password.value = null;
+      confirmPassword.value = null;
       return;
     }
-    this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username,
-      'password': Md5.hashStr(password), 'role': role})
+    this.registerService.register({'name': name, 'last_name': lastName, 'email': email, 'user_name': username, 'password': Md5.hashStr(password.value), 'role': role})
       .subscribe(
         (user: User)  => { this.updateUser(user); },
-        error => this.handleError(error));
+        (error) => { this.handleError(error); });
+    password.value = null;
+    confirmPassword.value = null;
   }
 
   /*
-   Update user session
-   Redirects to events page
+    Update user session
+    Redirects to events page
 
    */
   updateUser(user: User) {
@@ -102,7 +109,7 @@ export class RegisterComponent implements OnInit {
   }
 
   /*
-   Show error message in page
+    Show error message in page
 
    */
   handleError(error: any) {

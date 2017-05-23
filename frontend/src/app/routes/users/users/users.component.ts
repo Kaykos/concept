@@ -19,6 +19,7 @@ export class UsersComponent implements OnInit {
   private emailError: boolean;
   private passwordError: boolean;
   private passwordsError: boolean;
+  private confirmPasswordError: boolean;
 
   private errorPassword: boolean;
   private errorEmail: boolean;
@@ -38,7 +39,7 @@ export class UsersComponent implements OnInit {
   }
 
   /*
-    Initializa error and update flags
+    Initialize flag values
 
    */
   initFlags() {
@@ -50,6 +51,7 @@ export class UsersComponent implements OnInit {
     this.emailError = false;
     this.passwordError = false;
     this.passwordsError = false;
+    this.confirmPasswordError = false;
     this.passwordChanged = false;
     this.emailChanged = false;
     this.imageChanged = false;
@@ -79,16 +81,27 @@ export class UsersComponent implements OnInit {
     Send request to update user password
 
    */
-  updatePassword(password: string) {
+  updatePassword(password, confirmPassword) {
     this.initFlags();
-    if (password == '') {
+    let flag = false;
+    if(password.value == '') {
       this.passwordsError = true;
+      flag = true;
+    }
+    if(confirmPassword.value == '') {
+      this.confirmPasswordError = true;
+      flag = true;
+    }
+    if(flag) {
+      password.value = null;
+      confirmPassword.value = null;
       return;
     }
-    this.usersService.update(this.user.id, {'password': Md5.hashStr(password)})
+    this.usersService.update(this.user.id, {'password': Md5.hashStr(password.value)})
       .subscribe(
-        (user: User)  => { this.managePassword(user) },
-        error => this.handleErrorPassword(error));
+        (user: User)  => { this.managePassword(user) });
+    password.value = null;
+    confirmPassword.value = null;
   }
 
   /*
@@ -98,16 +111,6 @@ export class UsersComponent implements OnInit {
   managePassword(user: User) {
     this.user = user;
     this.passwordChanged = true;
-  }
-
-  /*
-   Show password error message in page
-
-   */
-  handleErrorPassword(error: any) {
-    this.initFlags();
-    this.errorPassword = true;
-    this.errorMessage = error.json().message;
   }
 
   /*
@@ -123,7 +126,7 @@ export class UsersComponent implements OnInit {
     this.usersService.update(this.user.id, {'email': email})
       .subscribe(
         (user: User)  => { this.manageEmail(user) },
-        error => this.handleErrorEmail(error));
+        (error) => { this.handleErrorEmail(error); });
   }
 
   /*
@@ -153,8 +156,7 @@ export class UsersComponent implements OnInit {
     this.initFlags();
     this.usersService.delete(this.user.id)
       .subscribe(
-        success  => { this.manageDelete() },
-        error => this.handleErrorDelete(error));
+        (success)  => { this.manageDelete(); });
   }
 
   /*
@@ -167,23 +169,13 @@ export class UsersComponent implements OnInit {
   }
 
   /*
-   Show email error message in page
-
-   */
-  handleErrorDelete(error: any) {
-    this.initFlags();
-    this.errorDelete = true;
-    this.errorMessage = error.json().message;
-  }
-
-  /*
    Send request to update user image
 
    */
   updateImage() {
     this.initFlags();
     this.usersService.update(this.user.id, {'image_data': this.imageData, 'extension': this.extension})
-      .subscribe((user: User)  => { this.manageImage(user) });
+      .subscribe((user: User)  => { this.manageImage(user); });
   }
 
   /*
@@ -208,8 +200,8 @@ export class UsersComponent implements OnInit {
     this.imageData = '';
     this.errorFormat = false;
     if(files && file) {
-      extension = file.name.match(/\.(.+)$/)[1];
-      if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+      extension = file.name.match(/\.(.+)$/)[1].toLowerCase();
+      if(extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
         this.extension = extension;
         var reader = new FileReader();
         reader.onloadend = (e) => {
