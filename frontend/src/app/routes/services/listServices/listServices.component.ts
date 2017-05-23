@@ -326,6 +326,8 @@ export class ListServicesComponent implements OnInit {
     address.value = null;
     phone.value = null;
     type.value = 'Establecimiento';
+    this.latitude1 = 4.710989;
+    this.longitude1 = -74.072092;
   }
 
   /*

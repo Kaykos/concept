@@ -115,6 +115,7 @@
             <!--Start Image management-->
             <div class="form-group">
               <label for="file1" class="fileLabel">Cargar imagen</label>
+              {{imageName}}
               <input class="file" id="file1" type="file" (change)="changeListener($event)" />
               <span *ngIf="formatError" class="text-danger">Formato inválido</span>
             </div>

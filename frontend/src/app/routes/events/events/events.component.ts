@@ -188,13 +188,12 @@ export class EventsComponent implements OnInit {
 
    */
   selectedRadioButton(event, establishment) {
-    if(event.target.checked) {
-      this.selectedServices.push(establishment);
-    }
-    else {
-      let index = this.selectedServices.indexOf(establishment);
+    let instance =  this.services.find(item => item.type == 'establecimiento');
+    if(instance) {
+      let index = this.selectedServices.indexOf(instance);
       this.selectedServices.splice(index, 1);
     }
+    this.selectedServices.push(establishment);
     this.updateCost();
   }
 
@@ -251,6 +250,7 @@ export class EventsComponent implements OnInit {
     event['backgroundColor'] = '#6D0913';
     event['borderColor'] = '#6D0913';
     this.myCalendar.fullCalendar('renderEvent', event, 'stick');
+    location.reload();
   }
 
   /*

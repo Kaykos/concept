@@ -105,7 +105,7 @@
             </div>
           </fieldset>
           <!--End Music management-->
-          <div id="costWrapper">
+          <div class="costWrapper">
             <h4 class="modal-title">Total: {{totalCost | currency:'COP':true:'1.0-3'}}</h4>
           </div>
         </form>
@@ -127,13 +127,19 @@
       <br>
       <ng2-image-gallery [images]="eventImages"></ng2-image-gallery>
       <br>
-      <label>Costo: {{event.cost}}</label>
-      <br>
-      <br>
-      <label>Valoración: {{event.rating}}</label>
-      <br>
-      <br>
-      <label>Comentario: {{event.comment}}</label>
+      <div *ngIf="event.rating">
+        <label>Valoración: {{event.rating}}</label>
+        <br>
+        <br>
+      </div>
+      <div *ngIf="event.comment">
+        <label>Comentario: {{event.comment}}</label>
+        <br>
+        <br>
+      </div>
+      <div class="costWrapper">
+        <h4 class="modal-title">Total: {{event.cost | currency:'COP':true:'1.0-3'}}</h4>
+      </div>
     </div>
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
