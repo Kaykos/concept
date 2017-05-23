@@ -8,6 +8,9 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { CalendarComponent } from "ap-angular2-fullcalendar";
 
+import { Ng2ImageGalleryModule } from "ng2-image-gallery";
+
+
 const routes: Routes = [
   { path: '', component: EventsComponent }
 ];
@@ -17,6 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     SharedModule,
+    Ng2ImageGalleryModule
   ],
   declarations: [
     EventsComponent,

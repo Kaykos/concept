@@ -115,7 +115,7 @@
             <!--End Phone management-->
 
             <!--Start Type management-->
-            <fieldset _ngcontent-iou-53="" class="last-child">
+            <fieldset _ngcontent-iou-53="">
               <div _ngcontent-iou-53="" class="form-group">
                 <label _ngcontent-iou-53="" class="col-sm-2 control-label">Tipo</label>
                 <div _ngcontent-iou-53="" class="col-sm-10">
@@ -130,9 +130,11 @@
             <!--End Type management-->
 
             <!--Start Image management-->
-            <label _ngcontent-iou-53="" for="file1" class="fileLabel">Cargar imagen</label>
-            <input class="file" id="file1" type="file" (change)="changeListener($event)" />
-            <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+            <div _ngcontent-iou-53="" class="form-group">
+              <label _ngcontent-iou-53="" for="file1" class="fileLabel">Cargar imagen</label>
+              <input class="file" id="file1" type="file" (change)="changeListener($event)" />
+              <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+            </div>
             <!--End Image management-->
 
           </form>
@@ -140,8 +142,6 @@
       </div>
 
       <div *ngIf="typeAdd.value == 'Ubicación'">
-        <span>Fijar ubicación:</span>
-        <br>
         <sebm-google-map (mapClick)="handleClickMap($event)" [zoom]="13" [latitude]="latitude1" [longitude]="longitude1" #map1>
           <sebm-google-map-marker [latitude]="latitude1" [longitude]="longitude1"></sebm-google-map-marker>
         </sebm-google-map>
@@ -149,7 +149,7 @@
 
       <br>
 
-      <button class="btn btn-primary btn-lg" (click)="add(nameAdd, descriptionAdd, +costAdd, addressAdd, phoneAdd, typeAdd)">Agregar</button>
+      <button class="btn btn-lg btn-default" (click)="add(nameAdd, descriptionAdd, +costAdd, addressAdd, phoneAdd, typeAdd)">Agregar</button>
       <span *ngIf="errorAdd" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
 
     </modal-body>
@@ -188,8 +188,6 @@
         <div>
           <br>
           <div *ngIf="service.type == 'ubicación'">
-            <span>Ubicación:</span>
-            <br>
             <sebm-google-map [zoom]="13" [latitude]="latitude2" [longitude]="longitude2" #map2>
               <sebm-google-map-marker [latitude]="latitude2" [longitude]="longitude2"></sebm-google-map-marker>
             </sebm-google-map>
@@ -198,9 +196,8 @@
 
         <br>
 
-        <!--Change condition-->
-        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="update()">Editar</button>
-        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-primary btn-lg" (click)="delete()">Eliminar</button>
+        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-lg btn-default" (click)="update()">Editar</button>
+        <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-lg btn-default" (click)="delete()">Eliminar</button>
         <span *ngIf="errorDelete" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
       </div>
 
@@ -276,19 +273,15 @@
               </fieldset>
               <!--End Image management-->
 
-              <div _ngcontent-tpe-53="" class="form-group">
-                <div _ngcontent-tpe-53="" class="col-lg-offset-2 col-lg-10">
-                  <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateFields(nameUpdate.value, descriptionUpdate.value, +costUpdate.value, addressUpdate.value, phoneUpdate.value)">Cambiar</button>
-                  <span *ngIf="errorUpdate" _ngcontent-uqm-67="" class="text-danger">Ningun campo ha sido actualizado</span>
-                  <span *ngIf="fieldsChanged" _ngcontent-uqm-67="" class="text-success">Los campos han sido actualizados</span>
-                </div>
-              </div>
+              <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateFields(nameUpdate.value, descriptionUpdate.value, +costUpdate.value, addressUpdate.value, phoneUpdate.value)">Cambiar</button>
+              <span *ngIf="errorUpdate" _ngcontent-uqm-67="" class="text-danger">Ningun campo ha sido actualizado</span>
+              <span *ngIf="fieldsChanged" _ngcontent-uqm-67="" class="text-success">Los campos han sido actualizados</span>
 
             </form>
           </div>
         </div>
 
-        <button class="btn btn-primary btn-lg" (click)="back()">Atrás</button>
+        <button class="btn btn-lg btn-default" (click)="back()">Atrás</button>
       </div>
 
     </modal-body>
@@ -296,7 +289,7 @@
   </modal>
 
   <div *ngIf="user.role == 'admin' || user.role == 'proveedor'" class="button-wrapper">
-    <button class="btn btn-primary btn-lg" (click)="newService()">Agregar</button>
+    <button class="btn btn-lg btn-default" (click)="newService()">Agregar</button>
   </div>
 
 </div>

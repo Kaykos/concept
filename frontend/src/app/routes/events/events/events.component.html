@@ -1,12 +1,41 @@
 <div id="calendar">
-  <angular2-fullcalendar [options]="calendarOptions" #myCalendar></angular2-fullcalendar>
+  <div _ngcontent-iou-53="" class="panel panel-default">
+    <div _ngcontent-iou-53="" class="panel-body">
+      <angular2-fullcalendar [options]="calendarOptions" #myCalendar></angular2-fullcalendar>
+    </div>
+  </div>
 </div>
 
 <modal #modal1>
   <modal-header [show-close]="true">
+    <h4 class="modal-title">Crea tu evento</h4>
   </modal-header>
 
   <modal-body>
+
+    <div _ngcontent-iou-53="" class="panel qanel-default">
+      <div _ngcontent-iou-53="" class="panel-body">
+        <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
+
+          <!--Start Event information management fields-->
+
+          <!--Start Title management-->
+          <fieldset _ngcontent-iou-53="">
+            <div _ngcontent-iou-53="" class="form-group">
+              <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Nombre</label>
+              <div _ngcontent-iou-53="" class="col-sm-10">
+                <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="nameAdd" type="text" #titleAdd>
+                <span *ngIf="titleError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+              </div>
+            </div>
+          </fieldset>
+          <!--End Title management-->
+
+          <!--End Event information management fields-->
+
+        </form>
+      </div>
+    </div>
 
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
@@ -21,6 +50,12 @@
 
   <modal-body>
     <div *ngIf="event">
+      <ng2-image-gallery [images]="eventImages" [asThumbnail]="eventImages"></ng2-image-gallery>
+      <span>Costo: {{event.cost}}</span>
+      <br>
+      <span>Valoración: {{event.rating}}</span>
+      <br>
+      <span>Comentario: {{event.comment}}</span>
     </div>
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>

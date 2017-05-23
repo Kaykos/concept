@@ -13,6 +13,10 @@
 //== Application
 @import "./app/shared/styles/app.scss";
 
+@import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
+
+@import "../node_modules/ng2-image-gallery/ng2-image-gallery.scss";
+
 no-records {
   h4 {
     display: inline;
@@ -32,7 +36,7 @@ table.table {
       }
     }
   }
-  
+
   td.actions {
     table {
       td {

@@ -459,7 +459,7 @@ export class ListServicesComponent implements OnInit {
     this.imageName = '';
     this.formatError = false;
     if(files && file) {
-      extension = file.name.match(/\.(.+)$/)[1];
+      extension = file.name.match(/\.(.+)$/)[1].toLowerCase();
       if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
         this.extension = extension;
         var reader = new FileReader();

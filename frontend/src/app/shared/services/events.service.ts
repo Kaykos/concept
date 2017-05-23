@@ -5,28 +5,53 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { Event } from '../models/event.model';
+import { Service } from "../models/service.model";
 
 @Injectable()
 export class EventsService {
   constructor(private http: Http) {}
 
   /*
-   Get service to obtain events
+   Get service to obtain event
 
    */
-  search(route: string): Observable<Event[]>{
+  searchEvent(route: string): Observable<Service[]>{
     const options = new RequestOptions({
       headers: new Headers({'Content-Type': 'application/json'})
     });
     return this.http.get(`${environment.apiBase}` + route, options)
-      .map((response: Response) => EventsService.fromResponseSearch(response));
+      .map((response: Response) => EventsService.fromResponseSearchEvent(response));
   }
 
   /*
    Handle response by mapping data
 
    */
-  private static fromResponseSearch(response: Response): Event[] {
+  private static fromResponseSearchEvent(response: Response): Service[] {
+    const listService: Service[] = [];
+    for(const service of response.json()){
+      listService.push(Service.getInstance(service));
+    }
+    return listService;
+  }
+
+  /*
+   Get service to obtain events
+
+   */
+  searchEvents(route: string): Observable<Event[]>{
+    const options = new RequestOptions({
+      headers: new Headers({'Content-Type': 'application/json'})
+    });
+    return this.http.get(`${environment.apiBase}` + route, options)
+      .map((response: Response) => EventsService.fromResponseSearchEvents(response));
+  }
+
+  /*
+   Handle response by mapping data
+
+   */
+  private static fromResponseSearchEvents(response: Response): Event[] {
     const listEvent: Event[] = [];
     for(const event of response.json()){
       listEvent.push(Event.getInstance(event));

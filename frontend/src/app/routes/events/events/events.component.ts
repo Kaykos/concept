@@ -4,9 +4,11 @@ import { CalendarComponent } from "ap-angular2-fullcalendar";
 
 import { User } from "app/shared/models/user.model";
 import { Event } from "app/shared/models/event.model";
+import { Service } from "../../../shared/models/service.model";
 
-import { AuthService } from "../../../shared/services/auth.service";
 import { EventsService } from "../../../shared/services/events.service";
+import { ServicesService } from "../../../shared/services/services.service";
+import { AuthService } from "../../../shared/services/auth.service";
 
 import 'jquery';
 import 'bootstrap';
@@ -24,15 +26,28 @@ export class EventsComponent implements OnInit {
   private user: User;
   private event: Event;
   private events: Event[];
+  private services: Service[];
+  private establishemntList: Service[];
+  private foodList: Service[];
+  private musicList: Service[];
 
-  private parameters: string;
+  private eventImages: string[];
 
-  constructor(private eventsService: EventsService, private authService: AuthService) { }
+  constructor(private eventsService: EventsService, private servicesService: ServicesService, private authService: AuthService) {
+    this.establishemntList = [];
+    this.foodList = [];
+    this.musicList = [];
+    this.eventImages = [];
+  }
 
   public ngOnInit() {
+    var parameters;
     this.user = this.authService.getCurrentUser();
-    this.parameters = '/events';
-    this.eventsService.search(this.parameters)
+    parameters = 'users/' + this.user.id + '/events';
+    if(this.user.role == 'admin') {
+      parameters = '/events';
+    }
+    this.eventsService.searchEvents(parameters)
       .subscribe(
         events  => { this.handleEvents(events); });
   }
@@ -48,22 +63,16 @@ export class EventsComponent implements OnInit {
       event['id'] = events[i].id;
       event['title'] = events[i].title;
       event['start'] = events[i].date;
-      if(events[i].clientId == this.user.id) {
-        event['backgroundColor'] = '#6D0913';
-        event['borderColor'] = '#6D0913';
-      }
-      else {
-        event['backgroundColor'] = '#9C0D1B';
-        event['borderColor'] = '#9C0D1B';
-      }
+      event['backgroundColor'] = '#6D0913';
+      event['borderColor'] = '#6D0913';
       this.myCalendar.fullCalendar('renderEvent', event, 'stick');
     }
   }
 
   calendarOptions: Object = {
     header: {
-      left: '',
-      center: 'title',
+      left: 'title',
+      center: '',
       right: 'prev, next'
     },
     monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
@@ -83,14 +92,55 @@ export class EventsComponent implements OnInit {
     }
   };
 
+  /*
+    Display modal for adding a new event
+
+   */
   handleDayClickEvent(date) {
+    var parameters;
     this.modal1.open();
+    parameters = '/services/ubicacion';
+    this.servicesService.search(parameters)
+      .subscribe(
+        services  => { this.establishemntList = services; });
+    parameters = '/services/comida';
+    this.servicesService.search(parameters)
+      .subscribe(
+        services  => { this.foodList = services; });
+    parameters = '/services/musica';
+    this.servicesService.search(parameters)
+      .subscribe(
+        services  => { this.musicList = services; });
   }
 
+  /*
+    Store all image data of services associated to selected event
+    Opens modal 2
+
+   */
+  handleSearchEvent(services) {
+    this.services = services;
+    for(let i = 0; i < this.services.length; i++) {
+      console.log(this.services[i].name);
+      this.eventImages[i] = this.services[i].serviceImage;
+    }
+    this.modal2.open();
+  }
+
+  /*
+    Manager, when an event is selected
+    Ask for services associated to event
+
+   */
   handleEventClickEvent(id) {
+    var parameters;
     let instance = this.events.find(item => item.id == id);
     let index = this.events.indexOf(instance);
     this.event = this.events[index];
-    this.modal2.open();
+    this.eventImages.length = 0;
+    parameters = '/events/' + id + '/services';
+    this.eventsService.searchEvent(parameters)
+      .subscribe(
+        services  => { this.handleSearchEvent(services); });
   }
 }
