@@ -1,7 +1,5 @@
-<legend _ngcontent-iou-53="">Servicios</legend>
-
+<legend>Servicios</legend>
 <div class="panel panel-default">
-
   <!--Filter-->
   <div class="filter-wrapper">
     <div class="row">
@@ -14,9 +12,7 @@
       </div>
     </div>
   </div>
-
   <br>
-
   <div class="table-wrapper">
     <!--Display table-->
     <ng-table [config]="config"
@@ -25,7 +21,6 @@
               [rows]="rows" [columns]="columns">
     </ng-table>
   </div>
-
   <!--Display pagination-->
   <div class="page-container">
     <pagination *ngIf="config.paging"
@@ -40,256 +35,215 @@
                 (numPages)="numPages = $event">
     </pagination>
   </div>
-
-  <!--Modal of specific service-->
+  <!--Modal to add service-->
   <modal #modal1>
     <modal-header [show-close]="true">
     </modal-header>
-
     <modal-body>
-
-      <div _ngcontent-iou-53="" class="panel qanel-default">
-        <div _ngcontent-iou-53="" class="panel-body">
-          <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
-
-            <!--Start Service information management fields-->
-
+      <div class="panel qanel-default">
+        <div class="panel-body">
+          <form class="form-horizontal ng-untouched ng-pristine ng-valid">
             <!--Start Name management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-1">Nombre</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-1" name="nameAdd" type="text" #nameAdd>
-                  <span *ngIf="nameError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-id-1">Nombre</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="input-id-1" name="nameAdd" type="text" #nameAdd>
+                  <span *ngIf="nameError" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Name management-->
-
             <!--Start Description management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-2">Descripción</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <textarea autosize _ngcontent-iou-53="" class="form-control" id="input-id-2" name="descriptionAdd" #descriptionAdd></textarea>
-                  <span *ngIf="descriptionError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-id-2">Descripción</label>
+                <div class="col-sm-10">
+                  <textarea autosize class="form-control" id="input-id-2" name="descriptionAdd" #descriptionAdd></textarea>
+                  <span *ngIf="descriptionError" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Description management-->
-
             <!--Start Cost management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-3">Costo</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-3" name="costAdd" type="text" #costAdd>
-                  <span *ngIf="costError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-id-3">Costo</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="input-id-3" name="costAdd" type="text" #costAdd>
+                  <span *ngIf="costError" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Cost management-->
-
             <!--Start Address management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-4">Dirección</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-4" name="addressAdd" type="text" #addressAdd>
-                  <span *ngIf="addressError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-id-4">Dirección</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="input-id-4" name="addressAdd" type="text" #addressAdd>
+                  <span *ngIf="addressError" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Cost management-->
-
             <!--Start Phone management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-5">Teléfono</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <input _ngcontent-iou-53="" class="form-control" id="input-id-5" name="phoneAdd" type="text" #phoneAdd>
-                  <span *ngIf="phoneError" _ngcontent-uqm-67="" class="text-danger">El campo es requerido</span>
+            <fieldset>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-id-5">Teléfono</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="input-id-5" name="phoneAdd" type="text" #phoneAdd>
+                  <span *ngIf="phoneError" class="text-danger">El campo es requerido</span>
                 </div>
               </div>
             </fieldset>
             <!--End Phone management-->
-
             <!--Start Type management-->
-            <fieldset _ngcontent-iou-53="">
-              <div _ngcontent-iou-53="" class="form-group">
-                <label _ngcontent-iou-53="" class="col-sm-2 control-label">Tipo</label>
-                <div _ngcontent-iou-53="" class="col-sm-10">
-                  <select _ngcontent-iou-53="" class="form-control" name="typeAdd" #typeAdd>
-                    <option _ngcontent-iou-53="">Ubicación</option>
-                    <option _ngcontent-iou-53="">Comida</option>
-                    <option _ngcontent-iou-53="">Música</option>
+            <fieldset class="last-child">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Tipo</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="typeAdd" #typeAdd>
+                    <option>Establecimiento</option>
+                    <option>Comida</option>
+                    <option>Música</option>
                   </select>
                 </div>
               </div>
             </fieldset>
             <!--End Type management-->
-
             <!--Start Image management-->
-            <div _ngcontent-iou-53="" class="form-group">
-              <label _ngcontent-iou-53="" for="file1" class="fileLabel">Cargar imagen</label>
+            <div class="form-group">
+              <label for="file1" class="fileLabel">Cargar imagen</label>
               <input class="file" id="file1" type="file" (change)="changeListener($event)" />
-              <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+              <span *ngIf="formatError" class="text-danger">Formato inválido</span>
             </div>
             <!--End Image management-->
-
           </form>
         </div>
       </div>
-
-      <div *ngIf="typeAdd.value == 'Ubicación'">
+      <div *ngIf="typeAdd.value == 'Establecimiento'">
         <sebm-google-map (mapClick)="handleClickMap($event)" [zoom]="13" [latitude]="latitude1" [longitude]="longitude1" #map1>
           <sebm-google-map-marker [latitude]="latitude1" [longitude]="longitude1"></sebm-google-map-marker>
         </sebm-google-map>
       </div>
-
       <br>
-
       <button class="btn btn-lg btn-default" (click)="add(nameAdd, descriptionAdd, +costAdd, addressAdd, phoneAdd, typeAdd)">Agregar</button>
-      <span *ngIf="errorAdd" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
-
+      <span *ngIf="errorAdd" class="text-danger">{{errorMessage}}</span>
     </modal-body>
     <modal-footer [show-default-buttons]="true"></modal-footer>
   </modal>
-
   <!--Modal of specific service-->
   <modal #modal2>
     <modal-header [show-close]="true">
       <h4 class="modal-title">{{service.name}}</h4>
     </modal-header>
-
     <modal-body>
-
       <div *ngIf="!updateService">
         <img [src]="service.serviceImage" [alt]="service.name" style="width: 100%" />
         <br>
         <br>
-        <span>
-          Valoración: {{service.rating}}
-        </span>
+        <label>Valoración: {{service.rating}}</label>
         <br>
         <br>
-        <span>Costo: {{service.cost | currency:'COP':true:'1.0-3'}}</span>
+        <label>Costo: {{service.cost | currency:'COP':true:'1.0-3'}}</label>
         <br>
         <br>
-        <span>Descripción: {{service.description}}</span>
+        <label>Descripción: {{service.description}}</label>
         <br>
         <br>
-        <span>Dirección: {{service.address}}</span>
+        <label>Dirección: {{service.address}}</label>
         <br>
         <br>
-        <span>Teléfono: {{service.phone}}</span>
+        <label>Teléfono: {{service.phone}}</label>
         <br>
-
         <div>
           <br>
-          <div *ngIf="service.type == 'ubicación'">
+          <div *ngIf="service.type == 'establecimiento'">
             <sebm-google-map [zoom]="13" [latitude]="latitude2" [longitude]="longitude2" #map2>
               <sebm-google-map-marker [latitude]="latitude2" [longitude]="longitude2"></sebm-google-map-marker>
             </sebm-google-map>
           </div>
         </div>
-
         <br>
-
         <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-lg btn-default" (click)="update()">Editar</button>
         <button *ngIf="user.role == 'proveedor' || user.role == 'admin'" class="btn btn-lg btn-default" (click)="delete()">Eliminar</button>
-        <span *ngIf="errorDelete" _ngcontent-uqm-67="" class="text-danger">{{errorMessage}}</span>
+        <span *ngIf="errorDelete" class="text-danger">{{errorMessage}}</span>
       </div>
-
       <div *ngIf="updateService">
-
-        <div _ngcontent-iou-53="" class="panel panel-default">
-          <div _ngcontent-iou-53="" class="panel-body">
-            <form _ngcontent-iou-53="" action="/" class="form-horizontal ng-untouched ng-pristine ng-valid" method="get">
-
-              <!--Start Service information management fields-->
-
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form class="form-horizontal ng-untouched ng-pristine ng-valid">
               <!--Start Name management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-6">Nombre</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-6" name="nameUpdate" type="text" [ngModel]="service.name" #nameUpdate>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-id-6">Nombre</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="input-id-6" name="nameUpdate" type="text" [ngModel]="service.name" #nameUpdate>
                   </div>
                 </div>
               </fieldset>
               <!--End Name management-->
-
               <!--Start Description management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-7">Descripción</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <textarea autosize _ngcontent-iou-53="" class="form-control" id="input-id-7" name="descriptionUpdate" [ngModel]="service.description" #descriptionUpdate></textarea>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-id-7">Descripción</label>
+                  <div class="col-sm-10">
+                    <textarea autosize class="form-control" id="input-id-7" name="descriptionUpdate" [ngModel]="service.description" #descriptionUpdate></textarea>
                   </div>
                 </div>
               </fieldset>
               <!--End Description management-->
-
               <!--Start Cost management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-8">Costo</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-8" name="costUpdate" type="text" value="0" [ngModel]="service.cost" #costUpdate>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-id-8">Costo</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="input-id-8" name="costUpdate" type="text" value="0" [ngModel]="service.cost" #costUpdate>
                   </div>
                 </div>
               </fieldset>
               <!--End Cost management-->
-
               <!--Start Address management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-9">Dirección</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-9" name="addressUpdate" type="text" [ngModel]="service.address" #addressUpdate>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-id-9">Dirección</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="input-id-9" name="addressUpdate" type="text" [ngModel]="service.address" #addressUpdate>
                   </div>
                 </div>
               </fieldset>
               <!--End Address management-->
-
               <!--Start Phone management-->
-              <fieldset _ngcontent-iou-53="">
-                <div _ngcontent-iou-53="" class="form-group">
-                  <label _ngcontent-iou-53="" class="col-sm-2 control-label" for="input-id-10">Teléfono</label>
-                  <div _ngcontent-iou-53="" class="col-sm-10">
-                    <input _ngcontent-iou-53="" class="form-control" id="input-id-10" name="phoneUpdate" type="text" [ngModel]="service.phone" #phoneUpdate>
+              <fieldset>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-id-10">Teléfono</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" id="input-id-10" name="phoneUpdate" type="text" [ngModel]="service.phone" #phoneUpdate>
                   </div>
                 </div>
               </fieldset>
               <!--End Phone management-->
-
               <!--Start Image management-->
-              <fieldset _ngcontent-iou-53="">
-                <label _ngcontent-iou-53="" for="file2" class="fileLabel">Actualizar imagen</label>
+              <fieldset>
+                <label for="file2" class="fileLabel">Actualizar imagen</label>
                 {{imageName}}
                 <input class="file" id="file2" type="file" (change)="changeListener($event)" />
-                <span *ngIf="formatError" _ngcontent-uqm-67="" class="text-danger">Formato inválido</span>
+                <span *ngIf="formatError" class="text-danger">Formato inválido</span>
               </fieldset>
               <!--End Image management-->
-
-              <button _ngcontent-tpe-53="" class="btn btn-sm btn-default" type="submit" (click)="updateFields(nameUpdate.value, descriptionUpdate.value, +costUpdate.value, addressUpdate.value, phoneUpdate.value)">Cambiar</button>
-              <span *ngIf="errorUpdate" _ngcontent-uqm-67="" class="text-danger">Ningun campo ha sido actualizado</span>
-              <span *ngIf="fieldsChanged" _ngcontent-uqm-67="" class="text-success">Los campos han sido actualizados</span>
-
+              <button class="btn btn-sm btn-default" type="submit" (click)="updateFields(nameUpdate.value, descriptionUpdate.value, +costUpdate.value, addressUpdate.value, phoneUpdate.value)">Cambiar</button>
+              <span *ngIf="errorUpdate" class="text-danger">Ningun campo ha sido actualizado</span>
+              <span *ngIf="fieldsChanged" class="text-success">Los campos han sido actualizados</span>
             </form>
           </div>
         </div>
-
         <button class="btn btn-lg btn-default" (click)="back()">Atrás</button>
       </div>
-
     </modal-body>
     <modal-footer [show-default-buttons]="true"></modal-footer>
   </modal>
-
   <div *ngIf="user.role == 'admin' || user.role == 'proveedor'" class="button-wrapper">
     <button class="btn btn-lg btn-default" (click)="newService()">Agregar</button>
   </div>
-
 </div>

@@ -18,7 +18,6 @@ export class ListServicesComponent implements OnInit {
   private user: User;
   private service: Service;
   private services: Service[];
-  private param: string;
 
   private nameError: boolean;
   private costError: boolean;
@@ -32,8 +31,9 @@ export class ListServicesComponent implements OnInit {
   private errorUpdate: boolean;
   private errorMessage: string;
 
-  private updateService: boolean;
   private fieldsChanged: boolean;
+
+  private updateService: boolean;
 
   private latitude1: number;
   private longitude1: number;
@@ -62,14 +62,14 @@ export class ListServicesComponent implements OnInit {
   public numPages = 1;
   public length = 0;
 
+  private data: Array<any>;
+
   public config: any = {
     paging: true,
     sorting: {columns: this.columns},
     filtering: {filterString: ''},
     className: ['table-striped', 'table-bordered']
   };
-
-  private data: Array<any>;
 
   public constructor(private servicesService: ServicesService, private authService: AuthService) {
     this.service = new Service();
@@ -81,20 +81,21 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Set initial flag values as false
-   Require path to ask for services
+    Set initial flag values as false
+    Require path to ask for services
 
    */
   init() {
+    let parameters;
     this.initFlags();
     this.user = this.authService.getCurrentUser();
-    this.param = '/services';
+    parameters = '/services';
     if(this.user.role == 'proveedor') {
-      this.param = '/users/' + this.user.id.toString() + '/services';
+      parameters = '/users/' + this.user.id.toString() + '/services';
     }
-    this.servicesService.search(this.param)
+    this.servicesService.search(parameters)
       .subscribe(
-        services  => { this.handleServices(services); });
+        (services)  => { this.handleServices(services); });
     this.updateService = false;
   }
 
@@ -117,7 +118,7 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Asign table data as requested services
+    Asign table data as requested services
 
    */
   handleServices(services) {
@@ -138,22 +139,18 @@ export class ListServicesComponent implements OnInit {
     if (!config.sorting) {
       return data;
     }
-
     const columns = this.config.sorting.columns || [];
     let columnName: string = void 0;
     let sort: string = void 0;
-
     for (let i = 0; i < columns.length; i++) {
       if (columns[i].sort !== '' && columns[i].sort !== false) {
         columnName = columns[i].name;
         sort = columns[i].sort;
       }
     }
-
     if (!columnName) {
       return data;
     }
-
     return data.sort((previous: any, current: any) => {
       if (previous[columnName] > current[columnName]) {
         return sort === 'desc' ? -1 : 1;
@@ -173,16 +170,13 @@ export class ListServicesComponent implements OnInit {
         });
       }
     });
-
     if (!config.filtering) {
       return filteredData;
     }
-
     if (config.filtering.columnName) {
       return filteredData.filter((item: any) =>
         item[config.filtering.columnName].match(this.config.filtering.filterString));
     }
-
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
@@ -196,7 +190,6 @@ export class ListServicesComponent implements OnInit {
       }
     });
     filteredData = tempArray;
-
     return filteredData;
   }
 
@@ -214,8 +207,8 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Open modal 2
-   Update service data
+    Open modal 2
+    Update service data
 
    */
   public onCellClick(data: any): any {
@@ -258,7 +251,7 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Set modal as updater
+    Set modal as updater
 
    */
   update() {
@@ -266,7 +259,7 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Cancel modal as updater
+    Cancel modal as updater
 
    */
   back() {
@@ -278,38 +271,44 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Request server to add a service
-   Validate required fields
+    Request server to add a service
+    Validate required fields
 
    */
   add(name, description, cost, address, phone, type) {
+    let flag = false;
+    let dictionary = {};
     this.initFlags();
-    if (name.value == '') {
+    if(name.value == '') {
       this.nameError = true;
+      flag = true;
     }
-    if (description.value == '') {
+    if(description.value == '') {
       this.descriptionError = true;
+      flag = true;
     }
-    if (cost.value <= 0) {
+    if(cost.value <= 0) {
       this.costError = true;
+      flag = true;
     }
-    if (address.value == '') {
+    if(address.value == '') {
       this.addressError = true;
+      flag = true;
     }
-    if (phone.value == '') {
+    if(phone.value == '') {
       this.phoneError = true;
+      flag = true;
     }
-    if (name.value == '' ||  description.value == '' || cost.value <= 0 || address.value == '' || phone.value == '') {
+    if(flag) {
       return;
     }
-    var dictionary = {};
     dictionary['name'] = name.value;
     dictionary['description'] = description.value;
     dictionary['cost'] = cost.value;
     dictionary['type'] = type.value.toLowerCase();
     dictionary['address'] = address.value;
     dictionary['phone'] = phone.value;
-    if(type.value == 'Ubicación') {
+    if(type.value == 'Establecimiento') {
       dictionary['latitude'] = this.latitude1;
       dictionary['longitude'] = this.longitude1;
     }
@@ -319,26 +318,18 @@ export class ListServicesComponent implements OnInit {
     }
     this.servicesService.add(this.user.id, dictionary)
       .subscribe(
-        (service: Service) => { this.manageAdd(service); },
-        error => { this.handleErrorAdd(error); });
+        (service: Service) => { location.reload(); },
+        (error) => { this.handleErrorAdd(error); });
     name.value = null;
     description.value = null;
     cost.value = null;
     address.value = null;
     phone.value = null;
-    type.value = 'Ubicación';
+    type.value = 'Establecimiento';
   }
 
   /*
-   Handle event when service is added
-
-   */
-  manageAdd(service) {
-    location.reload();
-  }
-
-  /*
-   Show error message in page
+    Show error message in page
 
    */
   handleErrorAdd(error: any) {
@@ -348,17 +339,17 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Send request to update service
-   Check if any field has been changed
+    Send request to update service
+    Check if any field has been changed
 
    */
   updateFields(name: string, description: string, cost: number, address: string, phone: string) {
+    let dictionary = {};
     this.initFlags();
-    if (this.service.name == name && this.service.description == description && this.service.cost == cost && this.service.address == address && this.service.phone == phone && this.imageData == '' && this.extension == '') {
+    if(this.service.name == name && this.service.description == description && this.service.cost == cost && this.service.address == address && this.service.phone == phone && this.imageData == '' && this.extension == '') {
       this.errorUpdate = true;
       return;
     }
-    let dictionary = {};
     if(this.service.name != name) {
       dictionary['name'] = name;
     }
@@ -381,11 +372,14 @@ export class ListServicesComponent implements OnInit {
     this.servicesService.update(this.user.id, this.service.id, dictionary)
       .subscribe(
         (service: Service)  => { this.manageUpdate(service) },
-        error => this.handleErrorUpdate(error));
+        (error) => { this.handleErrorUpdate(error); });
+    this.imageData = '';
+    this.extension = '';
+    this.imageName = '';
   }
 
   /*
-   Handle events when fields are changed
+    Handle events when fields are changed
 
    */
   manageUpdate(service: Service) {
@@ -398,7 +392,7 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Show update error message in page
+    Show update error message in page
 
    */
   handleErrorUpdate(error: any) {
@@ -408,27 +402,19 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Send request to delete user
+    Send request to delete user
 
    */
   delete() {
     this.initFlags();
     this.servicesService.delete(this.user.id, this.service.id)
       .subscribe(
-        success  => { this.manageDelete() },
-        error => this.handleErrorDelete(error));
+        (success)  => { location.reload(); },
+        (error) => { this.handleErrorDelete(error); });
   }
 
   /*
-   Handle events when user is deleted
-
-   */
-  manageDelete() {
-    location.reload();
-  }
-
-  /*
-   Show email error message in page
+    Show email error message in page
 
    */
   handleErrorDelete(error: any) {
@@ -438,7 +424,7 @@ export class ListServicesComponent implements OnInit {
   }
 
   /*
-   Update marker latitude and longitude on click
+    Update marker latitude and longitude on click
 
    */
   handleClickMap($event) {
@@ -460,7 +446,7 @@ export class ListServicesComponent implements OnInit {
     this.formatError = false;
     if(files && file) {
       extension = file.name.match(/\.(.+)$/)[1].toLowerCase();
-      if(extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+      if(extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
         this.extension = extension;
         var reader = new FileReader();
         reader.onloadend = (e) => {
