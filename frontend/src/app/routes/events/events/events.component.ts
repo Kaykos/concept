@@ -278,4 +278,14 @@ export class EventsComponent implements OnInit {
         (event: Event) => { this.manageAdd(event); });
     titleAdd.value = null;
   }
+
+  /*
+    Deletes an event
+
+   */
+  delete() {
+    this.eventsService.delete(this.user.id, this.event.id)
+      .subscribe(
+        (success)  => { location.reload(); });
+  }
 }

@@ -140,6 +140,7 @@
       <div class="costWrapper">
         <h4 class="modal-title">Total: {{event.cost | currency:'COP':true:'1.0-3'}}</h4>
       </div>
+      <button *ngIf="event.clientId == user.id || user.role == 'admin'" class="btn btn-lg btn-default" (click)="delete()">Eliminar</button>
     </div>
   </modal-body>
   <modal-footer [show-default-buttons]="true"></modal-footer>
