@@ -8,7 +8,7 @@ from flask_restful import Api, Resource, fields, marshal_with
 
 from db_manager import DbManager
 from forms import UserCreateForm, UserDeleteForm, UserUpdateForm
-from models import User
+from models import User, EventsHaveServices
 from resources import APIError
 from utilities import Utilities
 
@@ -150,6 +150,19 @@ class Users(Resource):
 
     session = DbManager.get_database_session()
     user = session.query(User).filter_by(id=user_id).first()
+
+    if user.role == 'cliente':
+      for event in user.created_events:
+        events_services = session.query(EventsHaveServices).filter_by(event_id=event.id).all()
+        for event_service in events_services:
+          session.delete(event_service)
+        session.delete(event)
+    elif user.role == 'proveedor':
+      for service in user.created_services:
+        events_services = session.query(EventsHaveServices).filter_by(service_id=service.id).all()
+        for event_service in events_services:
+          session.delete(event_service)
+        session.delete(service)
     session.delete(user)
     session.commit()
     session.close()

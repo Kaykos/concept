@@ -179,8 +179,14 @@ class ServicesByUser(Resource):
       raise IncompleteInformation
 
     session = DbManager.get_database_session()
-    service = session.query(Service).filter_by(id=service_id).first()
+
+    events_services = session.query(EventsHaveServices).filter_by(service_id=service_id).all()
+    service = session.query(Service).filter_by(id=service_id).one()
+
+    for event_service in events_services:
+      session.delete(event_service)
     session.delete(service)
+
     session.commit()
     session.close()
     logging.info(u'Deleted service: {}'.format(service_id))
