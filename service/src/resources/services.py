@@ -4,10 +4,11 @@ import logging
 import wtforms_json
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource
+from sqlalchemy.orm import load_only
 
 from db_manager import DbManager
 from forms import ServiceCreateForm, ServiceDeleteForm, ServiceUpdateForm
-from models import Service, Event
+from models import Service, Event, EventsHaveServices
 from resources import APIError
 from utilities import Utilities
 
@@ -52,7 +53,19 @@ class Services(Resource):
     """
     session = DbManager.get_database_session()
     if type:
-      services = session.query(Service).filter_by(type=type).all()
+      if '-' in type:
+        from datetime import datetime
+        search_date = datetime.strptime(type, '%Y-%m-%d')
+        services = session.query(Service).order_by(Service.id).all()
+        unavailable_services = session.query(EventsHaveServices).filter_by(date=search_date).all()
+
+        for event_service in unavailable_services:
+          for service in services:
+            if event_service.service_id == service.id:
+              services.remove(service)
+
+      else:
+        services = session.query(Service).filter_by(type=type).all()
     else:
       services = session.query(Service).order_by(Service.id).all()
 

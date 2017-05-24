@@ -63,6 +63,11 @@ class EventsByUser(Resource):
     return response
 
   def post(self, user_id):
+    """
+    Crear un evento
+    :param user_id: 
+    :return: 
+    """
     wtforms_json.init()
     form = EventCreateForm.from_json(request.json)
     form.client_id = user_id

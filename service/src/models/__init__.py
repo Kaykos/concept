@@ -12,9 +12,9 @@ Base = declarative_base()
 default_user_image_url = u'https://storage.googleapis.com/events-concept.appspot.com/img/users/default.png'
 default_service_image_url = u'https://storage.googleapis.com/events-concept.appspot.com/img/services/default.png'
 
-events_services_association_table = Table('events_has_services', Base.metadata,
-                                          Column('event_id', Integer, ForeignKey('events.id')),
-                                          Column('service_id', Integer, ForeignKey('services.id')))
+#events_services_association_table = Table('events_has_services', Base.metadata,
+                                          #Column('event_id', Integer, ForeignKey('events.id')),
+                                          #Column('service_id', Integer, ForeignKey('services.id')))
 
 class User(Base):
   """
@@ -67,12 +67,13 @@ class User(Base):
 
   def get_associated_events_to_services(self):
     """
-    Retornar los eventos creados
+    Retornar los eventos en los que los servicios del proveedor están presentes
     :return: 
     """
-    events = list()
+    events = set()
     for service in self.created_services:
-      events.extend(service.in_events)
+      for event_service in service.in_events:
+        events.add(event_service.event)
     return events
 
   def to_dict(self):
@@ -112,8 +113,7 @@ class Service(Base):
   # Referencia al proveedor que crea el servicio
   provider = relationship("User", back_populates="created_services")
 
-  in_events = relationship("Event", secondary=events_services_association_table,
-                          back_populates="services")
+  in_events = relationship("EventsHaveServices", back_populates="service")
 
   def __init__(self, form):
     """
@@ -129,6 +129,12 @@ class Service(Base):
     self.phone = form.phone.data.encode('utf-8')
     self.address = form.address.data.encode('utf-8')
     self.service_image = default_service_image_url
+
+  def __eq__(self, other):
+    return self.id == other.id
+
+  def __ne__(self, other):
+    return not self.id == other.id
 
   def update_image_url(self, json_body):
     """
@@ -197,8 +203,7 @@ class Event(Base):
   title = Column(String(), nullable=False)
 
   client = relationship("User", back_populates="created_events")
-  services = relationship("Service", secondary=events_services_association_table,
-                          back_populates="in_events")
+  services = relationship("EventsHaveServices", back_populates="event")
 
   def __init__(self, form):
     """
@@ -219,9 +224,12 @@ class Event(Base):
     :param session: 
     :return: 
     """
-    for service_id in services:
-      service = session.query(Service).filter_by(id=service_id).first()
-      self.services.append(service)
+    with session.no_autoflush:
+      for service_id in services:
+        event_service = EventsHaveServices(date=self.date)
+        service = session.query(Service).filter_by(id=service_id).first()
+        event_service.service = service
+        self.services.append(event_service)
 
   def to_dict(self):
     """
@@ -229,8 +237,8 @@ class Event(Base):
     :return: 
     """
     services_ids = list()
-    for service in self.services:
-      services_ids.append(service.id)
+    for event_service in self.services:
+      services_ids.append(event_service.service.id)
     return {
       'id': self.id,
       'date': self.date.strftime('%Y-%m-%d'),
@@ -238,5 +246,25 @@ class Event(Base):
       'client_id': self.client_id,
       'cost': self.cost,
       'title': self.title,
-      'services': services_ids
+      'services': services_ids,
+      'rating': self.rating
+    }
+
+class EventsHaveServices(Base):
+  """
+  Rrepresenta la relación muchos a muchos entre servicios y eventos
+  """
+  __tablename__ = 'events_have_services'
+  event_id = Column(Integer, ForeignKey(Event.id), primary_key=True)
+  service_id = Column(Integer, ForeignKey(Service.id), primary_key=True)
+  date = Column(DateTime, nullable=False)
+
+  event = relationship("Event", back_populates="services")
+  service = relationship("Service", back_populates="in_events")
+
+  def to_dict(self):
+    return {
+      'event_id': self.event_id,
+      'service_id': self.service_id,
+      'date': self.date.strftime('%Y-%m-%d')
     }
