@@ -199,7 +199,12 @@ class ServicesByEvent(Resource):
     """
     session = DbManager.get_database_session()
     event = session.query(Event).filter_by(id=event_id).first()
-    response = Utilities.list_to_json(event.services)
+
+    services = list()
+    for event_service in event.services:
+      services.append(event_service.service)
+
+    response = Utilities.list_to_json(services)
     session.close()
 
     return response

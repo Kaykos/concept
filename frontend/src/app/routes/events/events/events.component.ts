@@ -57,7 +57,7 @@ export class EventsComponent implements OnInit {
   public ngOnInit() {
     let parameters;
     this.user = this.authService.getCurrentUser();
-    parameters = 'users/' + this.user.id + '/events';
+    parameters = '/users/' + this.user.id + '/events';
     if(this.user.role == 'admin') {
       parameters = '/events';
     }
@@ -140,7 +140,7 @@ export class EventsComponent implements OnInit {
       this.foodList = [];
       this.musicList = [];
       this.actualDate = date.format();
-      parameters = '/services';
+      parameters = '/services/'+this.actualDate;
       this.servicesService.search(parameters)
         .subscribe(
           services  => { this.handleSearchEvents(services) });
