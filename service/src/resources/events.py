@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import wtforms_json
 from flask import Blueprint, request
 from flask_restful import Api, Resource
@@ -85,6 +86,21 @@ class EventsByUser(Resource):
     response = Utilities.object_to_json(event)
     session.close()
     return response
+
+  def delete(self, user_id, event_id):
+    """
+    Eliminar un evento
+    :param usuario_id: 
+    :return: 
+    """
+
+    session = DbManager.get_database_session()
+    event = session.query(Event).filter_by(id=event_id).first()
+    session.delete(event)
+    session.commit()
+    session.close()
+    logging.info(u'Delete1d service: {}'.format(event_id))
+    return
 
 api.add_resource(Events, '/api/events')
 api.add_resource(EventsByUser, '/api/users/<int:user_id>/events',
