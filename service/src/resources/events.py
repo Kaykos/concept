@@ -6,7 +6,7 @@ from flask_restful import Api, Resource
 
 from db_manager import DbManager
 from forms import EventCreateForm
-from models import Event, User
+from models import Event, User, EventsHaveServices
 from resources import APIError
 from utilities import Utilities
 
@@ -95,7 +95,11 @@ class EventsByUser(Resource):
     """
 
     session = DbManager.get_database_session()
-    event = session.query(Event).filter_by(id=event_id).first()
+    events_services = session.query(EventsHaveServices).filter_by(event_id=event_id).all()
+    event = session.query(Event).filter_by(id=event_id).one()
+
+    for event_service in events_services:
+      session.delete(event_service)
     session.delete(event)
     session.commit()
     session.close()
